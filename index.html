@@ -507,6 +507,7 @@
       gap: 16px;
     }
 
+    a.specialism-card { color: inherit; text-decoration: none; display: block; }
     .specialism-card {
       background: white;
       border-radius: var(--radius);
@@ -764,7 +765,7 @@
 <!-- ─── NAVBAR ─── -->
 <nav>
   <a href="#" class="logo">
-    <img src="logo.png" alt="Timmerly" />
+    <span style="display:inline-flex;align-items:center;gap:9px;"><span style="width:32px;height:32px;background:#F26522;border-radius:7px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:1.25rem;font-family:'Segoe UI',system-ui,sans-serif;flex-shrink:0;">T</span><span style="font-size:1.25rem;font-weight:800;color:var(--navy);letter-spacing:-.5px;">immerly</span></span>
   </a>
   <ul class="nav-links">
     <li><a href="#beschikbaar">Beschikbare vaklieden</a></li>
@@ -1141,56 +1142,56 @@
     <p>Onze timmermannen zijn gespecialiseerd in vrijwel alle timmerwerken.</p>
   </div>
   <div class="specialism-grid">
-    <div class="specialism-card">
+    <a href="alle-timmermannen.html?specialism=kozijnen" class="specialism-card">
       <span class="specialism-icon">🚪</span>
       <h4>Kozijnen &amp; Deuren</h4>
       <span>24 vaklieden beschikbaar</span>
-    </div>
-    <div class="specialism-card">
+    </a>
+    <a href="alle-timmermannen.html?specialism=dakkapel" class="specialism-card">
       <span class="specialism-icon">🏠</span>
       <h4>Dakkapel</h4>
       <span>12 vaklieden beschikbaar</span>
-    </div>
-    <div class="specialism-card">
+    </a>
+    <a href="alle-timmermannen.html?specialism=vloeren" class="specialism-card">
       <span class="specialism-icon">🪵</span>
       <h4>Vloeren Leggen</h4>
       <span>19 vaklieden beschikbaar</span>
-    </div>
-    <div class="specialism-card">
+    </a>
+    <a href="alle-timmermannen.html?specialism=aanbouw" class="specialism-card">
       <span class="specialism-icon">🏗️</span>
       <h4>Aanbouw &amp; Uitbouw</h4>
       <span>16 vaklieden beschikbaar</span>
-    </div>
-    <div class="specialism-card">
+    </a>
+    <a href="alle-timmermannen.html?specialism=trap" class="specialism-card">
       <span class="specialism-icon">🪜</span>
       <h4>Trap Maken</h4>
       <span>9 vaklieden beschikbaar</span>
-    </div>
-    <div class="specialism-card">
+    </a>
+    <a href="alle-timmermannen.html?specialism=keuken" class="specialism-card">
       <span class="specialism-icon">🍽️</span>
       <h4>Keuken Plaatsen</h4>
       <span>14 vaklieden beschikbaar</span>
-    </div>
-    <div class="specialism-card">
+    </a>
+    <a href="alle-timmermannen.html?specialism=badkamer" class="specialism-card">
       <span class="specialism-icon">🛁</span>
       <h4>Badkamer</h4>
       <span>11 vaklieden beschikbaar</span>
-    </div>
-    <div class="specialism-card">
+    </a>
+    <a href="alle-timmermannen.html?specialism=maatwerk" class="specialism-card">
       <span class="specialism-icon">🛠️</span>
       <h4>Maatwerk Meubels</h4>
       <span>8 vaklieden beschikbaar</span>
-    </div>
-    <div class="specialism-card">
+    </a>
+    <a href="alle-timmermannen.html?specialism=renovatie" class="specialism-card">
       <span class="specialism-icon">🌿</span>
       <h4>Veranda &amp; Tuinhuis</h4>
       <span>7 vaklieden beschikbaar</span>
-    </div>
-    <div class="specialism-card">
+    </a>
+    <a href="alle-timmermannen.html?specialism=interieurbouw" class="specialism-card">
       <span class="specialism-icon">🏚️</span>
       <h4>Zolderombouw</h4>
       <span>10 vaklieden beschikbaar</span>
-    </div>
+    </a>
   </div>
 </section>
 
@@ -1287,8 +1288,7 @@
 <footer id="contact">
   <div class="footer-grid">
     <div class="footer-brand">
-      <a href="#" class="logo logo-footer">
-        <img src="logo.png" alt="Timmerly" />
+      <a href="#" class="logo logo-footer"><span style="display:inline-flex;align-items:center;gap:9px;"><span style="width:32px;height:32px;background:#F26522;border-radius:7px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:1.25rem;font-family:'Segoe UI',system-ui,sans-serif;flex-shrink:0;">T</span><span style="font-size:1.25rem;font-weight:800;color:white;letter-spacing:-.5px;">immerly</span></span>
       </a>
       <p style="margin-top:14px;">Dé marktplaats voor beschikbare timmermannen in Nederland. Snel, betrouwbaar en gratis offertes aanvragen.</p>
       <div class="social-links" style="margin-top:20px;">

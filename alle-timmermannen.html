@@ -261,7 +261,7 @@
 <!-- ─── NAV ─── -->
 <nav>
   <a href="index.html" class="logo">
-    <img src="logo.png" alt="Timmerly"/>
+    <span style="display:inline-flex;align-items:center;gap:9px;"><span style="width:32px;height:32px;background:#F26522;border-radius:7px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:1.25rem;font-family:'Segoe UI',system-ui,sans-serif;flex-shrink:0;">T</span><span style="font-size:1.25rem;font-weight:800;color:var(--navy);letter-spacing:-.5px;">immerly</span></span>
   </a>
   <ul class="nav-links">
     <li><a href="hoe-het-werkt.html">Hoe het werkt</a></li>
@@ -860,8 +860,7 @@
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <a href="index.html" class="logo logo-footer">
-        <img src="logo.png" alt="Timmerly" />
+      <a href="index.html" class="logo logo-footer"><span style="display:inline-flex;align-items:center;gap:9px;"><span style="width:32px;height:32px;background:#F26522;border-radius:7px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:1.25rem;font-family:'Segoe UI',system-ui,sans-serif;flex-shrink:0;">T</span><span style="font-size:1.25rem;font-weight:800;color:white;letter-spacing:-.5px;">immerly</span></span>
       </a>
       <p>Dé marktplaats voor beschikbare timmermannen in Nederland. Opgericht in 2026.</p>
       <div class="social-links">
@@ -1163,14 +1162,21 @@
     document.getElementById('modal-success').style.display = 'block';
   }
 
-  // ─── URL PARAMS (deep-link to region filter)
+  // ─── URL PARAMS (deep-link via ?regio= or ?specialism=)
   (function() {
     const params = new URLSearchParams(window.location.search);
+    let changed = false;
     const regio = params.get('regio');
     if (regio) {
       const cb = document.querySelector(`#fs-region input[value="${regio}"]`);
-      if (cb) { cb.checked = true; applyFilters(); }
+      if (cb) { cb.checked = true; changed = true; }
     }
+    const specialism = params.get('specialism');
+    if (specialism) {
+      const cb = document.querySelector(`#fs-specialism input[value="${specialism}"]`);
+      if (cb) { cb.checked = true; changed = true; }
+    }
+    if (changed) applyFilters();
   })();
 </script>
 </body>
