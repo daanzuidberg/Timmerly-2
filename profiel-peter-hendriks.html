@@ -95,7 +95,7 @@
 <nav>
   <a href="index.html" class="logo"><img src="logo.png" alt="Timmerly" /></a>
   <a href="index.html" class="nav-back"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Terug naar overzicht</a>
-  <button class="btn btn-primary" onclick="openModal()">Offerte aanvragen</button>
+  <button class="btn btn-primary" onclick="openModal()">Timmerman aanvragen</button>
 </nav>
 
 <div class="profile-hero">
@@ -119,8 +119,7 @@
       </div>
     </div>
     <div class="hero-actions">
-      <button class="btn btn-primary" onclick="openModal()">Offerte aanvragen</button>
-      <a href="tel:+31634567890" class="btn" style="background:rgba(255,255,255,.15);color:white;border:none;">Bel direct</a>
+      <button class="btn btn-primary" onclick="openModal()">Timmerman aanvragen</button>
     </div>
   </div>
 </div>
@@ -189,10 +188,9 @@
   </div>
   <div class="right-col">
     <div class="cta-sticky">
-      <h3>Offerte aanvragen</h3>
-      <p>Gratis &amp; vrijblijvend. Peter reageert gemiddeld binnen 1 uur.</p>
-      <button class="btn" onclick="openModal()">Direct aanvragen →</button>
-      <p class="cta-small">Of bel: 06 34 56 78 90</p>
+      <h3>Timmerman aanvragen</h3>
+      <p>Laat je gegevens achter en Timmerly neemt snel contact met je op.</p>
+      <button class="btn" onclick="openModal()">Timmerman aanvragen →</button>
     </div>
     <div class="sidebar-card">
       <h3>Informatie</h3>
@@ -221,8 +219,8 @@
 <div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
-    <h2>Offerte aanvragen</h2>
-    <p class="modal-sub">Bij Peter Hendriks – reactie gemiddeld binnen 1 uur.</p>
+    <h2>Timmerman aanvragen</h2>
+    <p class="modal-sub">Laat je gegevens achter en Timmerly neemt contact met je op.</p>
     <div class="form-row">
       <div class="form-group"><label>Voornaam</label><input type="text" placeholder="Jan" /></div>
       <div class="form-group"><label>Achternaam</label><input type="text" placeholder="Jansen" /></div>
@@ -232,15 +230,15 @@
     <div class="form-group"><label>Postcode</label><input type="text" placeholder="3500 AB" /></div>
     <div class="form-group"><label>Type werk</label><select><option>Keuken plaatsen</option><option>Badkamer renovatie</option><option>Zolderombouw</option><option>Interieurbouw</option><option>Anders</option></select></div>
     <div class="form-group"><label>Omschrijving</label><textarea placeholder="Omschrijf zo nauwkeurig mogelijk wat er gedaan moet worden..."></textarea></div>
-    <button class="btn btn-primary" style="width:100%;padding:14px;font-size:1rem;justify-content:center;" onclick="submitForm()">Offerte aanvragen →</button>
-    <p style="text-align:center;font-size:.78rem;color:var(--gray-text);margin-top:12px;">Gratis &amp; vrijblijvend · Geen verplichtingen</p>
+    <button class="btn btn-primary" style="width:100%;padding:14px;font-size:1rem;justify-content:center;" onclick="submitForm()">Aanvraag versturen →</button>
+    <p style="text-align:center;font-size:.78rem;color:var(--gray-text);margin-top:12px;">Timmerly neemt binnen 1 werkdag contact met je op</p>
   </div>
 </div>
 <script>
   function openModal(){document.getElementById('modal').classList.add('open');document.body.style.overflow='hidden';}
   function closeModal(){document.getElementById('modal').classList.remove('open');document.body.style.overflow='';}
   function closeModalOutside(e){if(e.target===document.getElementById('modal'))closeModal();}
-  function submitForm(){closeModal();alert('Bedankt! Je aanvraag is verzonden naar Peter. Hij neemt binnen 1 uur contact met je op.');}
+  function submitForm(){closeModal();alert('Bedankt! Je aanvraag is ontvangen. Timmerly neemt binnen 1 werkdag contact met je op.');}
   document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 </script>
 </body>
