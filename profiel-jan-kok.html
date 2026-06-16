@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jan Kok – Timmerman Rotterdam | Timmerly</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --orange:#F26522; --orange-dk:#D4531A; --navy:#1C2B4A; --navy-lt:#2C3E6B; --gray-bg:#F5F6F8; --gray-mid:#E0E3EA; --gray-text:#6B7280; --white:#FFFFFF; --green:#22C55E; --radius:10px; --shadow:0 4px 20px rgba(0,0,0,.08); }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; color: var(--navy); background: var(--gray-bg); line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    nav { position: sticky; top: 0; z-index: 100; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.07); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { display: flex; align-items: center; }
+    .logo img { height: 46px; width: auto; }
+    .nav-back { display: flex; align-items: center; gap: 8px; font-size: .9rem; font-weight: 600; color: var(--gray-text); transition: color .2s; }
+    .nav-back:hover { color: var(--orange); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: var(--radius); font-weight: 600; font-size: .93rem; cursor: pointer; border: none; transition: background .2s, transform .1s; }
+    .btn:active { transform: scale(.98); }
+    .btn-primary { background: var(--orange); color: white; }
+    .btn-primary:hover { background: var(--orange-dk); }
+    .btn-outline { background: transparent; color: var(--navy); border: 2px solid var(--gray-mid); }
+    .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+    .profile-hero { background: linear-gradient(135deg,#1a3a5c 0%,#2d5986 100%); padding: 48px 5%; }
+    .hero-inner { max-width: 960px; margin: 0 auto; display: flex; gap: 36px; align-items: flex-start; flex-wrap: wrap; }
+    .avatar-large { width: 120px; height: 120px; border-radius: 50%; background: #3A5298; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; font-weight: 800; color: white; border: 4px solid rgba(255,255,255,.3); flex-shrink: 0; }
+    .availability-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(34,197,94,.15); border: 1px solid rgba(34,197,94,.4); color: #4ADE80; padding: 5px 12px; border-radius: 50px; font-size: .78rem; font-weight: 700; margin-bottom: 12px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .hero-info { flex: 1; min-width: 240px; }
+    .hero-info h1 { font-size: clamp(1.6rem,3vw,2.2rem); font-weight: 800; color: white; margin-bottom: 6px; }
+    .hero-info .subtitle { color: rgba(255,255,255,.7); font-size: .95rem; margin-bottom: 16px; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .tag { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); color: rgba(255,255,255,.9); padding: 4px 12px; border-radius: 50px; font-size: .78rem; font-weight: 600; }
+    .hero-meta { display: flex; gap: 28px; flex-wrap: wrap; }
+    .hmeta { display: flex; flex-direction: column; gap: 2px; }
+    .hmeta-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: rgba(255,255,255,.5); font-weight: 600; }
+    .hmeta-value { font-size: 1rem; font-weight: 700; color: white; }
+    .stars { color: #F59E0B; }
+    .hero-actions { display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+    .hero-actions .btn { width: 100%; justify-content: center; padding: 13px 24px; }
+    .main { max-width: 960px; margin: 0 auto; padding: 36px 5%; display: grid; grid-template-columns: 1fr 320px; gap: 28px; align-items: start; }
+    @media (max-width: 720px) { .main { grid-template-columns: 1fr; } }
+    .card { background: white; border-radius: 14px; padding: 28px; box-shadow: var(--shadow); margin-bottom: 24px; border: 1px solid var(--gray-mid); }
+    .card h2 { font-size: 1.1rem; font-weight: 800; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid var(--gray-bg); }
+    .card h2 span { color: var(--orange); }
+    .about-text { font-size: .95rem; color: #374151; line-height: 1.8; }
+    .about-text p + p { margin-top: 12px; }
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .skill-item { display: flex; flex-direction: column; gap: 6px; }
+    .skill-name { font-size: .85rem; font-weight: 600; display: flex; justify-content: space-between; }
+    .skill-bar { height: 6px; background: var(--gray-mid); border-radius: 3px; overflow: hidden; }
+    .skill-fill { height: 100%; background: var(--orange); border-radius: 3px; }
+    .portfolio-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+    .portfolio-item { aspect-ratio: 1; border-radius: 10px; overflow: hidden; position: relative; cursor: pointer; }
+    .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+    .portfolio-img { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
+    .portfolio-overlay { position: absolute; inset: 0; background: rgba(28,43,74,.75); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .2s; color: white; font-size: .8rem; font-weight: 600; text-align: center; padding: 8px; }
+    .review-summary { display: flex; gap: 24px; align-items: center; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 2px solid var(--gray-bg); flex-wrap: wrap; }
+    .big-score { font-size: 3.5rem; font-weight: 800; color: var(--navy); line-height: 1; }
+    .score-detail { display: flex; flex-direction: column; gap: 4px; }
+    .score-stars { font-size: 1.3rem; color: #F59E0B; }
+    .score-count { font-size: .85rem; color: var(--gray-text); }
+    .score-bars { flex: 1; min-width: 160px; display: flex; flex-direction: column; gap: 6px; }
+    .score-row { display: flex; align-items: center; gap: 8px; font-size: .78rem; }
+    .score-row span:first-child { width: 40px; color: var(--gray-text); }
+    .score-row .bar { flex: 1; height: 6px; background: var(--gray-mid); border-radius: 3px; overflow: hidden; }
+    .score-row .bar-fill { height: 100%; background: #F59E0B; border-radius: 3px; }
+    .score-row span:last-child { width: 28px; text-align: right; color: var(--gray-text); }
+    .review-item { padding: 20px 0; border-bottom: 1px solid var(--gray-bg); }
+    .review-item:last-child { border-bottom: none; }
+    .review-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .reviewer-av { width: 38px; height: 38px; border-radius: 50%; background: var(--gray-mid); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .82rem; color: var(--navy); flex-shrink: 0; }
+    .reviewer-name { font-weight: 700; font-size: .9rem; }
+    .review-date { font-size: .75rem; color: var(--gray-text); }
+    .review-stars { color: #F59E0B; font-size: .85rem; }
+    .review-text { font-size: .9rem; color: #374151; line-height: 1.7; }
+    .review-project { display: inline-block; background: rgba(242,101,34,.08); color: var(--orange-dk); padding: 3px 10px; border-radius: 50px; font-size: .75rem; font-weight: 600; margin-top: 8px; }
+    .sidebar-card { background: white; border-radius: 14px; padding: 24px; box-shadow: var(--shadow); margin-bottom: 20px; border: 1px solid var(--gray-mid); }
+    .sidebar-card h3 { font-size: .95rem; font-weight: 800; margin-bottom: 16px; }
+    .info-list { display: flex; flex-direction: column; gap: 12px; }
+    .info-row { display: flex; align-items: flex-start; gap: 12px; font-size: .88rem; }
+    .info-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .info-label { color: var(--gray-text); font-size: .78rem; margin-bottom: 1px; }
+    .info-value { font-weight: 600; }
+    .pricing-table { display: flex; flex-direction: column; gap: 10px; }
+    .pricing-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--gray-bg); font-size: .88rem; }
+    .pricing-row:last-child { border-bottom: none; }
+    .pricing-row .price { font-weight: 700; color: var(--navy); }
+    .cert-list { display: flex; flex-direction: column; gap: 10px; }
+    .cert-item { display: flex; align-items: center; gap: 10px; font-size: .88rem; }
+    .cert-icon { width: 32px; height: 32px; background: rgba(242,101,34,.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .cta-sticky { background: linear-gradient(135deg,var(--orange) 0%,var(--orange-dk) 100%); border-radius: 14px; padding: 24px; color: white; margin-bottom: 20px; }
+    .cta-sticky h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 8px; }
+    .cta-sticky p { font-size: .85rem; opacity: .85; margin-bottom: 18px; line-height: 1.5; }
+    .cta-sticky .btn { width: 100%; justify-content: center; background: white; color: var(--orange); font-weight: 700; }
+    .cta-sticky .btn:hover { background: var(--gray-bg); }
+    .cta-small { text-align: center; margin-top: 10px; font-size: .78rem; opacity: .75; }
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 200; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
+    .modal-overlay.open { display: flex; }
+    .modal { background: white; border-radius: 16px; padding: 36px; max-width: 520px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto; }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: var(--gray-bg); border: none; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; color: var(--gray-text); }
+    .modal h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; }
+    .modal .modal-sub { font-size: .88rem; color: var(--gray-text); margin-bottom: 24px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: .78rem; font-weight: 600; color: var(--gray-text); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 14px; border: 2px solid var(--gray-mid); border-radius: var(--radius); font-size: .95rem; font-family: inherit; outline: none; transition: border-color .2s; color: var(--navy); background: var(--gray-bg); }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--orange); background: white; }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .p1{background:linear-gradient(135deg,#e8f4f8,#c3dbe8)} .p2{background:linear-gradient(135deg,#fef3e8,#fdd8b5)} .p3{background:linear-gradient(135deg,#eef8ee,#c3e6c3)} .p4{background:linear-gradient(135deg,#f3eef8,#d9c3e8)} .p5{background:linear-gradient(135deg,#fef8e8,#fde9b5)} .p6{background:linear-gradient(135deg,#f8eef0,#e8c3cc)}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo"><img src="logo.png" alt="Timmerly" /></a>
+  <a href="index.html" class="nav-back"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Terug naar overzicht</a>
+  <button class="btn btn-primary" onclick="openModal()">Offerte aanvragen</button>
+</nav>
+
+<div class="profile-hero">
+  <div class="hero-inner">
+    <div class="avatar-large">JK</div>
+    <div class="hero-info">
+      <div class="availability-badge"><div class="dot"></div> Beschikbaar morgen</div>
+      <h1>Jan Kok</h1>
+      <p class="subtitle">📍 Rotterdam &amp; Omgeving &nbsp;·&nbsp; 12 jaar ervaring</p>
+      <div class="hero-tags">
+        <span class="tag">Vloeren leggen</span>
+        <span class="tag">Trap maken</span>
+        <span class="tag">Maatwerk meubels</span>
+        <span class="tag">Interieurbouw</span>
+      </div>
+      <div class="hero-meta">
+        <div class="hmeta"><span class="hmeta-label">Beoordeling</span><span class="hmeta-value"><span class="stars">★★★★★</span> 9.4</span></div>
+        <div class="hmeta"><span class="hmeta-label">Reviews</span><span class="hmeta-value">57</span></div>
+        <div class="hmeta"><span class="hmeta-label">Projecten</span><span class="hmeta-value">83</span></div>
+        <div class="hmeta"><span class="hmeta-label">Reactietijd</span><span class="hmeta-value">~3 uur</span></div>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="openModal()">Offerte aanvragen</button>
+      <a href="tel:+31623456789" class="btn btn-outline" style="border-color:rgba(255,255,255,.3);color:white;">Bel direct</a>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="left-col">
+    <div class="card">
+      <h2>Over <span>Jan</span></h2>
+      <div class="about-text">
+        <p>Jan Kok is een gepassioneerde timmerman uit Rotterdam met 12 jaar ervaring in vloeren, trappen en maatwerk. Na zijn opleiding aan het Albeda College werkte hij jarenlang in loondienst voordat hij zijn eigen bedrijf startte.</p>
+        <p>Zijn specialiteit is het leggen van houten en laminaatvloeren en het maken van maatwerk houten trappen. Elk project krijgt de persoonlijke aandacht die het verdient — van meting tot eindoplevering.</p>
+        <p>Jan staat bekend om zijn strakke afwerking en eerlijke communicatie. "Ik zeg wat ik doe en doe wat ik zeg" is zijn motto.</p>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Vakkennis &amp; <span>Specialismen</span></h2>
+      <div class="skills-grid">
+        <div class="skill-item"><div class="skill-name"><span>Vloeren leggen</span><span>96%</span></div><div class="skill-bar"><div class="skill-fill" style="width:96%"></div></div></div>
+        <div class="skill-item"><div class="skill-name"><span>Trap maken</span><span>94%</span></div><div class="skill-bar"><div class="skill-fill" style="width:94%"></div></div></div>
+        <div class="skill-item"><div class="skill-name"><span>Maatwerk meubels</span><span>88%</span></div><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div></div>
+        <div class="skill-item"><div class="skill-name"><span>Interieurbouw</span><span>85%</span></div><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+        <div class="skill-item"><div class="skill-name"><span>Parket schuren</span><span>90%</span></div><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+        <div class="skill-item"><div class="skill-name"><span>Timmerwerk algemeen</span><span>82%</span></div><div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Eerder <span>Uitgevoerde Projecten</span></h2>
+      <div class="portfolio-grid">
+        <div class="portfolio-item"><div class="portfolio-img p1">🪵</div><div class="portfolio-overlay">Eiken vloer gelegd – Rotterdam-Zuid</div></div>
+        <div class="portfolio-item"><div class="portfolio-img p2">🪜</div><div class="portfolio-overlay">Houten trap gemaakt – Schiedam</div></div>
+        <div class="portfolio-item"><div class="portfolio-img p3">🛋️</div><div class="portfolio-overlay">Maatwerk boekenkast – Rotterdam-Noord</div></div>
+        <div class="portfolio-item"><div class="portfolio-img p4">🏠</div><div class="portfolio-overlay">Inbouwkast slaapkamer – Capelle a/d IJssel</div></div>
+        <div class="portfolio-item"><div class="portfolio-img p5">🔨</div><div class="portfolio-overlay">Laminaatvloer woning – Spijkenisse</div></div>
+        <div class="portfolio-item"><div class="portfolio-img p6">🛠️</div><div class="portfolio-overlay">Zwevende trap – Rotterdam-West</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Reviews <span>(57)</span></h2>
+      <div class="review-summary">
+        <div><div class="big-score">9.4</div><div class="score-detail"><div class="score-stars">★★★★★</div><div class="score-count">57 beoordelingen</div></div></div>
+        <div class="score-bars">
+          <div class="score-row"><span>5 ster</span><div class="bar"><div class="bar-fill" style="width:84%"></div></div><span>48</span></div>
+          <div class="score-row"><span>4 ster</span><div class="bar"><div class="bar-fill" style="width:12%"></div></div><span>7</span></div>
+          <div class="score-row"><span>3 ster</span><div class="bar"><div class="bar-fill" style="width:3%"></div></div><span>2</span></div>
+          <div class="score-row"><span>2 ster</span><div class="bar"><div class="bar-fill" style="width:0%"></div></div><span>0</span></div>
+          <div class="score-row"><span>1 ster</span><div class="bar"><div class="bar-fill" style="width:0%"></div></div><span>0</span></div>
+        </div>
+      </div>
+      <div class="review-item">
+        <div class="review-header"><div class="reviewer-av">PB</div><div><div class="reviewer-name">Peter Bakker</div><div class="review-date">April 2026 · Rotterdam</div></div><div class="review-stars" style="margin-left:auto;">★★★★★</div></div>
+        <p class="review-text">Jan heeft bij ons een prachtige eiken vloer gelegd. Perfect gesneden, strakke naadjes en hij heeft zelfs geholpen met het verplaatsen van meubels. Top vakman!</p>
+        <span class="review-project">Vloer leggen</span>
+      </div>
+      <div class="review-item">
+        <div class="review-header"><div class="reviewer-av">SL</div><div><div class="reviewer-name">Sandra Louwers</div><div class="review-date">Maart 2026 · Schiedam</div></div><div class="review-stars" style="margin-left:auto;">★★★★★</div></div>
+        <p class="review-text">Nieuwe houten trap laten maken. Jan heeft meegedacht over het ontwerp en het resultaat is boven verwachting. Strak, stevig en prachtig afgewerkt.</p>
+        <span class="review-project">Trap maken</span>
+      </div>
+      <div class="review-item">
+        <div class="review-header"><div class="reviewer-av">HV</div><div><div class="reviewer-name">Hans van Veen</div><div class="review-date">Februari 2026 · Rotterdam-Noord</div></div><div class="review-stars" style="margin-left:auto;">★★★★★</div></div>
+        <p class="review-text">Maatwerk boekenkast laten bouwen van vloer tot plafond. Jan was flexibel, punctueel en heeft alles netjes achtergelaten. Zeker een aanrader.</p>
+        <span class="review-project">Maatwerk meubels</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-col">
+    <div class="cta-sticky">
+      <h3>Offerte aanvragen</h3>
+      <p>Gratis &amp; vrijblijvend. Reactie binnen 3 uur op werkdagen.</p>
+      <button class="btn" onclick="openModal()">Direct aanvragen →</button>
+      <p class="cta-small">Of bel: 06 23 45 67 89</p>
+    </div>
+    <div class="sidebar-card">
+      <h3>Informatie</h3>
+      <div class="info-list">
+        <div class="info-row"><span class="info-icon">📍</span><div><div class="info-label">Werkgebied</div><div class="info-value">Rotterdam, Schiedam, Capelle a/d IJssel, Spijkenisse, Dordrecht</div></div></div>
+        <div class="info-row"><span class="info-icon">📅</span><div><div class="info-label">Beschikbaar</div><div class="info-value" style="color:var(--green)">Morgen</div></div></div>
+        <div class="info-row"><span class="info-icon">⏱️</span><div><div class="info-label">Werktijden</div><div class="info-value">Ma–Za, 08:00–17:00</div></div></div>
+        <div class="info-row"><span class="info-icon">🏢</span><div><div class="info-label">KVK-nummer</div><div class="info-value">74 56 78 90</div></div></div>
+        <div class="info-row"><span class="info-icon">🛡️</span><div><div class="info-label">Verzekering</div><div class="info-value">Aansprakelijkheid €1.000.000</div></div></div>
+      </div>
+    </div>
+    <div class="sidebar-card">
+      <h3>Tarieven</h3>
+      <div class="pricing-table">
+        <div class="pricing-row"><span>Uurtarief</span><span class="price">€ 50 – 58</span></div>
+        <div class="pricing-row"><span>Dagtarief</span><span class="price">€ 360 – 415</span></div>
+        <div class="pricing-row"><span>Materiaalkosten</span><span class="price">Op offerte</span></div>
+        <div class="pricing-row"><span>Spoedklus</span><span class="price">+ 20%</span></div>
+      </div>
+    </div>
+    <div class="sidebar-card">
+      <h3>Diploma's &amp; Certificaten</h3>
+      <div class="cert-list">
+        <div class="cert-item"><div class="cert-icon">🎓</div><div><strong>MBO Timmerman niveau 3</strong><br><span style="font-size:.78rem;color:var(--gray-text)">Albeda College, 2012</span></div></div>
+        <div class="cert-item"><div class="cert-icon">🔒</div><div><strong>VCA Basis</strong><br><span style="font-size:.78rem;color:var(--gray-text)">Geldig t/m 2026</span></div></div>
+        <div class="cert-item"><div class="cert-icon">✅</div><div><strong>Timmerly Geverifieerd</strong><br><span style="font-size:.78rem;color:var(--gray-text)">ID &amp; referenties gecheckt</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>Offerte aanvragen</h2>
+    <p class="modal-sub">Bij Jan Kok – reactie binnen 3 uur op werkdagen.</p>
+    <div class="form-row">
+      <div class="form-group"><label>Voornaam</label><input type="text" placeholder="Jan" /></div>
+      <div class="form-group"><label>Achternaam</label><input type="text" placeholder="Jansen" /></div>
+    </div>
+    <div class="form-group"><label>E-mailadres</label><input type="email" placeholder="jan@voorbeeld.nl" /></div>
+    <div class="form-group"><label>Telefoonnummer</label><input type="tel" placeholder="06 12 34 56 78" /></div>
+    <div class="form-group"><label>Postcode</label><input type="text" placeholder="3001 AB" /></div>
+    <div class="form-group"><label>Type werk</label><select><option>Vloeren leggen</option><option>Trap maken</option><option>Maatwerk meubels</option><option>Interieurbouw</option><option>Anders</option></select></div>
+    <div class="form-group"><label>Omschrijving</label><textarea placeholder="Omschrijf zo nauwkeurig mogelijk wat er gedaan moet worden..."></textarea></div>
+    <button class="btn btn-primary" style="width:100%;padding:14px;font-size:1rem;justify-content:center;" onclick="submitForm()">Offerte aanvragen →</button>
+    <p style="text-align:center;font-size:.78rem;color:var(--gray-text);margin-top:12px;">Gratis &amp; vrijblijvend · Geen verplichtingen</p>
+  </div>
+</div>
+<script>
+  function openModal(){document.getElementById('modal').classList.add('open');document.body.style.overflow='hidden';}
+  function closeModal(){document.getElementById('modal').classList.remove('open');document.body.style.overflow='';}
+  function closeModalOutside(e){if(e.target===document.getElementById('modal'))closeModal();}
+  function submitForm(){closeModal();alert('Bedankt! Je aanvraag is verzonden naar Jan. Hij neemt binnen 3 uur contact met je op.');}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+</script>
+</body>
+</html>

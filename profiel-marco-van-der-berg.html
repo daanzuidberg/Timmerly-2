@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marco van der Berg – Timmerman Amsterdam | Timmerly</title>
+  <meta name="description" content="Profiel van Marco van der Berg, ervaren timmerman in Amsterdam. Gespecialiseerd in kozijnen, dakkapellen en aanbouw. Bekijk reviews, tarieven en vraag een offerte aan." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange:    #F26522;
+      --orange-dk: #D4531A;
+      --navy:      #1C2B4A;
+      --navy-lt:   #2C3E6B;
+      --gray-bg:   #F5F6F8;
+      --gray-mid:  #E0E3EA;
+      --gray-text: #6B7280;
+      --white:     #FFFFFF;
+      --green:     #22C55E;
+      --radius:    10px;
+      --shadow:    0 4px 20px rgba(0,0,0,.08);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; color: var(--navy); background: var(--gray-bg); line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 68px;
+    }
+    .logo { display: flex; align-items: center; }
+    .logo img { height: 46px; width: auto; }
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .9rem; font-weight: 600; color: var(--gray-text);
+      transition: color .2s;
+    }
+    .nav-back:hover { color: var(--orange); }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px; border-radius: var(--radius);
+      font-weight: 600; font-size: .93rem; cursor: pointer;
+      border: none; transition: background .2s, transform .1s;
+    }
+    .btn:active { transform: scale(.98); }
+    .btn-primary { background: var(--orange); color: white; }
+    .btn-primary:hover { background: var(--orange-dk); }
+    .btn-outline { background: transparent; color: var(--navy); border: 2px solid var(--gray-mid); }
+    .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* HERO */
+    .profile-hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-lt) 100%);
+      padding: 48px 5%;
+    }
+    .hero-inner {
+      max-width: 960px; margin: 0 auto;
+      display: flex; gap: 36px; align-items: flex-start; flex-wrap: wrap;
+    }
+    .avatar-large {
+      width: 120px; height: 120px; border-radius: 50%;
+      background: var(--orange);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem; font-weight: 800; color: white;
+      border: 4px solid rgba(255,255,255,.3); flex-shrink: 0;
+    }
+    .hero-info { flex: 1; min-width: 240px; }
+    .availability-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(34,197,94,.15); border: 1px solid rgba(34,197,94,.4);
+      color: #4ADE80; padding: 5px 12px; border-radius: 50px;
+      font-size: .78rem; font-weight: 700; margin-bottom: 12px;
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .hero-info h1 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; color: white; margin-bottom: 6px; }
+    .hero-info .subtitle { color: rgba(255,255,255,.7); font-size: .95rem; margin-bottom: 16px; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .tag {
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+      color: rgba(255,255,255,.9); padding: 4px 12px; border-radius: 50px;
+      font-size: .78rem; font-weight: 600;
+    }
+    .hero-meta { display: flex; gap: 28px; flex-wrap: wrap; }
+    .hmeta { display: flex; flex-direction: column; gap: 2px; }
+    .hmeta-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: rgba(255,255,255,.5); font-weight: 600; }
+    .hmeta-value { font-size: 1rem; font-weight: 700; color: white; }
+    .stars { color: #F59E0B; }
+    .hero-actions { display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+    .hero-actions .btn { width: 100%; justify-content: center; padding: 13px 24px; }
+
+    /* MAIN LAYOUT */
+    .main { max-width: 960px; margin: 0 auto; padding: 36px 5%; display: grid; grid-template-columns: 1fr 320px; gap: 28px; align-items: start; }
+    @media (max-width: 720px) { .main { grid-template-columns: 1fr; } .hero-actions { flex-direction: row; flex-wrap: wrap; } }
+
+    /* CARDS */
+    .card { background: white; border-radius: 14px; padding: 28px; box-shadow: var(--shadow); margin-bottom: 24px; border: 1px solid var(--gray-mid); }
+    .card h2 { font-size: 1.1rem; font-weight: 800; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid var(--gray-bg); }
+    .card h2 span { color: var(--orange); }
+
+    /* ABOUT */
+    .about-text { font-size: .95rem; color: #374151; line-height: 1.8; }
+    .about-text p + p { margin-top: 12px; }
+
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .skill-item { display: flex; flex-direction: column; gap: 6px; }
+    .skill-name { font-size: .85rem; font-weight: 600; display: flex; justify-content: space-between; }
+    .skill-bar { height: 6px; background: var(--gray-mid); border-radius: 3px; overflow: hidden; }
+    .skill-fill { height: 100%; background: var(--orange); border-radius: 3px; }
+
+    /* PORTFOLIO */
+    .portfolio-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+    .portfolio-item {
+      aspect-ratio: 1; border-radius: 10px; overflow: hidden;
+      position: relative; cursor: pointer;
+    }
+    .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+    .portfolio-img {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem;
+    }
+    .portfolio-overlay {
+      position: absolute; inset: 0;
+      background: rgba(28,43,74,.75);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .2s;
+      color: white; font-size: .8rem; font-weight: 600; text-align: center; padding: 8px;
+    }
+
+    /* REVIEWS */
+    .review-summary { display: flex; gap: 24px; align-items: center; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 2px solid var(--gray-bg); flex-wrap: wrap; }
+    .big-score { font-size: 3.5rem; font-weight: 800; color: var(--navy); line-height: 1; }
+    .score-detail { display: flex; flex-direction: column; gap: 4px; }
+    .score-stars { font-size: 1.3rem; color: #F59E0B; }
+    .score-count { font-size: .85rem; color: var(--gray-text); }
+    .score-bars { flex: 1; min-width: 160px; display: flex; flex-direction: column; gap: 6px; }
+    .score-row { display: flex; align-items: center; gap: 8px; font-size: .78rem; }
+    .score-row span:first-child { width: 40px; color: var(--gray-text); }
+    .score-row .bar { flex: 1; height: 6px; background: var(--gray-mid); border-radius: 3px; overflow: hidden; }
+    .score-row .bar-fill { height: 100%; background: #F59E0B; border-radius: 3px; }
+    .score-row span:last-child { width: 28px; text-align: right; color: var(--gray-text); }
+
+    .review-item { padding: 20px 0; border-bottom: 1px solid var(--gray-bg); }
+    .review-item:last-child { border-bottom: none; }
+    .review-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .reviewer-av { width: 38px; height: 38px; border-radius: 50%; background: var(--gray-mid); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .82rem; color: var(--navy); flex-shrink: 0; }
+    .reviewer-name { font-weight: 700; font-size: .9rem; }
+    .review-date { font-size: .75rem; color: var(--gray-text); }
+    .review-stars { color: #F59E0B; font-size: .85rem; }
+    .review-text { font-size: .9rem; color: #374151; line-height: 1.7; }
+    .review-project { display: inline-block; background: rgba(242,101,34,.08); color: var(--orange-dk); padding: 3px 10px; border-radius: 50px; font-size: .75rem; font-weight: 600; margin-top: 8px; }
+
+    /* SIDEBAR */
+    .sidebar-card { background: white; border-radius: 14px; padding: 24px; box-shadow: var(--shadow); margin-bottom: 20px; border: 1px solid var(--gray-mid); }
+    .sidebar-card h3 { font-size: .95rem; font-weight: 800; margin-bottom: 16px; }
+
+    .info-list { display: flex; flex-direction: column; gap: 12px; }
+    .info-row { display: flex; align-items: flex-start; gap: 12px; font-size: .88rem; }
+    .info-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .info-label { color: var(--gray-text); font-size: .78rem; margin-bottom: 1px; }
+    .info-value { font-weight: 600; }
+
+    .pricing-table { display: flex; flex-direction: column; gap: 10px; }
+    .pricing-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--gray-bg); font-size: .88rem; }
+    .pricing-row:last-child { border-bottom: none; }
+    .pricing-row .price { font-weight: 700; color: var(--navy); }
+
+    .cert-list { display: flex; flex-direction: column; gap: 10px; }
+    .cert-item { display: flex; align-items: center; gap: 10px; font-size: .88rem; }
+    .cert-icon { width: 32px; height: 32px; background: rgba(242,101,34,.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+
+    .cta-sticky { background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dk) 100%); border-radius: 14px; padding: 24px; color: white; margin-bottom: 20px; }
+    .cta-sticky h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 8px; }
+    .cta-sticky p { font-size: .85rem; opacity: .85; margin-bottom: 18px; line-height: 1.5; }
+    .cta-sticky .btn { width: 100%; justify-content: center; background: white; color: var(--orange); font-weight: 700; }
+    .cta-sticky .btn:hover { background: var(--gray-bg); }
+    .cta-small { text-align: center; margin-top: 10px; font-size: .78rem; opacity: .75; }
+
+    /* MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 200; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
+    .modal-overlay.open { display: flex; }
+    .modal { background: white; border-radius: 16px; padding: 36px; max-width: 520px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto; }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: var(--gray-bg); border: none; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; color: var(--gray-text); }
+    .modal h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; }
+    .modal .modal-sub { font-size: .88rem; color: var(--gray-text); margin-bottom: 24px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: .78rem; font-weight: 600; color: var(--gray-text); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 14px; border: 2px solid var(--gray-mid); border-radius: var(--radius); font-size: .95rem; font-family: inherit; outline: none; transition: border-color .2s; color: var(--navy); background: var(--gray-bg); }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--orange); background: white; }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* PORTFOLIO COLORS */
+    .p1 { background: linear-gradient(135deg,#e8f4f8,#c3dbe8); }
+    .p2 { background: linear-gradient(135deg,#fef3e8,#fdd8b5); }
+    .p3 { background: linear-gradient(135deg,#eef8ee,#c3e6c3); }
+    .p4 { background: linear-gradient(135deg,#f3eef8,#d9c3e8); }
+    .p5 { background: linear-gradient(135deg,#fef8e8,#fde9b5); }
+    .p6 { background: linear-gradient(135deg,#f8eef0,#e8c3cc); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo"><img src="logo.png" alt="Timmerly" /></a>
+  <a href="index.html" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Terug naar overzicht
+  </a>
+  <button class="btn btn-primary" onclick="openModal()">Offerte aanvragen</button>
+</nav>
+
+<!-- HERO -->
+<div class="profile-hero">
+  <div class="hero-inner">
+    <div class="avatar-large">MV</div>
+    <div class="hero-info">
+      <div class="availability-badge"><div class="dot"></div> Beschikbaar deze week</div>
+      <h1>Marco van der Berg</h1>
+      <p class="subtitle">📍 Amsterdam &amp; Omgeving &nbsp;·&nbsp; 18 jaar ervaring</p>
+      <div class="hero-tags">
+        <span class="tag">Kozijnen &amp; deuren</span>
+        <span class="tag">Dakkapel</span>
+        <span class="tag">Aanbouw &amp; uitbouw</span>
+        <span class="tag">Renovatie</span>
+      </div>
+      <div class="hero-meta">
+        <div class="hmeta">
+          <span class="hmeta-label">Beoordeling</span>
+          <span class="hmeta-value"><span class="stars">★★★★★</span> 9.6</span>
+        </div>
+        <div class="hmeta">
+          <span class="hmeta-label">Reviews</span>
+          <span class="hmeta-value">94</span>
+        </div>
+        <div class="hmeta">
+          <span class="hmeta-label">Projecten</span>
+          <span class="hmeta-value">126</span>
+        </div>
+        <div class="hmeta">
+          <span class="hmeta-label">Reactietijd</span>
+          <span class="hmeta-value">~2 uur</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="openModal()">Offerte aanvragen</button>
+      <a href="tel:+31612345678" class="btn btn-outline" style="border-color:rgba(255,255,255,.3);color:white;">Bel direct</a>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="left-col">
+
+    <!-- ABOUT -->
+    <div class="card">
+      <h2>Over <span>Marco</span></h2>
+      <div class="about-text">
+        <p>Ik ben Marco van der Berg, een vakkundige timmerman met 18 jaar ervaring in de regio Amsterdam. Na mijn opleiding aan het ROC ben ik begonnen als leerling-timmerman en heb ik mij door de jaren heen opgewerkt tot een zelfstandige vakman met een uitstekende reputatie.</p>
+        <p>Mijn specialiteit ligt bij kozijnen, dakkapellen en aan- en uitbouwen. Ik werk altijd met hoogwaardig materiaal, lever strak tegelwerk en houd mij aan de afgesproken planning. Kwaliteit en communicatie staan bij mij voorop.</p>
+        <p>Ik werk graag met particulieren en kleinere aannemers. Of het nu gaat om een enkel kozijn of een complete aanbouw — ik lever altijd hetzelfde hoge niveau van vakmanschap.</p>
+      </div>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="card">
+      <h2>Vakkennis &amp; <span>Specialismen</span></h2>
+      <div class="skills-grid">
+        <div class="skill-item">
+          <div class="skill-name"><span>Kozijnen &amp; deuren</span><span>98%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:98%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>Dakkapel</span><span>92%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>Aanbouw &amp; uitbouw</span><span>90%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>Renovatie</span><span>88%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>Houtbewerking</span><span>95%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>Plaatmateriaal</span><span>85%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PORTFOLIO -->
+    <div class="card">
+      <h2>Eerder <span>Uitgevoerde Projecten</span></h2>
+      <div class="portfolio-grid">
+        <div class="portfolio-item">
+          <div class="portfolio-img p1">🚪</div>
+          <div class="portfolio-overlay">Kozijnen vervangen – Amsterdam-Noord</div>
+        </div>
+        <div class="portfolio-item">
+          <div class="portfolio-img p2">🏠</div>
+          <div class="portfolio-overlay">Dakkapel plaatsen – Amstelveen</div>
+        </div>
+        <div class="portfolio-item">
+          <div class="portfolio-img p3">🏗️</div>
+          <div class="portfolio-overlay">Aanbouw 18m² – Amsterdam-Zuid</div>
+        </div>
+        <div class="portfolio-item">
+          <div class="portfolio-img p4">🔨</div>
+          <div class="portfolio-overlay">Houten vloer leggen – Amsterdam-West</div>
+        </div>
+        <div class="portfolio-item">
+          <div class="portfolio-img p5">🪵</div>
+          <div class="portfolio-overlay">Veranda bouwen – Diemen</div>
+        </div>
+        <div class="portfolio-item">
+          <div class="portfolio-img p6">🛠️</div>
+          <div class="portfolio-overlay">Complete renovatie – Amsterdam-Oost</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REVIEWS -->
+    <div class="card">
+      <h2>Reviews <span>(94)</span></h2>
+      <div class="review-summary">
+        <div>
+          <div class="big-score">9.6</div>
+          <div class="score-detail">
+            <div class="score-stars">★★★★★</div>
+            <div class="score-count">94 beoordelingen</div>
+          </div>
+        </div>
+        <div class="score-bars">
+          <div class="score-row"><span>5 ster</span><div class="bar"><div class="bar-fill" style="width:88%"></div></div><span>83</span></div>
+          <div class="score-row"><span>4 ster</span><div class="bar"><div class="bar-fill" style="width:9%"></div></div><span>8</span></div>
+          <div class="score-row"><span>3 ster</span><div class="bar"><div class="bar-fill" style="width:3%"></div></div><span>3</span></div>
+          <div class="score-row"><span>2 ster</span><div class="bar"><div class="bar-fill" style="width:0%"></div></div><span>0</span></div>
+          <div class="score-row"><span>1 ster</span><div class="bar"><div class="bar-fill" style="width:0%"></div></div><span>0</span></div>
+        </div>
+      </div>
+
+      <div class="review-item">
+        <div class="review-header">
+          <div class="reviewer-av">AV</div>
+          <div>
+            <div class="reviewer-name">Anna Vermeer</div>
+            <div class="review-date">Maart 2026 · Amsterdam</div>
+          </div>
+          <div class="review-stars" style="margin-left:auto;">★★★★★</div>
+        </div>
+        <p class="review-text">Marco heeft onze kozijnen vervangen in een halve dag. Nette afwerking, prima communicatie en voor een scherpe prijs. Zeker een aanrader!</p>
+        <span class="review-project">Kozijnen vervangen</span>
+      </div>
+
+      <div class="review-item">
+        <div class="review-header">
+          <div class="reviewer-av">TK</div>
+          <div>
+            <div class="reviewer-name">Thomas Klaassen</div>
+            <div class="review-date">Februari 2026 · Amstelveen</div>
+          </div>
+          <div class="review-stars" style="margin-left:auto;">★★★★★</div>
+        </div>
+        <p class="review-text">Dakkapel laten plaatsen. Marco heeft het project perfect gecoördineerd. Keurige werkhouding, elke dag opgeruimd en het eindresultaat is geweldig.</p>
+        <span class="review-project">Dakkapel plaatsen</span>
+      </div>
+
+      <div class="review-item">
+        <div class="review-header">
+          <div class="reviewer-av">MJ</div>
+          <div>
+            <div class="reviewer-name">Marieke Jansen</div>
+            <div class="review-date">Januari 2026 · Amsterdam-Zuid</div>
+          </div>
+          <div class="review-stars" style="margin-left:auto;">★★★★★</div>
+        </div>
+        <p class="review-text">Aanbouw van 18m² laten bouwen. Van eerste overleg tot oplevering verliep alles vlekkeloos. Marco denkt mee, lost problemen op en levert op tijd.</p>
+        <span class="review-project">Aanbouw &amp; uitbouw</span>
+      </div>
+
+      <div class="review-item">
+        <div class="review-header">
+          <div class="reviewer-av">RD</div>
+          <div>
+            <div class="reviewer-name">Ruben de Wit</div>
+            <div class="review-date">December 2025 · Diemen</div>
+          </div>
+          <div class="review-stars" style="margin-left:auto;">★★★★☆</div>
+        </div>
+        <p class="review-text">Goede vakman. Heeft de houten vloer netjes gelegd. Iets later gestart dan gepland, maar verder geen problemen.</p>
+        <span class="review-project">Vloer leggen</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="right-col">
+
+    <div class="cta-sticky">
+      <h3>Offerte aanvragen</h3>
+      <p>Gratis &amp; vrijblijvend. Reactie binnen 2 uur op werkdagen.</p>
+      <button class="btn" onclick="openModal()">Direct aanvragen →</button>
+      <p class="cta-small">Of bel: 06 12 34 56 78</p>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Informatie</h3>
+      <div class="info-list">
+        <div class="info-row">
+          <span class="info-icon">📍</span>
+          <div>
+            <div class="info-label">Werkgebied</div>
+            <div class="info-value">Amsterdam, Amstelveen, Diemen, Almere, Zaandam</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon">📅</span>
+          <div>
+            <div class="info-label">Beschikbaar</div>
+            <div class="info-value" style="color:var(--green)">Deze week</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon">⏱️</span>
+          <div>
+            <div class="info-label">Werktijden</div>
+            <div class="info-value">Ma–Vr, 07:30–17:00</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon">🏢</span>
+          <div>
+            <div class="info-label">KVK-nummer</div>
+            <div class="info-value">82 34 56 78</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon">🛡️</span>
+          <div>
+            <div class="info-label">Verzekering</div>
+            <div class="info-value">Aansprakelijkheid €1.000.000</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Tarieven</h3>
+      <div class="pricing-table">
+        <div class="pricing-row"><span>Uurtarief</span><span class="price">€ 55 – 65</span></div>
+        <div class="pricing-row"><span>Dagtarief</span><span class="price">€ 395 – 450</span></div>
+        <div class="pricing-row"><span>Materiaalkosten</span><span class="price">Op offerte</span></div>
+        <div class="pricing-row"><span>Spoedklus</span><span class="price">+ 25%</span></div>
+      </div>
+      <p style="font-size:.75rem;color:var(--gray-text);margin-top:12px;">Definitieve prijs altijd op offerte. Geen verborgen kosten.</p>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Diploma's &amp; Certificaten</h3>
+      <div class="cert-list">
+        <div class="cert-item"><div class="cert-icon">🎓</div><div><strong>MBO Timmerman niveau 4</strong><br><span style="font-size:.78rem;color:var(--gray-text)">ROC Amsterdam, 2006</span></div></div>
+        <div class="cert-item"><div class="cert-icon">🔒</div><div><strong>VCA Basis</strong><br><span style="font-size:.78rem;color:var(--gray-text)">Geldig t/m 2027</span></div></div>
+        <div class="cert-item"><div class="cert-icon">🏠</div><div><strong>SKH-Keurmerk Hout</strong><br><span style="font-size:.78rem;color:var(--gray-text)">Keurmerknr. 2024-4821</span></div></div>
+        <div class="cert-item"><div class="cert-icon">✅</div><div><strong>Timmerly Geverifieerd</strong><br><span style="font-size:.78rem;color:var(--gray-text)">ID &amp; referenties gecheckt</span></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>Offerte aanvragen</h2>
+    <p class="modal-sub">Bij Marco van der Berg – reactie binnen 2 uur op werkdagen.</p>
+    <div class="form-row">
+      <div class="form-group"><label>Voornaam</label><input type="text" placeholder="Jan" /></div>
+      <div class="form-group"><label>Achternaam</label><input type="text" placeholder="Jansen" /></div>
+    </div>
+    <div class="form-group"><label>E-mailadres</label><input type="email" placeholder="jan@voorbeeld.nl" /></div>
+    <div class="form-group"><label>Telefoonnummer</label><input type="tel" placeholder="06 12 34 56 78" /></div>
+    <div class="form-group"><label>Postcode</label><input type="text" placeholder="1234 AB" /></div>
+    <div class="form-group">
+      <label>Type werk</label>
+      <select>
+        <option>Kozijnen &amp; deuren</option>
+        <option>Dakkapel</option>
+        <option>Aanbouw &amp; uitbouw</option>
+        <option>Renovatie</option>
+        <option>Anders</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Omschrijving</label><textarea placeholder="Omschrijf zo nauwkeurig mogelijk wat er gedaan moet worden..."></textarea></div>
+    <button class="btn btn-primary" style="width:100%;padding:14px;font-size:1rem;justify-content:center;" onclick="submitForm()">Offerte aanvragen →</button>
+    <p style="text-align:center;font-size:.78rem;color:var(--gray-text);margin-top:12px;">Gratis &amp; vrijblijvend · Geen verplichtingen</p>
+  </div>
+</div>
+
+<script>
+  function openModal() { document.getElementById('modal').classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeModal() { document.getElementById('modal').classList.remove('open'); document.body.style.overflow=''; }
+  function closeModalOutside(e) { if(e.target===document.getElementById('modal')) closeModal(); }
+  function submitForm() { closeModal(); alert('Bedankt! Je aanvraag is verzonden naar Marco. Hij neemt binnen 2 uur contact met je op.'); }
+  document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+</script>
+</body>
+</html>
