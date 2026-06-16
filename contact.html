@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact – Timmerly</title>
+  <meta name="description" content="Neem contact op met Timmerly. Wij helpen je graag verder met jouw vraag over timmerwerkzaamheden of ons platform." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:    #F26522;
+      --orange-dk: #D4531A;
+      --navy:      #1C2B4A;
+      --navy-lt:   #2C3E6B;
+      --gray-bg:   #F5F6F8;
+      --gray-mid:  #E0E3EA;
+      --gray-text: #6B7280;
+      --white:     #FFFFFF;
+      --green:     #22C55E;
+      --radius:    10px;
+      --shadow:    0 4px 20px rgba(0,0,0,.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--navy);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+
+    .logo { display: flex; align-items: center; }
+    .logo img { height: 46px; width: auto; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+      font-size: .93rem;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover { color: var(--orange); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: .93rem;
+      cursor: pointer;
+      border: none;
+      transition: background .2s, transform .1s;
+      text-decoration: none;
+    }
+
+    .btn:active { transform: scale(.98); }
+    .btn-primary { background: var(--orange); color: white; }
+    .btn-primary:hover { background: var(--orange-dk); }
+    .btn-outline {
+      background: transparent;
+      color: var(--navy);
+      border: 2px solid var(--gray-mid);
+    }
+    .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+    .nav-cta { margin-left: 8px; }
+
+    .nav-back {
+      font-size: .88rem;
+      color: var(--gray-text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color .2s;
+    }
+    .nav-back:hover { color: var(--orange); }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-lt) 60%, #3A5298 100%);
+      padding: 80px 5% 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      color: #FCD34D;
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: .82rem;
+      font-weight: 600;
+      margin-bottom: 22px;
+      backdrop-filter: blur(4px);
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      color: white;
+      line-height: 1.2;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 em { font-style: normal; color: var(--orange); }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,.75);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* ─── MAIN CONTENT ─── */
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 5% 80px;
+    }
+
+    /* ─── 2-KOLOMS LAYOUT ─── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    /* ─── FORMULIER ─── */
+    .form-card {
+      background: var(--white);
+      border: 1px solid var(--gray-mid);
+      border-radius: 16px;
+      padding: 36px;
+      box-shadow: var(--shadow);
+    }
+
+    .form-card h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .form-card .form-sub {
+      color: var(--gray-text);
+      font-size: .93rem;
+      margin-bottom: 28px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: .83rem;
+      font-weight: 600;
+      color: var(--gray-text);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--gray-mid);
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: .97rem;
+      color: var(--navy);
+      background: var(--white);
+      transition: border-color .2s, box-shadow .2s;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(242,101,34,.12);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-submit-btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 1rem;
+      border-radius: var(--radius);
+      margin-top: 8px;
+      justify-content: center;
+    }
+
+    /* Succes state */
+    .success-state {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, #22C55E, #16A34A);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 2rem;
+    }
+
+    .success-state h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .success-state p {
+      color: var(--gray-text);
+      font-size: .97rem;
+      margin-bottom: 24px;
+    }
+
+    /* ─── CONTACTGEGEVENS KAART ─── */
+    .info-card {
+      background: var(--gray-bg);
+      border: 1px solid var(--gray-mid);
+      border-radius: 16px;
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .info-card h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .info-card .info-sub {
+      color: var(--gray-text);
+      font-size: .93rem;
+      margin-bottom: 28px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .contact-item:last-of-type { border-bottom: none; }
+
+    .contact-icon {
+      width: 42px;
+      height: 42px;
+      background: var(--white);
+      border: 1px solid var(--gray-mid);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    }
+
+    .contact-info-text strong {
+      display: block;
+      font-weight: 700;
+      font-size: .97rem;
+      margin-bottom: 2px;
+    }
+
+    .contact-info-text span {
+      font-size: .88rem;
+      color: var(--gray-text);
+    }
+
+    .contact-info-text a {
+      color: var(--orange);
+    }
+
+    .contact-info-text a:hover {
+      text-decoration: underline;
+    }
+
+    /* Openingstijden tabel */
+    .hours-table {
+      margin-top: 24px;
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-mid);
+      overflow: hidden;
+    }
+
+    .hours-table-title {
+      background: var(--navy);
+      color: white;
+      font-size: .83rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: 10px 16px;
+    }
+
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 16px;
+      font-size: .9rem;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .hours-row:last-child { border-bottom: none; }
+
+    .hours-row.today {
+      background: rgba(242,101,34,.06);
+      font-weight: 600;
+    }
+
+    .hours-row.today .day-label { color: var(--orange); }
+
+    .hours-open {
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .hours-closed {
+      color: var(--gray-text);
+    }
+
+    /* ─── SNELKOPPELINGEN ─── */
+    .shortcuts-section h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .shortcuts-section .section-sub {
+      text-align: center;
+      color: var(--gray-text);
+      margin-bottom: 32px;
+    }
+
+    .shortcuts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .shortcut-card {
+      background: var(--white);
+      border: 1px solid var(--gray-mid);
+      border-radius: 14px;
+      padding: 28px 24px;
+      text-align: center;
+      transition: box-shadow .2s, transform .2s, border-color .2s;
+      text-decoration: none;
+      display: block;
+    }
+
+    .shortcut-card:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,.1);
+      transform: translateY(-3px);
+      border-color: var(--orange);
+    }
+
+    .shortcut-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dk));
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 1.6rem;
+    }
+
+    .shortcut-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .shortcut-card p {
+      font-size: .87rem;
+      color: var(--gray-text);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .shortcut-link {
+      font-size: .87rem;
+      font-weight: 600;
+      color: var(--orange);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .shortcut-link::after { content: ' →'; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,.65);
+      padding: 40px 5%;
+      text-align: center;
+      font-size: .88rem;
+    }
+
+    footer a { color: rgba(255,255,255,.65); }
+    footer a:hover { color: var(--orange); }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 16px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      .shortcuts-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 4%; }
+      .nav-links { display: none; }
+      .hero { padding: 60px 4% 80px; }
+      .content { padding: 40px 4% 60px; }
+      .form-card, .info-card { padding: 24px 18px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAVBAR ─── -->
+<nav>
+  <a href="index.html" class="logo">
+    <img src="logo.png" alt="Timmerly" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-back">← Terug naar home</a></li>
+    <li><a href="hoe-het-werkt.html">Hoe het werkt</a></li>
+    <li><a href="veelgestelde-vragen.html">FAQ</a></li>
+  </ul>
+  <a href="index.html#beschikbaar" class="btn btn-primary nav-cta">Timmerman aanvragen</a>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-badge">✉️ Neem contact op</div>
+  <h1><em>Contact</em></h1>
+  <p class="hero-sub">Wij helpen je graag verder. Stel je vraag via ons formulier of bereik ons direct telefonisch.</p>
+</section>
+
+<!-- ─── CONTENT ─── -->
+<main class="content">
+
+  <!-- 2-koloms grid -->
+  <div class="contact-grid">
+
+    <!-- LINKS: Formulier -->
+    <div class="form-card">
+      <div id="formContent">
+        <h2>Stuur ons een bericht</h2>
+        <p class="form-sub">We reageren doorgaans binnen 1 werkdag op jouw bericht.</p>
+
+        <form id="contactForm" onsubmit="handleSubmit(event)" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="naam">Naam *</label>
+              <input type="text" id="naam" name="naam" placeholder="Jouw volledige naam" required />
+            </div>
+            <div class="form-group">
+              <label for="telefoon">Telefoon</label>
+              <input type="tel" id="telefoon" name="telefoon" placeholder="06 12 34 56 78" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">E-mailadres *</label>
+            <input type="email" id="email" name="email" placeholder="jouw@email.nl" required />
+          </div>
+
+          <div class="form-group">
+            <label for="onderwerp">Onderwerp *</label>
+            <select id="onderwerp" name="onderwerp" required>
+              <option value="" disabled selected>Kies een onderwerp…</option>
+              <option value="vraag-opdrachtgever">Vraag als opdrachtgever</option>
+              <option value="aanmelden-timmerman">Aanmelden als timmerman</option>
+              <option value="klacht">Klacht indienen</option>
+              <option value="factuur">Factuur of betaling</option>
+              <option value="samenwerking">Samenwerking / partnerschap</option>
+              <option value="pers">Pers en media</option>
+              <option value="overig">Overige vraag</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="bericht">Bericht *</label>
+            <textarea id="bericht" name="bericht" placeholder="Beschrijf je vraag of situatie zo volledig mogelijk…" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary form-submit-btn">Verstuur bericht &#8594;</button>
+        </form>
+      </div>
+
+      <!-- Succes state (verborgen) -->
+      <div class="success-state" id="successState">
+        <div class="success-icon">&#10003;</div>
+        <h3>Bericht verstuurd!</h3>
+        <p>Bedankt voor je bericht. Ons team neemt binnen 1 werkdag contact met je op via het door jou opgegeven e-mailadres.</p>
+        <button class="btn btn-outline" onclick="resetForm()">Nog een bericht sturen</button>
+      </div>
+    </div>
+
+    <!-- RECHTS: Contactgegevens -->
+    <div class="info-card">
+      <h2>Contactgegevens</h2>
+      <p class="info-sub">Liever direct contact? Bereik ons via onderstaande kanalen.</p>
+
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div class="contact-info-text">
+          <strong><a href="tel:0201234567">020 123 45 67</a></strong>
+          <span>Maandag t/m vrijdag, 08:30 – 17:00</span>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">✉️</div>
+        <div class="contact-info-text">
+          <strong><a href="mailto:info@timmerly.nl">info@timmerly.nl</a></strong>
+          <span>Reactie binnen 1 werkdag</span>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div class="contact-info-text">
+          <strong>Keizersgracht 100</strong>
+          <span>1015 CX Amsterdam</span>
+        </div>
+      </div>
+
+      <!-- Openingstijden tabel -->
+      <div class="hours-table">
+        <div class="hours-table-title">&#128337; Openingstijden</div>
+        <div class="hours-row" id="row-ma">
+          <span class="day-label">Maandag</span>
+          <span class="hours-open">08:30 – 17:00</span>
+        </div>
+        <div class="hours-row" id="row-di">
+          <span class="day-label">Dinsdag</span>
+          <span class="hours-open">08:30 – 17:00</span>
+        </div>
+        <div class="hours-row" id="row-wo">
+          <span class="day-label">Woensdag</span>
+          <span class="hours-open">08:30 – 17:00</span>
+        </div>
+        <div class="hours-row" id="row-do">
+          <span class="day-label">Donderdag</span>
+          <span class="hours-open">08:30 – 17:00</span>
+        </div>
+        <div class="hours-row" id="row-vr">
+          <span class="day-label">Vrijdag</span>
+          <span class="hours-open">08:30 – 17:00</span>
+        </div>
+        <div class="hours-row" id="row-za">
+          <span class="day-label">Zaterdag</span>
+          <span class="hours-closed">Gesloten</span>
+        </div>
+        <div class="hours-row" id="row-zo">
+          <span class="day-label">Zondag</span>
+          <span class="hours-closed">Gesloten</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── SNELKOPPELINGEN ─── -->
+  <section class="shortcuts-section">
+    <h2>Direct naar</h2>
+    <p class="section-sub">Veelgebruikte pagina's voor snelle hulp</p>
+
+    <div class="shortcuts-grid">
+
+      <a href="index.html#beschikbaar" class="shortcut-card">
+        <div class="shortcut-icon">🔨</div>
+        <h3>Timmerman aanvragen</h3>
+        <p>Vind binnen 24 uur een beschikbare vakman in jouw regio voor elke klus.</p>
+        <span class="shortcut-link">Direct aanvragen</span>
+      </a>
+
+      <a href="aanmelden.html" class="shortcut-card">
+        <div class="shortcut-icon">📝</div>
+        <h3>Aanmelden als timmerman</h3>
+        <p>Word onderdeel van ons netwerk en ontvang regelmatig opdrachten in jouw buurt.</p>
+        <span class="shortcut-link">Aanmelden</span>
+      </a>
+
+      <a href="hoe-het-werkt.html" class="shortcut-card">
+        <div class="shortcut-icon">💡</div>
+        <h3>Hoe het werkt</h3>
+        <p>Alles over ons platform, onze werkwijze en wat je kunt verwachten van Timmerly.</p>
+        <span class="shortcut-link">Meer lezen</span>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="hoe-het-werkt.html">Hoe het werkt</a>
+    <a href="veelgestelde-vragen.html">FAQ</a>
+    <a href="contact.html">Contact</a>
+    <a href="aanmelden.html">Aanmelden als timmerman</a>
+  </div>
+  <p>&copy; 2025 Timmerly &ndash; De timmermannen marktplaats van Nederland</p>
+</footer>
+
+<script>
+  // ─── HUIDIGE DAG MARKEREN ───
+  const dagMap = {
+    0: 'row-zo',
+    1: 'row-ma',
+    2: 'row-di',
+    3: 'row-wo',
+    4: 'row-do',
+    5: 'row-vr',
+    6: 'row-za',
+  };
+
+  const vandaag = new Date().getDay();
+  const todayRow = document.getElementById(dagMap[vandaag]);
+  if (todayRow) todayRow.classList.add('today');
+
+  // ─── FORMULIER SUBMIT ───
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const form = document.getElementById('contactForm');
+    const naam = document.getElementById('naam').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const onderwerp = document.getElementById('onderwerp').value;
+    const bericht = document.getElementById('bericht').value.trim();
+
+    // Simpele validatie
+    if (!naam || !email || !onderwerp || !bericht) {
+      alert('Vul alle verplichte velden in (naam, e-mail, onderwerp en bericht).');
+      return;
+    }
+
+    // E-mail validatie
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      alert('Voer een geldig e-mailadres in.');
+      return;
+    }
+
+    // Toon succes state
+    document.getElementById('formContent').style.display = 'none';
+    document.getElementById('successState').style.display = 'block';
+  }
+
+  function resetForm() {
+    document.getElementById('contactForm').reset();
+    document.getElementById('formContent').style.display = 'block';
+    document.getElementById('successState').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
