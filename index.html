@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TimmermanNL – Beschikbare Timmermannen in Jouw Regio</title>
+  <meta name="description" content="Vind snel een beschikbare timmerman in jouw buurt. Vergelijk vakmannen, lees reviews en vraag gratis offertes aan." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:    #F26522;
+      --orange-dk: #D4531A;
+      --navy:      #1C2B4A;
+      --navy-lt:   #2C3E6B;
+      --gray-bg:   #F5F6F8;
+      --gray-mid:  #E0E3EA;
+      --gray-text: #6B7280;
+      --white:     #FFFFFF;
+      --green:     #22C55E;
+      --radius:    10px;
+      --shadow:    0 4px 20px rgba(0,0,0,.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--navy);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.35rem;
+      color: var(--navy);
+    }
+
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--orange);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .logo span { color: var(--orange); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+      font-size: .93rem;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover { color: var(--orange); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: .93rem;
+      cursor: pointer;
+      border: none;
+      transition: background .2s, transform .1s;
+    }
+
+    .btn:active { transform: scale(.98); }
+
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+    }
+
+    .btn-primary:hover { background: var(--orange-dk); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--navy);
+      border: 2px solid var(--gray-mid);
+    }
+
+    .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+
+    .nav-cta { margin-left: 8px; }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-lt) 60%, #3A5298 100%);
+      padding: 80px 5% 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      color: #FCD34D;
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: .82rem;
+      font-weight: 600;
+      margin-bottom: 22px;
+      backdrop-filter: blur(4px);
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      color: white;
+      line-height: 1.2;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--orange);
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,.75);
+      max-width: 560px;
+      margin: 0 auto 40px;
+    }
+
+    /* search card */
+    .search-card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px 32px;
+      max-width: 780px;
+      margin: 0 auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+      position: relative;
+    }
+
+    .search-card h3 {
+      font-size: .9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--gray-text);
+      margin-bottom: 16px;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .search-field {
+      flex: 1;
+      min-width: 180px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .search-field label {
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--gray-text);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .search-field select,
+    .search-field input {
+      padding: 12px 14px;
+      border: 2px solid var(--gray-mid);
+      border-radius: var(--radius);
+      font-size: .95rem;
+      color: var(--navy);
+      outline: none;
+      transition: border-color .2s;
+      background: var(--gray-bg);
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .search-field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 34px;
+    }
+
+    .search-field select:focus,
+    .search-field input:focus { border-color: var(--orange); background: white; }
+
+    .search-btn {
+      align-self: flex-end;
+      padding: 12px 28px;
+      font-size: 1rem;
+      border-radius: var(--radius);
+      white-space: nowrap;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 36px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+      color: rgba(255,255,255,.85);
+    }
+
+    .stat-num {
+      display: block;
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: white;
+    }
+
+    .stat-label { font-size: .82rem; }
+
+    /* ─── TRUST BAR ─── */
+    .trust-bar {
+      background: var(--orange);
+      padding: 14px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: white;
+      font-size: .88rem;
+      font-weight: 600;
+    }
+
+    .trust-item svg { opacity: .9; }
+
+    /* ─── SECTION HELPERS ─── */
+    section { padding: 80px 5%; }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 52px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      background: rgba(242,101,34,.1);
+      color: var(--orange);
+      padding: 5px 14px;
+      border-radius: 50px;
+      font-size: .78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 12px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .section-header p {
+      color: var(--gray-text);
+      font-size: 1rem;
+      max-width: 520px;
+      margin: 12px auto 0;
+    }
+
+    /* ─── AVAILABLE CARPENTERS ─── */
+    .carpenters-section { background: var(--gray-bg); }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+      justify-content: center;
+    }
+
+    .filter-btn {
+      padding: 8px 18px;
+      border: 2px solid var(--gray-mid);
+      border-radius: 50px;
+      background: white;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--gray-text);
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: var(--orange);
+      color: var(--orange);
+      background: rgba(242,101,34,.06);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .carpenter-card {
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform .25s, box-shadow .25s;
+      border: 1px solid var(--gray-mid);
+    }
+
+    .carpenter-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 36px rgba(0,0,0,.13);
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-lt) 100%);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+    }
+
+    .availability-dot {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,.15);
+      border-radius: 50px;
+      padding: 4px 10px;
+      font-size: .72rem;
+      color: white;
+      font-weight: 600;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .4; }
+    }
+
+    .dot.unavailable { background: #F59E0B; animation: none; }
+
+    .avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: var(--orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: white;
+      flex-shrink: 0;
+      border: 3px solid rgba(255,255,255,.3);
+    }
+
+    .card-name { color: white; }
+    .card-name h3 { font-size: 1.05rem; font-weight: 700; }
+    .card-name span { font-size: .82rem; opacity: .75; }
+
+    .card-body { padding: 20px 24px; }
+
+    .card-specialties {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .tag {
+      background: rgba(242,101,34,.1);
+      color: var(--orange-dk);
+      padding: 3px 10px;
+      border-radius: 50px;
+      font-size: .75rem;
+      font-weight: 600;
+    }
+
+    .card-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .meta-item { display: flex; flex-direction: column; gap: 2px; }
+    .meta-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--gray-text); font-weight: 600; }
+    .meta-value { font-size: .92rem; font-weight: 700; color: var(--navy); }
+
+    .stars { color: #F59E0B; font-size: .85rem; }
+    .star-count { color: var(--gray-text); font-size: .78rem; }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .card-actions .btn { flex: 1; justify-content: center; font-size: .85rem; padding: 10px 14px; }
+
+    /* ─── HOW IT WORKS ─── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 32px;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 36px;
+      left: 12%;
+      right: 12%;
+      height: 2px;
+      background: var(--gray-mid);
+    }
+
+    .step { text-align: center; position: relative; }
+
+    .step-num {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      border: 4px solid white;
+      box-shadow: 0 4px 16px rgba(28,43,74,.2);
+    }
+
+    .step-num.active { background: var(--orange); }
+
+    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .step p { font-size: .88rem; color: var(--gray-text); }
+
+    /* ─── SPECIALISMS ─── */
+    .specialisms-section { background: var(--gray-bg); }
+
+    .specialism-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .specialism-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      border: 2px solid var(--gray-mid);
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .specialism-card:hover {
+      border-color: var(--orange);
+      box-shadow: 0 4px 20px rgba(242,101,34,.12);
+    }
+
+    .specialism-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .specialism-card h4 { font-size: .95rem; font-weight: 700; margin-bottom: 4px; }
+    .specialism-card span { font-size: .78rem; color: var(--gray-text); }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .testimonial {
+      background: white;
+      border-radius: 14px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--orange);
+    }
+
+    .testimonial .stars { font-size: 1rem; margin-bottom: 12px; }
+    .testimonial p { font-size: .93rem; color: #374151; line-height: 1.7; margin-bottom: 18px; }
+
+    .reviewer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .reviewer-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--gray-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: .85rem;
+      color: var(--navy);
+    }
+
+    .reviewer-name { font-weight: 700; font-size: .9rem; }
+    .reviewer-loc { font-size: .78rem; color: var(--gray-text); }
+
+    /* ─── CTA BANNER ─── */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--orange) 0%, #E55A1C 100%);
+      padding: 70px 5%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-banner::after {
+      content: '🔨';
+      position: absolute;
+      right: 8%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 8rem;
+      opacity: .12;
+    }
+
+    .cta-banner h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 800; color: white; margin-bottom: 14px; }
+    .cta-banner p { color: rgba(255,255,255,.85); font-size: 1.05rem; margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+    .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    .btn-white {
+      background: white;
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    .btn-white:hover { background: var(--gray-bg); }
+
+    .btn-outline-white {
+      background: transparent;
+      color: white;
+      border: 2px solid rgba(255,255,255,.5);
+      font-weight: 600;
+    }
+
+    .btn-outline-white:hover { border-color: white; background: rgba(255,255,255,.1); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,.75);
+      padding: 60px 5% 30px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-brand .logo { margin-bottom: 16px; }
+    .footer-brand p { font-size: .88rem; line-height: 1.7; }
+
+    .footer-col h4 {
+      color: white;
+      font-size: .9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 16px;
+    }
+
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a { font-size: .88rem; transition: color .2s; }
+    .footer-col ul li a:hover { color: var(--orange); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.1);
+      padding-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: .82rem;
+    }
+
+    .social-links { display: flex; gap: 12px; }
+    .social-link {
+      width: 34px;
+      height: 34px;
+      background: rgba(255,255,255,.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s;
+    }
+    .social-link:hover { background: var(--orange); }
+
+    /* ─── REQUEST MODAL ─── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: white;
+      border-radius: 16px;
+      padding: 36px;
+      max-width: 520px;
+      width: 100%;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: var(--gray-bg);
+      border: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray-text);
+    }
+
+    .modal h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; }
+    .modal .modal-sub { font-size: .88rem; color: var(--gray-text); margin-bottom: 24px; }
+
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: .82rem; font-weight: 600; color: var(--gray-text); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--gray-mid);
+      border-radius: var(--radius);
+      font-size: .95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s;
+      color: var(--navy);
+      background: var(--gray-bg);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--orange); background: white; }
+
+    .form-group textarea { resize: vertical; min-height: 100px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+
+      .steps-grid::before { display: none; }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .search-row { flex-direction: column; }
+      .search-btn { width: 100%; }
+
+      .footer-grid { grid-template-columns: 1fr; }
+
+      .cta-banner::after { display: none; }
+
+      section { padding: 60px 5%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAVBAR ─── -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-icon">🔨</div>
+    Timmerman<span>NL</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#beschikbaar">Beschikbare vaklieden</a></li>
+    <li><a href="#specialismen">Specialismen</a></li>
+    <li><a href="#werkwijze">Werkwijze</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="btn btn-primary nav-cta" onclick="openModal()">Gratis offerte aanvragen</button>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero" style="padding-bottom:120px;">
+  <div class="hero-badge">
+    <span>⭐</span> Beoordeeld met 9.2/10 door 1.400+ opdrachtgevers
+  </div>
+  <h1>Beschikbare Timmermannen<br>in <em>Jouw Regio</em></h1>
+  <p class="hero-sub">Vind direct een vakkundige timmerman bij jou in de buurt. Vergelijk tarieven, specialisaties en beschikbaarheid — volledig gratis.</p>
+
+  <div class="search-card">
+    <h3>Zoek een timmerman</h3>
+    <div class="search-row">
+      <div class="search-field">
+        <label>Type werk</label>
+        <select>
+          <option value="">Alle specialismen</option>
+          <option>Kozijnen &amp; deuren</option>
+          <option>Vloeren leggen</option>
+          <option>Dakkapel</option>
+          <option>Keuken plaatsen</option>
+          <option>Trap maken</option>
+          <option>Aanbouw &amp; uitbouw</option>
+          <option>Zolderombouw</option>
+          <option>Maatwerk meubels</option>
+        </select>
+      </div>
+      <div class="search-field">
+        <label>Regio</label>
+        <select>
+          <option value="">Heel Nederland</option>
+          <option>Amsterdam &amp; omgeving</option>
+          <option>Rotterdam &amp; omgeving</option>
+          <option>Den Haag &amp; omgeving</option>
+          <option>Utrecht &amp; omgeving</option>
+          <option>Eindhoven &amp; omgeving</option>
+          <option>Groningen &amp; omgeving</option>
+          <option>Tilburg &amp; omgeving</option>
+          <option>Almere &amp; omgeving</option>
+        </select>
+      </div>
+      <div class="search-field">
+        <label>Beschikbaar</label>
+        <select>
+          <option>Zo snel mogelijk</option>
+          <option>Deze week</option>
+          <option>Volgende week</option>
+          <option>Deze maand</option>
+          <option>Flexibel</option>
+        </select>
+      </div>
+      <button class="btn btn-primary search-btn" onclick="scrollToCarpenters()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Zoeken
+      </button>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">47</span><span class="stat-label">Actieve timmermannen</span></div>
+    <div class="stat"><span class="stat-num">850+</span><span class="stat-label">Voltooide projecten</span></div>
+    <div class="stat"><span class="stat-num">9.2</span><span class="stat-label">Gemiddelde score</span></div>
+    <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Gratis aanvragen</span></div>
+  </div>
+</section>
+
+<!-- ─── TRUST BAR ─── -->
+<div class="trust-bar">
+  <div class="trust-item">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Geverifieerde vaklieden
+  </div>
+  <div class="trust-item">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+    Altijd verzekerd
+  </div>
+  <div class="trust-item">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    Reactie binnen 24 uur
+  </div>
+  <div class="trust-item">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+    Gratis offerte
+  </div>
+  <div class="trust-item">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    Bewezen kwaliteit
+  </div>
+</div>
+
+<!-- ─── AVAILABLE CARPENTERS ─── -->
+<section class="carpenters-section" id="beschikbaar">
+  <div class="section-header">
+    <div class="section-tag">Direct beschikbaar</div>
+    <h2>Onze Beschikbare Timmermannen</h2>
+    <p>Alle vakmannen zijn gescreend, verzekerd en klaar voor jouw project.</p>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="setFilter(this, 'all')">Alle regio's</button>
+    <button class="filter-btn" onclick="setFilter(this, 'amsterdam')">Amsterdam</button>
+    <button class="filter-btn" onclick="setFilter(this, 'rotterdam')">Rotterdam</button>
+    <button class="filter-btn" onclick="setFilter(this, 'denhaag')">Den Haag</button>
+    <button class="filter-btn" onclick="setFilter(this, 'utrecht')">Utrecht</button>
+    <button class="filter-btn" onclick="setFilter(this, 'eindhoven')">Eindhoven</button>
+  </div>
+
+  <div class="cards-grid" id="carpenter-grid">
+
+    <!-- Card 1 -->
+    <div class="carpenter-card" data-region="amsterdam">
+      <div class="card-header">
+        <div class="availability-dot"><div class="dot"></div> Beschikbaar</div>
+        <div class="avatar">MV</div>
+        <div class="card-name">
+          <h3>Marco van der Berg</h3>
+          <span>Amsterdam &amp; Omgeving · 18 jaar ervaring</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-specialties">
+          <span class="tag">Kozijnen</span>
+          <span class="tag">Dakkapel</span>
+          <span class="tag">Aanbouw</span>
+        </div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">Beoordeling</span>
+            <div>
+              <span class="stars">★★★★★</span>
+              <span class="star-count">(94 reviews)</span>
+            </div>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Dagtarief</span>
+            <span class="meta-value">€ 395 – 450</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Beschikbaar</span>
+            <span class="meta-value" style="color:var(--green)">Deze week</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Projecten</span>
+            <span class="meta-value">126 voltooid</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="openModal('Marco van der Berg')">Offerte aanvragen</button>
+          <button class="btn btn-outline">Profiel bekijken</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="carpenter-card" data-region="rotterdam">
+      <div class="card-header">
+        <div class="availability-dot"><div class="dot"></div> Beschikbaar</div>
+        <div class="avatar" style="background:#3A5298;">JK</div>
+        <div class="card-name">
+          <h3>Jan Kok</h3>
+          <span>Rotterdam &amp; Omgeving · 12 jaar ervaring</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-specialties">
+          <span class="tag">Vloeren</span>
+          <span class="tag">Trap maken</span>
+          <span class="tag">Maatwerk</span>
+        </div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">Beoordeling</span>
+            <div>
+              <span class="stars">★★★★★</span>
+              <span class="star-count">(57 reviews)</span>
+            </div>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Dagtarief</span>
+            <span class="meta-value">€ 360 – 415</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Beschikbaar</span>
+            <span class="meta-value" style="color:var(--green)">Morgen</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Projecten</span>
+            <span class="meta-value">83 voltooid</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="openModal('Jan Kok')">Offerte aanvragen</button>
+          <button class="btn btn-outline">Profiel bekijken</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="carpenter-card" data-region="utrecht">
+      <div class="card-header">
+        <div class="availability-dot"><div class="dot unavailable"></div> Binnenkort</div>
+        <div class="avatar" style="background:#7C3AED;">PH</div>
+        <div class="card-name">
+          <h3>Peter Hendriks</h3>
+          <span>Utrecht &amp; Omgeving · 22 jaar ervaring</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-specialties">
+          <span class="tag">Keuken</span>
+          <span class="tag">Badkamer</span>
+          <span class="tag">Zolder</span>
+        </div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">Beoordeling</span>
+            <div>
+              <span class="stars">★★★★★</span>
+              <span class="star-count">(142 reviews)</span>
+            </div>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Dagtarief</span>
+            <span class="meta-value">€ 420 – 480</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Beschikbaar</span>
+            <span class="meta-value" style="color:#F59E0B">Volgende week</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Projecten</span>
+            <span class="meta-value">198 voltooid</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="openModal('Peter Hendriks')">Offerte aanvragen</button>
+          <button class="btn btn-outline">Profiel bekijken</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="carpenter-card" data-region="denhaag">
+      <div class="card-header">
+        <div class="availability-dot"><div class="dot"></div> Beschikbaar</div>
+        <div class="avatar" style="background:#059669;">SB</div>
+        <div class="card-name">
+          <h3>Stefan de Boer</h3>
+          <span>Den Haag &amp; Omgeving · 9 jaar ervaring</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-specialties">
+          <span class="tag">Schuren</span>
+          <span class="tag">Veranda</span>
+          <span class="tag">Tuinhuis</span>
+        </div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">Beoordeling</span>
+            <div>
+              <span class="stars">★★★★☆</span>
+              <span class="star-count">(38 reviews)</span>
+            </div>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Dagtarief</span>
+            <span class="meta-value">€ 320 – 370</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Beschikbaar</span>
+            <span class="meta-value" style="color:var(--green)">Vandaag</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Projecten</span>
+            <span class="meta-value">54 voltooid</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="openModal('Stefan de Boer')">Offerte aanvragen</button>
+          <button class="btn btn-outline">Profiel bekijken</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="carpenter-card" data-region="amsterdam">
+      <div class="card-header">
+        <div class="availability-dot"><div class="dot"></div> Beschikbaar</div>
+        <div class="avatar" style="background:#DC2626;">RT</div>
+        <div class="card-name">
+          <h3>Roel Timmers</h3>
+          <span>Amsterdam &amp; Omgeving · 15 jaar ervaring</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-specialties">
+          <span class="tag">Aanbouw</span>
+          <span class="tag">Dakkapel</span>
+          <span class="tag">Renovatie</span>
+        </div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">Beoordeling</span>
+            <div>
+              <span class="stars">★★★★★</span>
+              <span class="star-count">(71 reviews)</span>
+            </div>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Dagtarief</span>
+            <span class="meta-value">€ 385 – 440</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Beschikbaar</span>
+            <span class="meta-value" style="color:var(--green)">Deze week</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Projecten</span>
+            <span class="meta-value">109 voltooid</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="openModal('Roel Timmers')">Offerte aanvragen</button>
+          <button class="btn btn-outline">Profiel bekijken</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="carpenter-card" data-region="eindhoven">
+      <div class="card-header">
+        <div class="availability-dot"><div class="dot unavailable"></div> Binnenkort</div>
+        <div class="avatar" style="background:#D97706;">LM</div>
+        <div class="card-name">
+          <h3>Lars van Molen</h3>
+          <span>Eindhoven &amp; Omgeving · 7 jaar ervaring</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-specialties">
+          <span class="tag">Vloeren</span>
+          <span class="tag">Maatwerk</span>
+          <span class="tag">Interieurbouw</span>
+        </div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">Beoordeling</span>
+            <div>
+              <span class="stars">★★★★☆</span>
+              <span class="star-count">(29 reviews)</span>
+            </div>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Dagtarief</span>
+            <span class="meta-value">€ 300 – 350</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Beschikbaar</span>
+            <span class="meta-value" style="color:#F59E0B">Volgende week</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Projecten</span>
+            <span class="meta-value">41 voltooid</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="openModal('Lars van Molen')">Offerte aanvragen</button>
+          <button class="btn btn-outline">Profiel bekijken</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center;margin-top:40px;">
+    <button class="btn btn-outline" style="padding:14px 32px;font-size:.95rem;">
+      Alle 47 timmermannen bekijken →
+    </button>
+  </div>
+</section>
+
+<!-- ─── SPECIALISMS ─── -->
+<section id="specialismen">
+  <div class="section-header">
+    <div class="section-tag">Specialismen</div>
+    <h2>Welk Werk Heb Jij Nodig?</h2>
+    <p>Onze timmermannen zijn gespecialiseerd in vrijwel alle timmerwerken.</p>
+  </div>
+  <div class="specialism-grid">
+    <div class="specialism-card">
+      <span class="specialism-icon">🚪</span>
+      <h4>Kozijnen &amp; Deuren</h4>
+      <span>24 vaklieden beschikbaar</span>
+    </div>
+    <div class="specialism-card">
+      <span class="specialism-icon">🏠</span>
+      <h4>Dakkapel</h4>
+      <span>12 vaklieden beschikbaar</span>
+    </div>
+    <div class="specialism-card">
+      <span class="specialism-icon">🪵</span>
+      <h4>Vloeren Leggen</h4>
+      <span>19 vaklieden beschikbaar</span>
+    </div>
+    <div class="specialism-card">
+      <span class="specialism-icon">🏗️</span>
+      <h4>Aanbouw &amp; Uitbouw</h4>
+      <span>16 vaklieden beschikbaar</span>
+    </div>
+    <div class="specialism-card">
+      <span class="specialism-icon">🪜</span>
+      <h4>Trap Maken</h4>
+      <span>9 vaklieden beschikbaar</span>
+    </div>
+    <div class="specialism-card">
+      <span class="specialism-icon">🍽️</span>
+      <h4>Keuken Plaatsen</h4>
+      <span>14 vaklieden beschikbaar</span>
+    </div>
+    <div class="specialism-card">
+      <span class="specialism-icon">🛁</span>
+      <h4>Badkamer</h4>
+      <span>11 vaklieden beschikbaar</span>
+    </div>
+    <div class="specialism-card">
+      <span class="specialism-icon">🛠️</span>
+      <h4>Maatwerk Meubels</h4>
+      <span>8 vaklieden beschikbaar</span>
+    </div>
+    <div class="specialism-card">
+      <span class="specialism-icon">🌿</span>
+      <h4>Veranda &amp; Tuinhuis</h4>
+      <span>7 vaklieden beschikbaar</span>
+    </div>
+    <div class="specialism-card">
+      <span class="specialism-icon">🏚️</span>
+      <h4>Zolderombouw</h4>
+      <span>10 vaklieden beschikbaar</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section style="background:var(--gray-bg);" id="werkwijze">
+  <div class="section-header">
+    <div class="section-tag">Werkwijze</div>
+    <h2>Hoe Werkt Het?</h2>
+    <p>In 4 eenvoudige stappen verbinden wij jou met de beste timmerman.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num active">1</div>
+      <h3>Verzoek indienen</h3>
+      <p>Omschrijf jouw project en geef aan wanneer je iemand nodig hebt.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Vaklieden selecteren</h3>
+      <p>Wij koppelen je aan beschikbare timmermannen in jouw regio.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Offertes vergelijken</h3>
+      <p>Ontvang tot 3 offertes en kies de beste prijs-kwaliteitverhouding.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h3>Aan de slag!</h3>
+      <p>De timmerman start het werk. Jij beoordeelt achteraf de kwaliteit.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TESTIMONIALS ─── -->
+<section id="reviews">
+  <div class="section-header">
+    <div class="section-tag">Ervaringen</div>
+    <h2>Wat Onze Opdrachtgevers Zeggen</h2>
+    <p>Meer dan 1.400 tevreden klanten gingen je voor.</p>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p>"Via TimmermanNL hebben wij Marco gevonden voor onze kozijnen. Hij was er al de volgende dag. Vakkundig, netjes en voor een scherpe prijs. Zeker een aanrader!"</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">AV</div>
+        <div>
+          <div class="reviewer-name">Anna Vermeer</div>
+          <div class="reviewer-loc">Amsterdam</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p>"Binnen 2 uur na mijn aanvraag had ik al 3 offertes ontvangen. De keuze was snel gemaakt. Mijn nieuwe trap ziet er fantastisch uit. Top service!"</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">BK</div>
+        <div>
+          <div class="reviewer-name">Bas Kruijssen</div>
+          <div class="reviewer-loc">Rotterdam</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p>"Peter heeft onze zolder omgebouwd tot een prachtige werkkamer. Zeer professioneel, goede communicatie en klaar binnen de afgesproken tijd. Echt een aanrader."</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">ML</div>
+        <div>
+          <div class="reviewer-name">Miriam de Leeuw</div>
+          <div class="reviewer-loc">Utrecht</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA BANNER ─── -->
+<div class="cta-banner">
+  <h2>Klaar om te Beginnen?</h2>
+  <p>Vraag gratis en vrijblijvend offertes aan van beschikbare timmermannen in jouw regio.</p>
+  <div class="cta-buttons">
+    <button class="btn btn-white" onclick="openModal()" style="font-size:1rem;padding:14px 30px;">
+      Gratis offerte aanvragen
+    </button>
+    <button class="btn btn-outline-white" onclick="scrollToCarpenters()" style="font-size:1rem;padding:14px 30px;">
+      Vaklieden bekijken
+    </button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer id="contact">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo" style="color:white;">
+        <div class="logo-icon">🔨</div>
+        Timmerman<span style="color:var(--orange)">NL</span>
+      </a>
+      <p style="margin-top:14px;">Dé marktplaats voor beschikbare timmermannen in Nederland. Snel, betrouwbaar en gratis offertes aanvragen.</p>
+      <div class="social-links" style="margin-top:20px;">
+        <a href="#" class="social-link" aria-label="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color:white;"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color:white;"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Vaklieden</h4>
+      <ul>
+        <li><a href="#">Timmermannen Amsterdam</a></li>
+        <li><a href="#">Timmermannen Rotterdam</a></li>
+        <li><a href="#">Timmermannen Den Haag</a></li>
+        <li><a href="#">Timmermannen Utrecht</a></li>
+        <li><a href="#">Alle regio's</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Specialismen</h4>
+      <ul>
+        <li><a href="#">Kozijnen &amp; deuren</a></li>
+        <li><a href="#">Dakkapel</a></li>
+        <li><a href="#">Vloeren leggen</a></li>
+        <li><a href="#">Trap maken</a></li>
+        <li><a href="#">Aanbouw &amp; uitbouw</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Over ons</h4>
+      <ul>
+        <li><a href="#">Hoe het werkt</a></li>
+        <li><a href="#">Timmerman worden?</a></li>
+        <li><a href="#">Kwaliteitsgarantie</a></li>
+        <li><a href="#">Veelgestelde vragen</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 TimmermanNL. Alle rechten voorbehouden.</span>
+    <div style="display:flex;gap:20px;">
+      <a href="#" style="transition:color .2s;" onmouseover="this.style.color='#F26522'" onmouseout="this.style.color=''">Privacybeleid</a>
+      <a href="#" style="transition:color .2s;" onmouseover="this.style.color='#F26522'" onmouseout="this.style.color=''">Algemene voorwaarden</a>
+      <a href="#" style="transition:color .2s;" onmouseover="this.style.color='#F26522'" onmouseout="this.style.color=''">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── REQUEST MODAL ─── -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>Gratis Offerte Aanvragen</h2>
+    <p class="modal-sub" id="modal-sub">Vul het formulier in en ontvang binnen 24 uur reactie.</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Voornaam</label>
+        <input type="text" placeholder="Jan" />
+      </div>
+      <div class="form-group">
+        <label>Achternaam</label>
+        <input type="text" placeholder="Jansen" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>E-mailadres</label>
+      <input type="email" placeholder="jan@voorbeeld.nl" />
+    </div>
+
+    <div class="form-group">
+      <label>Telefoonnummer</label>
+      <input type="tel" placeholder="06 12 34 56 78" />
+    </div>
+
+    <div class="form-group">
+      <label>Postcode</label>
+      <input type="text" placeholder="1234 AB" />
+    </div>
+
+    <div class="form-group">
+      <label>Type werk</label>
+      <select>
+        <option value="">Selecteer specialisme</option>
+        <option>Kozijnen &amp; deuren</option>
+        <option>Vloeren leggen</option>
+        <option>Dakkapel</option>
+        <option>Keuken plaatsen</option>
+        <option>Trap maken</option>
+        <option>Aanbouw &amp; uitbouw</option>
+        <option>Zolderombouw</option>
+        <option>Maatwerk meubels</option>
+        <option>Anders</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Beschrijving van het werk</label>
+      <textarea placeholder="Omschrijf zo nauwkeurig mogelijk wat er gedaan moet worden..."></textarea>
+    </div>
+
+    <button class="btn btn-primary" style="width:100%;padding:14px;font-size:1rem;justify-content:center;" onclick="submitForm()">
+      Offerte aanvragen →
+    </button>
+
+    <p style="text-align:center;font-size:.78rem;color:var(--gray-text);margin-top:12px;">
+      Gratis &amp; vrijblijvend · Geen verplichtingen · Privacy gewaarborgd
+    </p>
+  </div>
+</div>
+
+<script>
+  function openModal(name) {
+    const modal = document.getElementById('modal');
+    const sub = document.getElementById('modal-sub');
+    if (name) {
+      sub.textContent = `Vraag een offerte aan bij ${name}.`;
+    } else {
+      sub.textContent = 'Vul het formulier in en ontvang binnen 24 uur reactie.';
+    }
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('modal')) closeModal();
+  }
+
+  function submitForm() {
+    closeModal();
+    alert('Bedankt! Je aanvraag is ontvangen. We nemen binnen 24 uur contact met je op.');
+  }
+
+  function scrollToCarpenters() {
+    document.getElementById('beschikbaar').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function setFilter(btn, region) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const cards = document.querySelectorAll('.carpenter-card');
+    cards.forEach(card => {
+      if (region === 'all' || card.dataset.region === region) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
+</body>
+</html>
