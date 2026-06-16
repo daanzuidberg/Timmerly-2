@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Alle timmermannen – Timmerly</title>
+  <meta name="description" content="Bekijk alle beschikbare timmermannen in Nederland. Filter op regio, specialisme en beschikbaarheid."/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange:    #F26522;
+      --orange-dk: #D4531A;
+      --navy:      #1C2B4A;
+      --navy-lt:   #2C3E6B;
+      --gray-bg:   #F5F6F8;
+      --gray-mid:  #E0E3EA;
+      --gray-text: #6B7280;
+      --white:     #FFFFFF;
+      --green:     #22C55E;
+      --radius:    10px;
+      --shadow:    0 4px 20px rgba(0,0,0,.08);
+    }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; color: var(--navy); background: var(--gray-bg); line-height: 1.6; }
+    a { text-decoration: none; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-mid);
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo img { height: 38px; width: auto; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { font-size: .9rem; font-weight: 500; color: var(--navy); transition: color .2s; }
+    .nav-links a:hover { color: var(--orange); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 8px; font-weight: 600; font-size: .9rem; cursor: pointer; transition: all .2s; border: none; }
+    .btn-primary { background: var(--orange); color: white; }
+    .btn-primary:hover { background: var(--orange-dk); }
+    .btn-outline { background: transparent; color: var(--navy); border: 2px solid var(--navy); }
+    .btn-outline:hover { background: var(--navy); color: white; }
+
+    /* ─── HERO ─── */
+    .page-hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-lt) 100%);
+      padding: 48px 24px 40px;
+      color: white;
+    }
+    .page-hero-inner { max-width: 1200px; margin: 0 auto; }
+    .page-hero .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.12); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 100px; padding: 5px 14px;
+      font-size: .8rem; font-weight: 600; letter-spacing: .5px;
+      text-transform: uppercase; color: rgba(255,255,255,.9);
+      margin-bottom: 16px;
+    }
+    .page-hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; margin-bottom: 10px; }
+    .page-hero p { font-size: 1rem; color: rgba(255,255,255,.8); max-width: 520px; }
+    .hero-stats { display: flex; gap: 32px; margin-top: 28px; flex-wrap: wrap; }
+    .hero-stat { display: flex; flex-direction: column; }
+    .hero-stat strong { font-size: 1.6rem; font-weight: 800; color: var(--orange); }
+    .hero-stat span { font-size: .82rem; color: rgba(255,255,255,.7); }
+
+    /* ─── SEARCH BAR ─── */
+    .search-bar-wrap {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-mid);
+      padding: 16px 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    }
+    .search-bar-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 12px; align-items: center; }
+    .search-input-wrap { position: relative; flex: 1; }
+    .search-input-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--gray-text); }
+    .search-input { width: 100%; padding: 10px 14px 10px 42px; border: 1.5px solid var(--gray-mid); border-radius: 8px; font-size: .9rem; color: var(--navy); background: var(--gray-bg); transition: border-color .2s; }
+    .search-input:focus { outline: none; border-color: var(--orange); background: white; }
+    .sort-select { padding: 10px 14px; border: 1.5px solid var(--gray-mid); border-radius: 8px; font-size: .88rem; color: var(--navy); background: white; cursor: pointer; min-width: 180px; }
+    .sort-select:focus { outline: none; border-color: var(--orange); }
+
+    /* ─── LAYOUT ─── */
+    .page-body { max-width: 1200px; margin: 0 auto; padding: 32px 24px 80px; display: grid; grid-template-columns: 260px 1fr; gap: 28px; align-items: start; }
+
+    /* ─── SIDEBAR FILTERS ─── */
+    .filter-panel { background: var(--white); border-radius: 14px; box-shadow: var(--shadow); position: sticky; top: 84px; overflow: hidden; }
+    .filter-panel-header { padding: 20px 20px 16px; border-bottom: 1px solid var(--gray-mid); display: flex; align-items: center; justify-content: space-between; }
+    .filter-panel-header h2 { font-size: 1rem; font-weight: 700; }
+    .clear-all-btn { font-size: .8rem; font-weight: 600; color: var(--orange); background: none; border: none; cursor: pointer; padding: 0; display: none; }
+    .clear-all-btn.visible { display: block; }
+    .filter-section { padding: 18px 20px; border-bottom: 1px solid var(--gray-mid); }
+    .filter-section:last-child { border-bottom: none; }
+    .filter-section-header { display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; margin-bottom: 14px; }
+    .filter-section-header h3 { font-size: .88rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: var(--gray-text); }
+    .filter-section-header svg { transition: transform .2s; color: var(--gray-text); }
+    .filter-section.collapsed .filter-section-header svg { transform: rotate(-90deg); }
+    .filter-section.collapsed .filter-options { display: none; }
+    .filter-options { display: flex; flex-direction: column; gap: 8px; }
+    .filter-check { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 4px 0; }
+    .filter-check input[type="checkbox"] { display: none; }
+    .filter-check-box { width: 18px; height: 18px; border: 2px solid var(--gray-mid); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .2s; }
+    .filter-check input:checked ~ .filter-check-box { background: var(--orange); border-color: var(--orange); }
+    .filter-check-box::after { content: '✓'; font-size: .75rem; color: white; font-weight: 700; display: none; }
+    .filter-check input:checked ~ .filter-check-box::after { display: block; }
+    .filter-check-label { font-size: .88rem; color: var(--navy); line-height: 1.3; }
+    .filter-check-count { margin-left: auto; font-size: .78rem; color: var(--gray-text); background: var(--gray-bg); border-radius: 20px; padding: 2px 7px; }
+    .filter-radio { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 4px 0; }
+    .filter-radio input[type="radio"] { display: none; }
+    .filter-radio-dot { width: 18px; height: 18px; border: 2px solid var(--gray-mid); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .2s; }
+    .filter-radio input:checked ~ .filter-radio-dot { border-color: var(--orange); }
+    .filter-radio-dot::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--orange); display: none; }
+    .filter-radio input:checked ~ .filter-radio-dot::after { display: block; }
+    .filter-radio-label { font-size: .88rem; color: var(--navy); }
+
+    /* ─── ACTIVE FILTERS ─── */
+    .active-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; min-height: 0; }
+    .active-filter-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(242,101,34,.1); color: var(--orange); border: 1px solid rgba(242,101,34,.3); border-radius: 50px; padding: 4px 12px; font-size: .82rem; font-weight: 600; cursor: pointer; transition: background .2s; }
+    .active-filter-tag:hover { background: rgba(242,101,34,.18); }
+    .active-filter-tag span { font-size: .9rem; font-weight: 700; line-height: 1; }
+
+    /* ─── RESULTS HEADER ─── */
+    .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .results-count { font-size: .88rem; color: var(--gray-text); }
+    .results-count strong { color: var(--navy); font-size: 1rem; }
+    .view-toggle { display: flex; gap: 4px; }
+    .view-btn { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid var(--gray-mid); background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--gray-text); transition: all .2s; }
+    .view-btn.active { border-color: var(--orange); color: var(--orange); background: rgba(242,101,34,.06); }
+
+    /* ─── CARDS GRID ─── */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 20px; }
+    .cards-grid.list-view { grid-template-columns: 1fr; }
+
+    .carpenter-card {
+      background: white; border-radius: 14px; overflow: hidden;
+      box-shadow: var(--shadow); transition: transform .25s, box-shadow .25s;
+      border: 1px solid var(--gray-mid);
+    }
+    .carpenter-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,.12); }
+
+    .card-header { padding: 20px 20px 0; position: relative; }
+    .availability-dot {
+      position: absolute; top: 16px; right: 16px;
+      font-size: .75rem; font-weight: 600;
+      display: flex; align-items: center; gap: 5px;
+      background: rgba(34,197,94,.1); color: var(--green);
+      padding: 4px 10px; border-radius: 20px;
+    }
+    .availability-dot.soon { background: rgba(245,158,11,.1); color: #F59E0B; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+    .dot.orange { background: #F59E0B; }
+    .avatar {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--orange); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem; letter-spacing: .5px;
+      margin-bottom: 12px;
+    }
+    .card-name h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 2px; }
+    .card-name span { font-size: .82rem; color: var(--gray-text); }
+    .card-body { padding: 14px 20px 20px; }
+    .card-specialties { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .tag { background: var(--gray-bg); color: var(--navy); border-radius: 6px; padding: 4px 10px; font-size: .78rem; font-weight: 600; }
+    .card-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .meta-item { display: flex; flex-direction: column; gap: 2px; }
+    .meta-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .5px; color: var(--gray-text); font-weight: 600; }
+    .meta-value { font-size: .88rem; font-weight: 600; color: var(--navy); }
+    .stars { color: #FBBF24; font-size: .95rem; }
+    .star-count { font-size: .78rem; color: var(--gray-text); }
+    .card-actions { display: flex; gap: 10px; }
+    .card-actions .btn { flex: 1; justify-content: center; font-size: .85rem; padding: 9px 12px; }
+
+    /* List view card adjustments */
+    .cards-grid.list-view .carpenter-card { display: grid; grid-template-columns: auto 1fr auto; align-items: center; }
+    .cards-grid.list-view .card-header { display: flex; align-items: center; gap: 16px; padding: 20px; border-right: 1px solid var(--gray-mid); }
+    .cards-grid.list-view .availability-dot { position: static; }
+    .cards-grid.list-view .avatar { margin: 0; flex-shrink: 0; }
+    .cards-grid.list-view .card-name { min-width: 160px; }
+    .cards-grid.list-view .card-body { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; padding: 20px; }
+    .cards-grid.list-view .card-meta { grid-template-columns: repeat(3, 1fr); }
+    .cards-grid.list-view .card-actions { flex-direction: column; min-width: 170px; padding: 20px; border-left: 1px solid var(--gray-mid); }
+
+    /* ─── NO RESULTS ─── */
+    .no-results { grid-column: 1 / -1; text-align: center; padding: 80px 24px; }
+    .no-results-icon { font-size: 3rem; margin-bottom: 16px; }
+    .no-results h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+    .no-results p { font-size: .9rem; color: var(--gray-text); margin-bottom: 20px; }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--navy); color: rgba(255,255,255,.7); padding: 56px 24px 32px; }
+    .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    .footer-brand p { font-size: .88rem; line-height: 1.7; margin-top: 14px; }
+    .footer-col h4 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: white; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a { font-size: .88rem; transition: color .2s; color: rgba(255,255,255,.7); }
+    .footer-col ul li a:hover { color: var(--orange); }
+    .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: .82rem; }
+    .footer-bottom a { color: rgba(255,255,255,.7); transition: color .2s; }
+    .footer-bottom a:hover { color: var(--orange); }
+    .logo-footer img { filter: brightness(0) invert(1); height: 32px; }
+    .social-links { display: flex; gap: 10px; margin-top: 20px; }
+    .social-link { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; transition: background .2s; }
+    .social-link:hover { background: var(--orange); }
+
+    /* ─── MODAL ─── */
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:1000; align-items:center; justify-content:center; padding:16px; }
+    .modal-overlay.open { display:flex; }
+    .modal { background:white; border-radius:16px; padding:36px; max-width:480px; width:100%; position:relative; max-height:90vh; overflow-y:auto; }
+    .modal-close { position:absolute; top:16px; right:16px; width:32px; height:32px; border-radius:50%; border:none; background:var(--gray-bg); cursor:pointer; font-size:1rem; color:var(--gray-text); display:flex; align-items:center; justify-content:center; transition:background .2s; }
+    .modal-close:hover { background:var(--gray-mid); }
+    .modal h2 { font-size:1.3rem; margin-bottom:6px; }
+    .modal-sub { font-size:.88rem; color:var(--gray-text); margin-bottom:24px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .form-group { margin-bottom:14px; }
+    .form-group label { display:block; font-size:.82rem; font-weight:600; margin-bottom:6px; text-transform:uppercase; letter-spacing:.4px; }
+    .form-group input, .form-group textarea, .form-group select { width:100%; padding:10px 12px; border:1.5px solid var(--gray-mid); border-radius:8px; font-size:.9rem; font-family:inherit; color:var(--navy); transition:border-color .2s; }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline:none; border-color:var(--orange); }
+    .form-group textarea { min-height:90px; resize:vertical; }
+    .modal-submit { width:100%; padding:13px; background:var(--orange); color:white; border:none; border-radius:10px; font-size:1rem; font-weight:700; cursor:pointer; transition:background .2s; margin-top:8px; }
+    .modal-submit:hover { background:var(--orange-dk); }
+    .modal-success { text-align:center; padding:20px 0; }
+    .modal-success .check { width:64px; height:64px; border-radius:50%; background:rgba(34,197,94,.1); display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:1.8rem; }
+    .required { color:var(--orange); }
+    #modal-carpenter-badge { display:none; align-items:center; gap:12px; background:var(--gray-bg); border-radius:10px; padding:12px 16px; margin-bottom:20px; }
+
+    /* ─── MOBILE ─── */
+    .mobile-filter-btn { display: none; }
+    .filter-overlay { display: none; }
+
+    @media (max-width: 900px) {
+      .page-body { grid-template-columns: 1fr; }
+      .filter-panel { position: fixed; inset: 0; left: 0; top: 0; width: 300px; height: 100vh; border-radius: 0; z-index: 300; transform: translateX(-100%); transition: transform .3s; overflow-y: auto; }
+      .filter-panel.open { transform: translateX(0); }
+      .filter-overlay { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 299; opacity: 0; pointer-events: none; transition: opacity .3s; }
+      .filter-overlay.open { opacity: 1; pointer-events: all; }
+      .mobile-filter-btn { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border: 2px solid var(--navy); border-radius: 8px; background: white; font-weight: 600; font-size: .88rem; color: var(--navy); cursor: pointer; }
+      .mobile-filter-badge { background: var(--orange); color: white; border-radius: 50%; width: 20px; height: 20px; font-size: .72rem; font-weight: 700; display: flex; align-items: center; justify-content: center; display: none; }
+      .mobile-filter-badge.visible { display: flex; }
+      .cards-grid.list-view .carpenter-card { grid-template-columns: 1fr; }
+      .cards-grid.list-view .card-header { border-right: none; border-bottom: 1px solid var(--gray-mid); }
+      .cards-grid.list-view .card-body { grid-template-columns: 1fr; }
+      .cards-grid.list-view .card-actions { border-left: none; border-top: 1px solid var(--gray-mid); flex-direction: row; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hero-stats { gap: 20px; }
+      .search-bar-inner { flex-wrap: wrap; }
+      .sort-select { width: 100%; }
+      .results-header { flex-wrap: wrap; gap: 10px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 420px) {
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="index.html" class="logo">
+    <img src="logo.png" alt="Timmerly"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="hoe-het-werkt.html">Hoe het werkt</a></li>
+    <li><a href="index.html#reviews">Reviews</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="aanmelden.html" class="btn btn-outline" style="padding:8px 18px;">Timmerman worden?</a></li>
+  </ul>
+  <button class="btn btn-primary" onclick="openModal()">Timmerman aanvragen</button>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="badge">Ons aanbod</div>
+    <h1>Alle timmermannen</h1>
+    <p>Vind de juiste vakman voor uw project. Filter op regio, specialisme of beschikbaarheid.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <strong id="stat-total">47</strong>
+        <span>Timmermannen actief</span>
+      </div>
+      <div class="hero-stat">
+        <strong>38</strong>
+        <span>Nu beschikbaar</span>
+      </div>
+      <div class="hero-stat">
+        <strong>4,8</strong>
+        <span>Gemiddelde beoordeling</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SEARCH BAR ─── -->
+<div class="search-bar-wrap">
+  <div class="search-bar-inner">
+    <div class="search-input-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" class="search-input" id="search-input" placeholder="Zoek op naam of specialisme…" oninput="applyFilters()"/>
+    </div>
+    <select class="sort-select" id="sort-select" onchange="applyFilters()">
+      <option value="default">Sortering: Aanbevolen</option>
+      <option value="rating">Hoogste beoordeling</option>
+      <option value="reviews">Meeste reviews</option>
+      <option value="experience">Meeste ervaring</option>
+      <option value="projects">Meeste projecten</option>
+      <option value="available">Eerder beschikbaar</option>
+    </select>
+    <button class="mobile-filter-btn" onclick="toggleMobileFilters()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+      Filters
+      <span class="mobile-filter-badge" id="mobile-badge">0</span>
+    </button>
+  </div>
+</div>
+
+<!-- ─── FILTER OVERLAY (MOBILE) ─── -->
+<div class="filter-overlay" id="filter-overlay" onclick="toggleMobileFilters()"></div>
+
+<!-- ─── PAGE BODY ─── -->
+<div class="page-body">
+
+  <!-- ─── FILTER PANEL ─── -->
+  <aside class="filter-panel" id="filter-panel">
+    <div class="filter-panel-header">
+      <h2>Filters</h2>
+      <button class="clear-all-btn" id="clear-all-btn" onclick="clearAllFilters()">Alles wissen</button>
+    </div>
+
+    <!-- Beschikbaarheid -->
+    <div class="filter-section" id="fs-availability">
+      <div class="filter-section-header" onclick="toggleSection('fs-availability')">
+        <h3>Beschikbaarheid</h3>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="filter-options">
+        <label class="filter-radio">
+          <input type="radio" name="availability" value="all" checked onchange="applyFilters()"/>
+          <div class="filter-radio-dot"></div>
+          <span class="filter-radio-label">Alle beschikbaarheid</span>
+        </label>
+        <label class="filter-radio">
+          <input type="radio" name="availability" value="today" onchange="applyFilters()"/>
+          <div class="filter-radio-dot"></div>
+          <span class="filter-radio-label">Vandaag beschikbaar</span>
+        </label>
+        <label class="filter-radio">
+          <input type="radio" name="availability" value="week" onchange="applyFilters()"/>
+          <div class="filter-radio-dot"></div>
+          <span class="filter-radio-label">Deze week beschikbaar</span>
+        </label>
+        <label class="filter-radio">
+          <input type="radio" name="availability" value="soon" onchange="applyFilters()"/>
+          <div class="filter-radio-dot"></div>
+          <span class="filter-radio-label">Binnenkort beschikbaar</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Regio -->
+    <div class="filter-section" id="fs-region">
+      <div class="filter-section-header" onclick="toggleSection('fs-region')">
+        <h3>Regio</h3>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="filter-options">
+        <label class="filter-check">
+          <input type="checkbox" value="amsterdam" onchange="applyFilters()"/>
+          <div class="filter-check-box"></div>
+          <span class="filter-check-label">Amsterdam</span>
+          <span class="filter-check-count">12</span>
+        </label>
+        <label class="filter-check">
+          <input type="checkbox" value="rotterdam" onchange="applyFilters()"/>
+          <div class="filter-check-box"></div>
+          <span class="filter-check-label">Rotterdam</span>
+          <span class="filter-check-count">9</span>
+        </label>
+        <label class="filter-check">
+          <input type="checkbox" value="denhaag" onchange="applyFilters()"/>
+          <div class="filter-check-box"></div>
+          <span class="filter-check-label">Den Haag</span>
+          <span class="filter-check-count">7</span>
+        </label>
+        <label class="filter-check">
+          <input type="checkbox" value="utrecht" onchange="applyFilters()"/>
+          <div class="filter-check-box"></div>
+          <span class="filter-check-label">Utrecht</span>
+          <span class="filter-check-count">8</span>
+        </label>
+        <label class="filter-check">
+          <input type="checkbox" value="eindhoven" onchange="applyFilters()"/>
+          <div class="filter-check-box"></div>
+          <span class="filter-check-label">Eindhoven</span>
+          <span class="filter-check-count">6</span>
+        </label>
+        <label class="filter-check">
+          <input type="checkbox" value="groningen" onchange="applyFilters()"/>
+          <div class="filter-check-box"></div>
+          <span class="filter-check-label">Groningen</span>
+          <span class="filter-check-count">5</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Specialisme -->
+    <div class="filter-section" id="fs-specialism">
+      <div class="filter-section-header" onclick="toggleSection('fs-specialism')">
+        <h3>Specialisme</h3>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="filter-options">
+        <label class="filter-check">
+          <input type="checkbox" value="kozijnen" onchange="applyFilters()"/>
+          <div class="filter-check-box"></div>
+          <span class="filter-check-label">Kozijnen &amp; deuren</span>
+        </label>
+        <label class="filter-check">
+          <input type="checkbox" value="dakkapel" onchange="applyFilters()"/>
+          <div class="filter-check-box"></div>
+          <span class="filter-check-label">Dakkapel</span>
+        </label>
+        <label class="filter-check">
+          <input type="checkbox" value="aanbouw" onchange="applyFilters()"/>
+          <div class="filter-check-box"></div>
+          <span class="filter-check-label">Aanbouw &amp; uitbouw</span>
+        </label>
+        <label class="filter-check">
+          <input type="checkbox" value="vloeren" onchange="applyFilters()"/>
+          <div class="filter-check-box"></div>
+          <span class="filter-check-label">Vloeren leggen</span>
+        </label>
+        <label class="filter-check">
+          <input type="checkbox" value="trap" onchange="applyFilters()"/>
+          <div class="filter-check-box"></div>
+          <span class="filter-check-label">Trap maken</span>
+        </label>
+        <label class="filter-check">
+          <input type="checkbox" value="keuken" onchange="applyFilters()"/>
+          <div class="filter-check-box"></div>
+          <span class="filter-check-label">Keuken plaatsen</span>
+        </label>
+        <label class="filter-check">
+          <input type="checkbox" value="badkamer" onchange="applyFilters()"/>
+          <div class="filter-check-box"></div>
+          <span class="filter-check-label">Badkamer</span>
+        </label>
+        <label class="filter-check">
+          <input type="checkbox" value="renovatie" onchange="applyFilters()"/>
+          <div class="filter-check-box"></div>
+          <span class="filter-check-label">Renovatie</span>
+        </label>
+        <label class="filter-check">
+          <input type="checkbox" value="maatwerk" onchange="applyFilters()"/>
+          <div class="filter-check-box"></div>
+          <span class="filter-check-label">Maatwerkmeubilair</span>
+        </label>
+        <label class="filter-check">
+          <input type="checkbox" value="interieurbouw" onchange="applyFilters()"/>
+          <div class="filter-check-box"></div>
+          <span class="filter-check-label">Interieurbouw</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Ervaring -->
+    <div class="filter-section" id="fs-experience">
+      <div class="filter-section-header" onclick="toggleSection('fs-experience')">
+        <h3>Ervaring</h3>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="filter-options">
+        <label class="filter-radio">
+          <input type="radio" name="experience" value="all" checked onchange="applyFilters()"/>
+          <div class="filter-radio-dot"></div>
+          <span class="filter-radio-label">Alle ervaringen</span>
+        </label>
+        <label class="filter-radio">
+          <input type="radio" name="experience" value="5" onchange="applyFilters()"/>
+          <div class="filter-radio-dot"></div>
+          <span class="filter-radio-label">5+ jaar ervaring</span>
+        </label>
+        <label class="filter-radio">
+          <input type="radio" name="experience" value="10" onchange="applyFilters()"/>
+          <div class="filter-radio-dot"></div>
+          <span class="filter-radio-label">10+ jaar ervaring</span>
+        </label>
+        <label class="filter-radio">
+          <input type="radio" name="experience" value="15" onchange="applyFilters()"/>
+          <div class="filter-radio-dot"></div>
+          <span class="filter-radio-label">15+ jaar ervaring</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Beoordeling -->
+    <div class="filter-section" id="fs-rating">
+      <div class="filter-section-header" onclick="toggleSection('fs-rating')">
+        <h3>Minimale beoordeling</h3>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="filter-options">
+        <label class="filter-radio">
+          <input type="radio" name="rating" value="0" checked onchange="applyFilters()"/>
+          <div class="filter-radio-dot"></div>
+          <span class="filter-radio-label">Alle beoordelingen</span>
+        </label>
+        <label class="filter-radio">
+          <input type="radio" name="rating" value="4" onchange="applyFilters()"/>
+          <div class="filter-radio-dot"></div>
+          <span class="filter-radio-label">★ 4,0 en hoger</span>
+        </label>
+        <label class="filter-radio">
+          <input type="radio" name="rating" value="4.5" onchange="applyFilters()"/>
+          <div class="filter-radio-dot"></div>
+          <span class="filter-radio-label">★ 4,5 en hoger</span>
+        </label>
+        <label class="filter-radio">
+          <input type="radio" name="rating" value="4.8" onchange="applyFilters()"/>
+          <div class="filter-radio-dot"></div>
+          <span class="filter-radio-label">★ 4,8 en hoger</span>
+        </label>
+      </div>
+    </div>
+
+    <div style="padding:16px 20px;">
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="closeMobileFilters()">
+        Resultaten bekijken <span id="mobile-apply-count"></span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main>
+    <!-- Active filter tags -->
+    <div class="active-filters" id="active-filters"></div>
+
+    <!-- Results header -->
+    <div class="results-header">
+      <p class="results-count"><strong id="results-count">6</strong> timmermannen gevonden</p>
+      <div class="view-toggle">
+        <button class="view-btn active" id="grid-btn" onclick="setView('grid')" title="Rasterweergave">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        </button>
+        <button class="view-btn" id="list-btn" onclick="setView('list')" title="Lijstweergave">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="cards-grid" id="carpenter-grid">
+
+      <div class="carpenter-card"
+           data-region="amsterdam"
+           data-availability="week"
+           data-experience="18"
+           data-rating="4.9"
+           data-reviews="94"
+           data-projects="126"
+           data-name="Marco van der Berg"
+           data-specialisms="kozijnen dakkapel aanbouw renovatie">
+        <div class="card-header">
+          <div class="availability-dot"><div class="dot"></div> Beschikbaar</div>
+          <div class="avatar">MV</div>
+          <div class="card-name">
+            <h3>Marco van der Berg</h3>
+            <span>Amsterdam &amp; Omgeving · 18 jaar ervaring</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-specialties">
+            <span class="tag">Kozijnen</span>
+            <span class="tag">Dakkapel</span>
+            <span class="tag">Aanbouw</span>
+          </div>
+          <div class="card-meta">
+            <div class="meta-item">
+              <span class="meta-label">Beoordeling</span>
+              <div><span class="stars">★★★★★</span> <span class="star-count">(94)</span></div>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Beschikbaar</span>
+              <span class="meta-value" style="color:var(--green)">Deze week</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Projecten</span>
+              <span class="meta-value">126 voltooid</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Ervaring</span>
+              <span class="meta-value">18 jaar</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="openModal('Marco van der Berg')">Aanvragen</button>
+            <a href="profiel-marco-van-der-berg.html" class="btn btn-outline">Profiel</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="carpenter-card"
+           data-region="rotterdam"
+           data-availability="today"
+           data-experience="12"
+           data-rating="4.8"
+           data-reviews="57"
+           data-projects="83"
+           data-name="Jan Kok"
+           data-specialisms="vloeren trap maatwerk interieurbouw">
+        <div class="card-header">
+          <div class="availability-dot"><div class="dot"></div> Beschikbaar</div>
+          <div class="avatar" style="background:#3A5298;">JK</div>
+          <div class="card-name">
+            <h3>Jan Kok</h3>
+            <span>Rotterdam &amp; Omgeving · 12 jaar ervaring</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-specialties">
+            <span class="tag">Vloeren</span>
+            <span class="tag">Trap maken</span>
+            <span class="tag">Maatwerk</span>
+          </div>
+          <div class="card-meta">
+            <div class="meta-item">
+              <span class="meta-label">Beoordeling</span>
+              <div><span class="stars">★★★★★</span> <span class="star-count">(57)</span></div>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Beschikbaar</span>
+              <span class="meta-value" style="color:var(--green)">Morgen</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Projecten</span>
+              <span class="meta-value">83 voltooid</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Ervaring</span>
+              <span class="meta-value">12 jaar</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="openModal('Jan Kok')">Aanvragen</button>
+            <a href="profiel-jan-kok.html" class="btn btn-outline">Profiel</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="carpenter-card"
+           data-region="utrecht"
+           data-availability="soon"
+           data-experience="22"
+           data-rating="4.9"
+           data-reviews="142"
+           data-projects="198"
+           data-name="Peter Hendriks"
+           data-specialisms="keuken badkamer renovatie maatwerk">
+        <div class="card-header">
+          <div class="availability-dot soon"><div class="dot orange"></div> Binnenkort</div>
+          <div class="avatar" style="background:#7C3AED;">PH</div>
+          <div class="card-name">
+            <h3>Peter Hendriks</h3>
+            <span>Utrecht &amp; Omgeving · 22 jaar ervaring</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-specialties">
+            <span class="tag">Keuken</span>
+            <span class="tag">Badkamer</span>
+            <span class="tag">Maatwerk</span>
+          </div>
+          <div class="card-meta">
+            <div class="meta-item">
+              <span class="meta-label">Beoordeling</span>
+              <div><span class="stars">★★★★★</span> <span class="star-count">(142)</span></div>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Beschikbaar</span>
+              <span class="meta-value" style="color:#F59E0B">Volgende week</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Projecten</span>
+              <span class="meta-value">198 voltooid</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Ervaring</span>
+              <span class="meta-value">22 jaar</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="openModal('Peter Hendriks')">Aanvragen</button>
+            <a href="profiel-peter-hendriks.html" class="btn btn-outline">Profiel</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="carpenter-card"
+           data-region="denhaag"
+           data-availability="today"
+           data-experience="9"
+           data-rating="4.3"
+           data-reviews="38"
+           data-projects="54"
+           data-name="Stefan de Boer"
+           data-specialisms="renovatie aanbouw maatwerk">
+        <div class="card-header">
+          <div class="availability-dot"><div class="dot"></div> Beschikbaar</div>
+          <div class="avatar" style="background:#059669;">SB</div>
+          <div class="card-name">
+            <h3>Stefan de Boer</h3>
+            <span>Den Haag &amp; Omgeving · 9 jaar ervaring</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-specialties">
+            <span class="tag">Schuren</span>
+            <span class="tag">Veranda</span>
+            <span class="tag">Renovatie</span>
+          </div>
+          <div class="card-meta">
+            <div class="meta-item">
+              <span class="meta-label">Beoordeling</span>
+              <div><span class="stars">★★★★☆</span> <span class="star-count">(38)</span></div>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Beschikbaar</span>
+              <span class="meta-value" style="color:var(--green)">Vandaag</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Projecten</span>
+              <span class="meta-value">54 voltooid</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Ervaring</span>
+              <span class="meta-value">9 jaar</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="openModal('Stefan de Boer')">Aanvragen</button>
+            <a href="profiel-stefan-de-boer.html" class="btn btn-outline">Profiel</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="carpenter-card"
+           data-region="amsterdam"
+           data-availability="week"
+           data-experience="15"
+           data-rating="4.8"
+           data-reviews="71"
+           data-projects="109"
+           data-name="Roel Timmers"
+           data-specialisms="aanbouw dakkapel renovatie kozijnen">
+        <div class="card-header">
+          <div class="availability-dot"><div class="dot"></div> Beschikbaar</div>
+          <div class="avatar" style="background:#DC2626;">RT</div>
+          <div class="card-name">
+            <h3>Roel Timmers</h3>
+            <span>Amsterdam &amp; Omgeving · 15 jaar ervaring</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-specialties">
+            <span class="tag">Aanbouw</span>
+            <span class="tag">Dakkapel</span>
+            <span class="tag">Renovatie</span>
+          </div>
+          <div class="card-meta">
+            <div class="meta-item">
+              <span class="meta-label">Beoordeling</span>
+              <div><span class="stars">★★★★★</span> <span class="star-count">(71)</span></div>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Beschikbaar</span>
+              <span class="meta-value" style="color:var(--green)">Deze week</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Projecten</span>
+              <span class="meta-value">109 voltooid</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Ervaring</span>
+              <span class="meta-value">15 jaar</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="openModal('Roel Timmers')">Aanvragen</button>
+            <a href="profiel-roel-timmers.html" class="btn btn-outline">Profiel</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="carpenter-card"
+           data-region="eindhoven"
+           data-availability="soon"
+           data-experience="7"
+           data-rating="4.4"
+           data-reviews="29"
+           data-projects="41"
+           data-name="Lars van Molen"
+           data-specialisms="vloeren maatwerk interieurbouw">
+        <div class="card-header">
+          <div class="availability-dot soon"><div class="dot orange"></div> Binnenkort</div>
+          <div class="avatar" style="background:#D97706;">LM</div>
+          <div class="card-name">
+            <h3>Lars van Molen</h3>
+            <span>Eindhoven &amp; Omgeving · 7 jaar ervaring</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-specialties">
+            <span class="tag">Vloeren</span>
+            <span class="tag">Maatwerk</span>
+            <span class="tag">Interieurbouw</span>
+          </div>
+          <div class="card-meta">
+            <div class="meta-item">
+              <span class="meta-label">Beoordeling</span>
+              <div><span class="stars">★★★★☆</span> <span class="star-count">(29)</span></div>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Beschikbaar</span>
+              <span class="meta-value" style="color:#F59E0B">Volgende week</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Projecten</span>
+              <span class="meta-value">41 voltooid</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Ervaring</span>
+              <span class="meta-value">7 jaar</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="openModal('Lars van Molen')">Aanvragen</button>
+            <a href="profiel-lars-van-molen.html" class="btn btn-outline">Profiel</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /cards-grid -->
+
+    <!-- No results state -->
+    <div class="no-results" id="no-results" style="display:none;">
+      <div class="no-results-icon">🔍</div>
+      <h3>Geen timmermannen gevonden</h3>
+      <p>Pas uw filters aan om meer resultaten te zien.</p>
+      <button class="btn btn-outline" onclick="clearAllFilters()">Filters wissen</button>
+    </div>
+
+  </main>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo logo-footer">
+        <img src="logo.png" alt="Timmerly" />
+      </a>
+      <p>Dé marktplaats voor beschikbare timmermannen in Nederland. Opgericht in 2026.</p>
+      <div class="social-links">
+        <a href="#" class="social-link" aria-label="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color:white;"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color:white;"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Vaklieden</h4>
+      <ul>
+        <li><a href="alle-timmermannen.html?regio=amsterdam">Amsterdam</a></li>
+        <li><a href="alle-timmermannen.html?regio=rotterdam">Rotterdam</a></li>
+        <li><a href="alle-timmermannen.html?regio=denhaag">Den Haag</a></li>
+        <li><a href="alle-timmermannen.html?regio=utrecht">Utrecht</a></li>
+        <li><a href="alle-timmermannen.html">Alle regio's</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Specialismen</h4>
+      <ul>
+        <li><a href="#">Kozijnen &amp; deuren</a></li>
+        <li><a href="#">Dakkapel</a></li>
+        <li><a href="#">Vloeren leggen</a></li>
+        <li><a href="#">Trap maken</a></li>
+        <li><a href="#">Aanbouw &amp; uitbouw</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Over ons</h4>
+      <ul>
+        <li><a href="hoe-het-werkt.html">Hoe het werkt</a></li>
+        <li><a href="aanmelden.html">Timmerman worden?</a></li>
+        <li><a href="kwaliteitsgarantie.html">Kwaliteitsgarantie</a></li>
+        <li><a href="veelgestelde-vragen.html">Veelgestelde vragen</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Timmerly. Alle rechten voorbehouden.</span>
+    <div style="display:flex;gap:20px;">
+      <a href="privacybeleid.html">Privacybeleid</a>
+      <a href="#">Algemene voorwaarden</a>
+      <a href="#">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── REQUEST MODAL ─── -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 id="modal-title">Timmerman aanvragen</h2>
+    <p class="modal-sub">Laat je gegevens achter en Timmerly neemt contact met je op.</p>
+    <div id="modal-carpenter-badge">
+      <div id="modal-avatar" style="width:42px;height:42px;border-radius:50%;background:var(--orange);color:white;font-weight:800;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;"></div>
+      <div>
+        <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-text);font-weight:600;">Aanvraag voor</div>
+        <div style="font-weight:700;" id="modal-name"></div>
+      </div>
+    </div>
+    <div id="modal-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Voornaam <span class="required">*</span></label>
+          <input type="text" id="m-fname" placeholder="Jan"/>
+        </div>
+        <div class="form-group">
+          <label>Achternaam <span class="required">*</span></label>
+          <input type="text" id="m-lname" placeholder="Janssen"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>E-mailadres <span class="required">*</span></label>
+        <input type="email" id="m-email" placeholder="jan@email.nl"/>
+      </div>
+      <div class="form-group">
+        <label>Telefoonnummer</label>
+        <input type="tel" id="m-phone" placeholder="06 12345678"/>
+      </div>
+      <div class="form-group">
+        <label>Type werkzaamheden <span class="required">*</span></label>
+        <select id="m-type">
+          <option value="">Selecteer type werk…</option>
+          <option>Kozijnen &amp; deuren</option>
+          <option>Dakkapel plaatsen</option>
+          <option>Aanbouw / uitbouw</option>
+          <option>Vloer leggen</option>
+          <option>Trap maken</option>
+          <option>Keuken plaatsen</option>
+          <option>Badkamer renovatie</option>
+          <option>Maatwerk meubilair</option>
+          <option>Interieurbouw</option>
+          <option>Overig timmerwerk</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Omschrijving project</label>
+        <textarea id="m-desc" placeholder="Korte omschrijving van uw project, wensen en tijdsplanning…"></textarea>
+      </div>
+      <button class="modal-submit" onclick="submitModal()">Aanvraag versturen →</button>
+      <p style="font-size:.78rem;color:var(--gray-text);text-align:center;margin-top:10px;">Timmerly neemt binnen 1 werkdag contact met u op.</p>
+    </div>
+    <div class="modal-success" id="modal-success" style="display:none;">
+      <div class="check">✓</div>
+      <h3>Aanvraag ontvangen!</h3>
+      <p style="color:var(--gray-text);font-size:.9rem;margin-top:8px;">Timmerly neemt binnen 1 werkdag contact met u op om uw aanvraag te bespreken.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ─── DATA
+  const allCards = Array.from(document.querySelectorAll('.carpenter-card'));
+  const grid = document.getElementById('carpenter-grid');
+  const noResults = document.getElementById('no-results');
+  const resultsCount = document.getElementById('results-count');
+  const activeFiltersEl = document.getElementById('active-filters');
+  const clearAllBtn = document.getElementById('clear-all-btn');
+
+  // ─── AVAILABILITY SORT ORDER
+  const availOrder = { today: 0, week: 1, soon: 2 };
+
+  // ─── APPLY FILTERS
+  function applyFilters() {
+    const query = document.getElementById('search-input').value.toLowerCase().trim();
+    const availability = document.querySelector('input[name="availability"]:checked').value;
+    const experience = parseInt(document.querySelector('input[name="experience"]:checked').value) || 0;
+    const rating = parseFloat(document.querySelector('input[name="rating"]:checked').value) || 0;
+    const sort = document.getElementById('sort-select').value;
+
+    const regionChecks = Array.from(document.querySelectorAll('.filter-check input[type="checkbox"]'))
+      .filter(cb => cb.parentElement.closest('.filter-section').id === 'fs-region' && cb.checked)
+      .map(cb => cb.value);
+
+    const specialismChecks = Array.from(document.querySelectorAll('.filter-check input[type="checkbox"]'))
+      .filter(cb => cb.parentElement.closest('.filter-section').id === 'fs-specialism' && cb.checked)
+      .map(cb => cb.value);
+
+    let visible = [];
+    allCards.forEach(card => {
+      const cardRegion = card.dataset.region;
+      const cardAvail = card.dataset.availability;
+      const cardExp = parseInt(card.dataset.experience);
+      const cardRating = parseFloat(card.dataset.rating);
+      const cardName = card.dataset.name.toLowerCase();
+      const cardSpecialisms = card.dataset.specialisms;
+
+      let show = true;
+
+      if (query && !cardName.includes(query) && !cardSpecialisms.includes(query)) show = false;
+      if (availability !== 'all' && cardAvail !== availability) show = false;
+      if (regionChecks.length > 0 && !regionChecks.includes(cardRegion)) show = false;
+      if (specialismChecks.length > 0 && !specialismChecks.some(s => cardSpecialisms.includes(s))) show = false;
+      if (cardExp < experience) show = false;
+      if (cardRating < rating) show = false;
+
+      card.style.display = show ? '' : 'none';
+      if (show) visible.push(card);
+    });
+
+    // Sort visible cards
+    visible.sort((a, b) => {
+      if (sort === 'rating') return parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating);
+      if (sort === 'reviews') return parseInt(b.dataset.reviews) - parseInt(a.dataset.reviews);
+      if (sort === 'experience') return parseInt(b.dataset.experience) - parseInt(a.dataset.experience);
+      if (sort === 'projects') return parseInt(b.dataset.projects) - parseInt(a.dataset.projects);
+      if (sort === 'available') return (availOrder[a.dataset.availability] || 0) - (availOrder[b.dataset.availability] || 0);
+      return 0;
+    });
+
+    // Re-append in sorted order
+    visible.forEach(c => grid.appendChild(c));
+
+    resultsCount.textContent = visible.length;
+    noResults.style.display = visible.length === 0 ? 'block' : 'none';
+
+    updateActiveFilterTags(regionChecks, specialismChecks, availability, experience, rating);
+    updateMobileBadge();
+  }
+
+  // ─── ACTIVE FILTER TAGS
+  const regionLabels = { amsterdam:'Amsterdam', rotterdam:'Rotterdam', denhaag:'Den Haag', utrecht:'Utrecht', eindhoven:'Eindhoven', groningen:'Groningen' };
+  const specialismLabels = { kozijnen:'Kozijnen', dakkapel:'Dakkapel', aanbouw:'Aanbouw', vloeren:'Vloeren', trap:'Trap', keuken:'Keuken', badkamer:'Badkamer', renovatie:'Renovatie', maatwerk:'Maatwerk', interieurbouw:'Interieurbouw' };
+
+  function updateActiveFilterTags(regions, specialisms, avail, exp, rat) {
+    activeFiltersEl.innerHTML = '';
+    let count = 0;
+
+    if (avail !== 'all') {
+      const labels = { today:'Vandaag', week:'Deze week', soon:'Binnenkort' };
+      addTag(labels[avail], () => { document.querySelector('input[name="availability"][value="all"]').checked = true; applyFilters(); });
+      count++;
+    }
+    regions.forEach(r => {
+      addTag(regionLabels[r], () => { document.querySelector(`#fs-region input[value="${r}"]`).checked = false; applyFilters(); });
+      count++;
+    });
+    specialisms.forEach(s => {
+      addTag(specialismLabels[s], () => { document.querySelector(`#fs-specialism input[value="${s}"]`).checked = false; applyFilters(); });
+      count++;
+    });
+    if (exp > 0) {
+      addTag(`${exp}+ jaar`, () => { document.querySelector('input[name="experience"][value="all"]').checked = true; applyFilters(); });
+      count++;
+    }
+    if (rat > 0) {
+      addTag(`★ ${rat}+`, () => { document.querySelector('input[name="rating"][value="0"]').checked = true; applyFilters(); });
+      count++;
+    }
+
+    clearAllBtn.classList.toggle('visible', count > 0);
+    document.getElementById('mobile-apply-count').textContent = count > 0 ? `(${resultsCount.textContent})` : '';
+  }
+
+  function addTag(label, onRemove) {
+    const tag = document.createElement('button');
+    tag.className = 'active-filter-tag';
+    tag.innerHTML = `${label} <span>×</span>`;
+    tag.onclick = onRemove;
+    activeFiltersEl.appendChild(tag);
+  }
+
+  // ─── CLEAR ALL
+  function clearAllFilters() {
+    document.getElementById('search-input').value = '';
+    document.querySelector('input[name="availability"][value="all"]').checked = true;
+    document.querySelector('input[name="experience"][value="all"]').checked = true;
+    document.querySelector('input[name="rating"][value="0"]').checked = true;
+    document.querySelectorAll('.filter-check input[type="checkbox"]').forEach(cb => cb.checked = false);
+    document.getElementById('sort-select').value = 'default';
+    applyFilters();
+  }
+
+  // ─── MOBILE BADGE
+  function updateMobileBadge() {
+    const count = activeFiltersEl.children.length;
+    const badge = document.getElementById('mobile-badge');
+    badge.textContent = count;
+    badge.classList.toggle('visible', count > 0);
+  }
+
+  // ─── SECTION TOGGLE
+  function toggleSection(id) {
+    document.getElementById(id).classList.toggle('collapsed');
+  }
+
+  // ─── VIEW TOGGLE
+  function setView(mode) {
+    grid.classList.toggle('list-view', mode === 'list');
+    document.getElementById('grid-btn').classList.toggle('active', mode === 'grid');
+    document.getElementById('list-btn').classList.toggle('active', mode === 'list');
+  }
+
+  // ─── MOBILE FILTERS
+  function toggleMobileFilters() {
+    document.getElementById('filter-panel').classList.toggle('open');
+    document.getElementById('filter-overlay').classList.toggle('open');
+  }
+  function closeMobileFilters() {
+    document.getElementById('filter-panel').classList.remove('open');
+    document.getElementById('filter-overlay').classList.remove('open');
+  }
+
+  // ─── MODAL
+  const modal = document.getElementById('modal');
+  function openModal(name) {
+    const badge = document.getElementById('modal-carpenter-badge');
+    const title = document.getElementById('modal-title');
+    if (name) {
+      title.textContent = 'Deze timmerman aanvragen';
+      document.getElementById('modal-name').textContent = name;
+      document.getElementById('modal-avatar').textContent = name.split(' ').map(w => w[0]).slice(0,2).join('');
+      badge.style.display = 'flex';
+    } else {
+      title.textContent = 'Timmerman aanvragen';
+      badge.style.display = 'none';
+    }
+    document.getElementById('modal-form').style.display = 'block';
+    document.getElementById('modal-success').style.display = 'none';
+    modal.classList.add('open');
+  }
+  function closeModal() { modal.classList.remove('open'); }
+  function closeModalOutside(e) { if (e.target === modal) closeModal(); }
+  function submitModal() {
+    const fname = document.getElementById('m-fname').value.trim();
+    const lname = document.getElementById('m-lname').value.trim();
+    const email = document.getElementById('m-email').value.trim();
+    const type  = document.getElementById('m-type').value;
+    if (!fname || !lname || !email || !type) { alert('Vul alle verplichte velden in.'); return; }
+    document.getElementById('modal-form').style.display = 'none';
+    document.getElementById('modal-success').style.display = 'block';
+  }
+
+  // ─── URL PARAMS (deep-link to region filter)
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    const regio = params.get('regio');
+    if (regio) {
+      const cb = document.querySelector(`#fs-region input[value="${regio}"]`);
+      if (cb) { cb.checked = true; applyFilters(); }
+    }
+  })();
+</script>
+</body>
+</html>
