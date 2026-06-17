@@ -1365,32 +1365,32 @@
     <div class="form-row">
       <div class="form-group">
         <label>Voornaam</label>
-        <input type="text" placeholder="Jan" />
+        <input type="text" id="idx-fname" placeholder="Jan" />
       </div>
       <div class="form-group">
         <label>Achternaam</label>
-        <input type="text" placeholder="Jansen" />
+        <input type="text" id="idx-lname" placeholder="Jansen" />
       </div>
     </div>
 
     <div class="form-group">
       <label>E-mailadres</label>
-      <input type="email" placeholder="jan@voorbeeld.nl" />
+      <input type="email" id="idx-email" placeholder="jan@voorbeeld.nl" />
     </div>
 
     <div class="form-group">
       <label>Telefoonnummer</label>
-      <input type="tel" placeholder="06 12 34 56 78" />
+      <input type="tel" id="idx-phone" placeholder="06 12 34 56 78" />
     </div>
 
     <div class="form-group">
       <label>Postcode</label>
-      <input type="text" placeholder="1234 AB" />
+      <input type="text" id="idx-postcode" placeholder="1234 AB" />
     </div>
 
     <div class="form-group">
       <label>Type werk</label>
-      <select>
+      <select id="idx-type">
         <option value="">Selecteer specialisme</option>
         <option>Kozijnen &amp; deuren</option>
         <option>Vloeren leggen</option>
@@ -1406,7 +1406,7 @@
 
     <div class="form-group">
       <label>Beschrijving van het werk</label>
-      <textarea placeholder="Omschrijf zo nauwkeurig mogelijk wat er gedaan moet worden..."></textarea>
+      <textarea id="idx-desc" placeholder="Omschrijf zo nauwkeurig mogelijk wat er gedaan moet worden..."></textarea>
     </div>
 
     <button class="btn btn-primary" style="width:100%;padding:14px;font-size:1rem;justify-content:center;" onclick="submitForm()">
@@ -1447,6 +1447,30 @@
   }
 
   function submitForm() {
+    const fname = document.getElementById('idx-fname').value.trim();
+    const email = document.getElementById('idx-email').value.trim();
+    const type  = document.getElementById('idx-type').value;
+    if (!fname || !email || !type) {
+      alert('Vul minimaal uw naam, e-mailadres en type werk in.');
+      return;
+    }
+    const carpenterName = document.getElementById('modal-name').textContent || '';
+    const request = {
+      id: Date.now().toString(),
+      status: 'nieuw',
+      firstName: fname,
+      lastName: document.getElementById('idx-lname').value.trim(),
+      email: email,
+      phone: document.getElementById('idx-phone').value.trim(),
+      postcode: document.getElementById('idx-postcode').value.trim(),
+      type: type,
+      description: document.getElementById('idx-desc').value.trim(),
+      carpenterName: carpenterName || null,
+      createdAt: new Date().toISOString()
+    };
+    const existing = JSON.parse(localStorage.getItem('timmerly_requests') || '[]');
+    existing.push(request);
+    localStorage.setItem('timmerly_requests', JSON.stringify(existing));
     closeModal();
     alert('Bedankt! Je aanvraag is ontvangen. Timmerly neemt binnen 1 werkdag contact met je op.');
   }

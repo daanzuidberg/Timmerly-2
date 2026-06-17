@@ -1158,9 +1158,100 @@
     const email = document.getElementById('m-email').value.trim();
     const type  = document.getElementById('m-type').value;
     if (!fname || !lname || !email || !type) { alert('Vul alle verplichte velden in.'); return; }
+
+    const carpenterName = document.getElementById('modal-name').textContent || '';
+    const request = {
+      id: Date.now().toString(),
+      status: 'nieuw',
+      firstName: fname,
+      lastName: lname,
+      email: email,
+      phone: document.getElementById('m-phone').value.trim(),
+      type: type,
+      description: document.getElementById('m-desc').value.trim(),
+      carpenterName: carpenterName || null,
+      createdAt: new Date().toISOString()
+    };
+    const existing = JSON.parse(localStorage.getItem('timmerly_requests') || '[]');
+    existing.push(request);
+    localStorage.setItem('timmerly_requests', JSON.stringify(existing));
+
     document.getElementById('modal-form').style.display = 'none';
     document.getElementById('modal-success').style.display = 'block';
   }
+
+  // ─── RENDER CARPENTERS FROM LOCALSTORAGE ───
+  function renderLocalCarpenters() {
+    const all = JSON.parse(localStorage.getItem('timmerly_carpenters') || '[]');
+    const approved = all.filter(c => c.status === 'approved');
+    const grid = document.getElementById('carpenter-grid');
+    const expMap = { '0-2 jaar': 1, '3-5 jaar': 4, '5-10 jaar': 7, '10-15 jaar': 12, '15+ jaar': 15 };
+    const availMap = { 'Fulltime beschikbaar': 'today', 'Parttime beschikbaar': 'week', 'Projectbasis': 'soon', 'Flexibel': 'week' };
+
+    approved.forEach(c => {
+      const exp = expMap[c.experience] || 5;
+      const avail = availMap[c.availability] || 'week';
+      const initials = (c.firstName[0] + (c.lastName[0] || '')).toUpperCase();
+      const region = (c.regions && c.regions[0]) || 'amsterdam';
+      const specialismTags = (c.specialisms || []).slice(0, 3).map(s => `<span class="tag">${s}</span>`).join('');
+      const availLabel = avail === 'today' ? 'Vandaag' : avail === 'week' ? 'Deze week' : 'Volgende week';
+      const availColor = avail === 'today' || avail === 'week' ? 'var(--green)' : '#F59E0B';
+      const dotClass = avail === 'soon' ? 'dot orange' : 'dot';
+      const dotBadgeClass = avail === 'soon' ? 'availability-dot soon' : 'availability-dot';
+      const dotBadgeLabel = avail === 'soon' ? 'Binnenkort' : 'Beschikbaar';
+
+      const specialismDataStr = (c.specialismValues || c.specialisms || []).join(' ').toLowerCase();
+
+      const card = document.createElement('div');
+      card.className = 'carpenter-card';
+      card.dataset.region = region;
+      card.dataset.availability = avail;
+      card.dataset.experience = exp;
+      card.dataset.rating = '5.0';
+      card.dataset.reviews = '0';
+      card.dataset.projects = c.projects || '0';
+      card.dataset.name = `${c.firstName} ${c.lastName}`;
+      card.dataset.specialisms = specialismDataStr;
+      card.innerHTML = `
+        <div class="card-header">
+          <div class="${dotBadgeClass}"><div class="${dotClass}"></div> ${dotBadgeLabel}</div>
+          <div class="avatar" style="background:${c.avatarColor}">${initials}</div>
+          <div class="card-name">
+            <h3>${c.firstName} ${c.lastName}</h3>
+            <span>${c.city || 'Nederland'} · ${exp} jaar ervaring</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-specialties">${specialismTags}</div>
+          <div class="card-meta">
+            <div class="meta-item">
+              <span class="meta-label">Beoordeling</span>
+              <div><span style="color:#6B7280;font-size:.85rem;">Nog geen reviews</span></div>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Beschikbaar</span>
+              <span class="meta-value" style="color:${availColor}">${availLabel}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Ervaring</span>
+              <span class="meta-value">${exp} jaar</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Regio</span>
+              <span class="meta-value">${c.city || '—'}</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="openModal('${c.firstName} ${c.lastName}')">Aanvragen</button>
+            <span class="btn btn-outline" style="justify-content:center;opacity:.5;cursor:default;">Nieuw profiel</span>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+      allCards.push(card);
+    });
+  }
+
+  renderLocalCarpenters();
 
   // ─── URL PARAMS (deep-link via ?regio= or ?specialism=)
   (function() {
@@ -1177,6 +1268,7 @@
       if (cb) { cb.checked = true; changed = true; }
     }
     if (changed) applyFilters();
+    else applyFilters();
   })();
 </script>
 </body>

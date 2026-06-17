@@ -787,6 +787,51 @@
       return;
     }
 
+    // Collect specialisms
+    const specialismEls = Array.from(document.querySelectorAll('#specialismen-grid .checked input[type="checkbox"]'));
+    const specialismValues = specialismEls.map(cb => cb.value).filter(Boolean);
+    // Fallback: use text of the checked item
+    const specialismTexts = Array.from(document.querySelectorAll('#specialismen-grid .checked')).map(el => {
+      const cb = el.querySelector('input[type="checkbox"]');
+      return cb?.value || el.textContent.replace('✓','').trim();
+    });
+
+    // Collect regions
+    const regionValues = Array.from(document.querySelectorAll('.checkbox-item.checked input[type="checkbox"]'))
+      .filter(cb => ['amsterdam','rotterdam','denhaag','utrecht','eindhoven','groningen'].includes(cb.value))
+      .map(cb => cb.value);
+
+    const colors = ['#F26522','#3A5298','#7C3AED','#059669','#DC2626','#D97706','#0891B2'];
+    const carpenter = {
+      id: Date.now().toString(),
+      status: 'pending',
+      firstName: document.getElementById('voornaam').value.trim(),
+      lastName: document.getElementById('achternaam').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('telefoon').value.trim(),
+      postcode: document.getElementById('postcode').value.trim(),
+      city: document.getElementById('woonplaats').value.trim(),
+      kvk: document.getElementById('kvk').value.trim(),
+      experience: document.getElementById('ervaring').value,
+      education: document.getElementById('opleiding').value,
+      specialisms: specialismTexts,
+      specialismValues: specialismValues,
+      bio: document.getElementById('bio')?.value?.trim() || '',
+      availability: document.querySelector('#beschikbaarheid-radio .selected')?.textContent?.trim() || 'Fulltime',
+      startDate: document.getElementById('startdatum').value,
+      travelDistance: document.getElementById('reisafstand').value,
+      regions: regionValues,
+      avatarColor: colors[Math.floor(Math.random() * colors.length)],
+      rating: 0,
+      reviews: 0,
+      projects: 0,
+      createdAt: new Date().toISOString()
+    };
+
+    const existing = JSON.parse(localStorage.getItem('timmerly_carpenters') || '[]');
+    existing.push(carpenter);
+    localStorage.setItem('timmerly_carpenters', JSON.stringify(existing));
+
     document.getElementById('form-card').style.display = 'none';
     const success = document.getElementById('success-screen');
     success.classList.add('show');
