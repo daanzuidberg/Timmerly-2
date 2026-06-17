@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Algemene voorwaarden – Timmerly</title>
+  <meta name="description" content="Lees de algemene voorwaarden van Timmerly voor het gebruik van ons platform en onze diensten."/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange:    #F26522;
+      --orange-dk: #D4531A;
+      --navy:      #1C2B4A;
+      --navy-lt:   #2C3E6B;
+      --gray-bg:   #F5F6F8;
+      --gray-mid:  #E0E3EA;
+      --gray-text: #6B7280;
+      --white:     #FFFFFF;
+      --green:     #22C55E;
+      --radius:    10px;
+      --shadow:    0 4px 20px rgba(0,0,0,.08);
+    }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; color: var(--navy); background: var(--white); line-height: 1.6; }
+    a { color: var(--orange); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-mid);
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { font-size: .9rem; font-weight: 500; color: var(--navy); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover { color: var(--orange); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 8px; font-weight: 600; font-size: .9rem; cursor: pointer; transition: all .2s; text-decoration: none; border: none; }
+    .btn-primary { background: var(--orange); color: white; }
+    .btn-primary:hover { background: var(--orange-dk); text-decoration: none; }
+    .btn-outline { background: transparent; color: var(--navy); border: 2px solid var(--navy); }
+    .btn-outline:hover { background: var(--navy); color: white; text-decoration: none; }
+
+    /* ─── HERO ─── */
+    .page-hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-lt) 100%);
+      padding: 64px 24px 56px;
+      text-align: center;
+      color: white;
+    }
+    .page-hero .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.12); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 100px; padding: 6px 16px;
+      font-size: .82rem; font-weight: 600; letter-spacing: .5px;
+      text-transform: uppercase; color: rgba(255,255,255,.9);
+      margin-bottom: 20px;
+    }
+    .page-hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 16px; }
+    .page-hero p { font-size: 1.05rem; color: rgba(255,255,255,.8); max-width: 560px; margin: 0 auto; }
+
+    /* ─── BREADCRUMB ─── */
+    .breadcrumb { background: var(--gray-bg); border-bottom: 1px solid var(--gray-mid); padding: 12px 24px; }
+    .breadcrumb-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; gap: 8px; font-size: .85rem; color: var(--gray-text); }
+    .breadcrumb-inner a { color: var(--gray-text); text-decoration: none; transition: color .2s; }
+    .breadcrumb-inner a:hover { color: var(--orange); }
+
+    /* ─── CONTENT ─── */
+    .content-wrap { max-width: 900px; margin: 0 auto; padding: 56px 24px 80px; display: grid; grid-template-columns: 1fr 280px; gap: 48px; align-items: start; }
+    .prose { min-width: 0; }
+    .prose .last-updated { font-size: .85rem; color: var(--gray-text); margin-bottom: 32px; padding: 12px 16px; background: var(--gray-bg); border-radius: var(--radius); border-left: 3px solid var(--orange); }
+    .prose h2 { font-size: 1.3rem; font-weight: 700; color: var(--navy); margin: 40px 0 14px; padding-top: 8px; border-top: 1px solid var(--gray-mid); }
+    .prose h2:first-of-type { margin-top: 0; border-top: none; padding-top: 0; }
+    .prose h3 { font-size: 1.05rem; font-weight: 700; margin: 24px 0 10px; }
+    .prose p { font-size: .95rem; color: #374151; margin-bottom: 14px; }
+    .prose ul, .prose ol { padding-left: 20px; margin-bottom: 14px; }
+    .prose ul li, .prose ol li { font-size: .95rem; color: #374151; margin-bottom: 8px; }
+    .prose .info-block { background: rgba(242,101,34,.06); border: 1px solid rgba(242,101,34,.2); border-radius: var(--radius); padding: 16px 20px; margin: 16px 0; }
+    .prose .info-block p { margin: 0; font-size: .9rem; }
+    .prose .contact-block { background: var(--gray-bg); border-radius: var(--radius); padding: 20px; margin: 20px 0; }
+    .prose .contact-block p { margin: 0; }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar { display: flex; flex-direction: column; gap: 24px; }
+    .sidebar-card { background: var(--gray-bg); border-radius: var(--radius); padding: 24px; }
+    .sidebar-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 14px; }
+    .sidebar-card p { font-size: .88rem; color: var(--gray-text); line-height: 1.6; margin-bottom: 10px; }
+    .sidebar-card ul { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .sidebar-card ul li a { display: block; font-size: .88rem; padding: 7px 0; color: var(--navy); text-decoration: none; border-bottom: 1px solid var(--gray-mid); transition: color .2s; }
+    .sidebar-card ul li a:hover { color: var(--orange); }
+    .sidebar-card ul li:last-child a { border-bottom: none; }
+    .toc { position: sticky; top: 84px; }
+    .toc-header { font-size: .9rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 12px; color: var(--gray-text); }
+
+    /* ─── HIGHLIGHT CARD ─── */
+    .highlight-card { background: linear-gradient(135deg, var(--navy), var(--navy-lt)); border-radius: var(--radius); padding: 24px; color: white; }
+    .highlight-card h3 { color: white; margin-bottom: 10px; }
+    .highlight-card p { color: rgba(255,255,255,.8); font-size: .88rem; margin-bottom: 0; }
+    .highlight-card .btn-orange { display: inline-block; margin-top: 14px; padding: 9px 18px; background: var(--orange); color: white; border-radius: 8px; font-weight: 600; font-size: .85rem; text-decoration: none; }
+    .highlight-card .btn-orange:hover { background: var(--orange-dk); }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--navy); color: rgba(255,255,255,.7); padding: 56px 24px 32px; }
+    .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    .footer-brand p { font-size: .88rem; line-height: 1.7; margin-top: 14px; }
+    .footer-col h4 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: white; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a { font-size: .88rem; transition: color .2s; color: rgba(255,255,255,.7); }
+    .footer-col ul li a:hover { color: var(--orange); }
+    .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: .82rem; }
+    .footer-bottom a { color: rgba(255,255,255,.7); transition: color .2s; }
+    .footer-bottom a:hover { color: var(--orange); }
+    .social-links { display: flex; gap: 10px; margin-top: 20px; }
+    .social-link { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; transition: background .2s; }
+    .social-link:hover { background: var(--orange); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .content-wrap { grid-template-columns: 1fr; }
+      .toc { display: none; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="index.html" class="logo">
+    <span style="display:inline-flex;align-items:center;gap:9px;"><span style="width:32px;height:32px;background:#F26522;border-radius:7px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:1.25rem;font-family:'Segoe UI',system-ui,sans-serif;flex-shrink:0;">T</span><span style="font-size:1.25rem;font-weight:800;color:var(--navy);letter-spacing:-.5px;">immerly</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="hoe-het-werkt.html">Hoe het werkt</a></li>
+    <li><a href="index.html#reviews">Reviews</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="aanmelden.html" class="btn btn-outline" style="padding:8px 18px;">Timmerman worden?</a></li>
+  </ul>
+  <a href="index.html#aanbod" class="btn btn-primary">Timmerman aanvragen</a>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="page-hero">
+  <div class="badge">Juridisch</div>
+  <h1>Algemene voorwaarden</h1>
+  <p>De voorwaarden voor het gebruik van het Timmerly-platform door opdrachtgevers en timmermannen.</p>
+</section>
+
+<!-- ─── BREADCRUMB ─── -->
+<div class="breadcrumb">
+  <div class="breadcrumb-inner">
+    <a href="index.html" style="color:var(--gray-text);">Home</a>
+    <span style="color:var(--gray-mid);">›</span>
+    <span>Algemene voorwaarden</span>
+  </div>
+</div>
+
+<!-- ─── CONTENT ─── -->
+<div class="content-wrap">
+  <article class="prose">
+    <p class="last-updated">Versie: 1.0 &nbsp;|&nbsp; Datum: januari 2026 &nbsp;|&nbsp; Deze voorwaarden zijn van toepassing op alle overeenkomsten met Timmerly, opgericht in 2026.</p>
+
+    <!-- 1 -->
+    <h2 id="definities">1. Definities</h2>
+    <p>In deze algemene voorwaarden wordt verstaan onder:</p>
+    <ul>
+      <li><strong>Timmerly:</strong> de besloten vennootschap Timmerly B.V., gevestigd te Amsterdam, KVK 90123456, exploitant van het platform.</li>
+      <li><strong>Platform:</strong> de website timmerly.nl en alle bijbehorende pagina's en diensten.</li>
+      <li><strong>Opdrachtgever:</strong> iedere natuurlijke of rechtspersoon die via het platform een timmerman aanvraagt.</li>
+      <li><strong>Vakman / Timmerman:</strong> de zelfstandig ondernemer of werknemer die via het platform zijn diensten aanbiedt.</li>
+      <li><strong>Aanvraag:</strong> een door de opdrachtgever via het platform ingediend verzoek om een timmerman te koppelen.</li>
+      <li><strong>Overeenkomst:</strong> de overeenkomst die tot stand komt tussen Timmerly en de opdrachtgever of vakman.</li>
+    </ul>
+
+    <!-- 2 -->
+    <h2 id="toepasselijkheid">2. Toepasselijkheid</h2>
+    <p>Deze algemene voorwaarden zijn van toepassing op:</p>
+    <ul>
+      <li>alle aanbiedingen, offertes en overeenkomsten van Timmerly;</li>
+      <li>het gebruik van het Timmerly-platform door opdrachtgevers en vaklieden;</li>
+      <li>de registratie en het aanmelden als vakman op het platform.</li>
+    </ul>
+    <p>Afwijking van deze voorwaarden is alleen geldig indien dit schriftelijk en uitdrukkelijk is overeengekomen met Timmerly. Eventuele inkoop- of andere voorwaarden van de wederpartij worden uitdrukkelijk van de hand gewezen.</p>
+
+    <!-- 3 -->
+    <h2 id="diensten">3. Diensten van Timmerly</h2>
+    <p>Timmerly biedt een online platform waarop:</p>
+    <ul>
+      <li>opdrachtgevers aanvragen kunnen indienen voor timmerwerk;</li>
+      <li>vaklieden een profiel kunnen aanmaken en zichtbaar zijn voor opdrachtgevers;</li>
+      <li>Timmerly vraag en aanbod samenbrengt en de communicatie faciliteert.</li>
+    </ul>
+    <p>Timmerly treedt uitsluitend op als bemiddelaar. De uiteindelijke uitvoering van werkzaamheden vindt plaats door de vakman zelf, dan wel via een daartoe aangewezen uitzendbureau of partnerorganisatie.</p>
+    <div class="info-block">
+      <p><strong>Let op:</strong> Timmerly publiceert geen tarieven van individuele vaklieden. Prijsafspraken worden uitsluitend gemaakt via Timmerly, nooit rechtstreeks tussen opdrachtgever en vakman.</p>
+    </div>
+
+    <!-- 4 -->
+    <h2 id="aanvragen">4. Aanvragen door opdrachtgevers</h2>
+    <h3>4.1 Indienen van een aanvraag</h3>
+    <p>Een opdrachtgever kan via het platform een aanvraag indienen. Door het indienen van een aanvraag:</p>
+    <ul>
+      <li>verklaart de opdrachtgever de juistheid en volledigheid van de verstrekte informatie;</li>
+      <li>geeft de opdrachtgever toestemming aan Timmerly om contact op te nemen en gegevens te verwerken;</li>
+      <li>gaat de opdrachtgever akkoord met deze algemene voorwaarden en het privacybeleid.</li>
+    </ul>
+    <h3>4.2 Verwerking van aanvragen</h3>
+    <p>Timmerly streeft ernaar aanvragen binnen één werkdag te verwerken. Timmerly behoudt zich het recht voor aanvragen te weigeren zonder opgave van reden.</p>
+    <h3>4.3 Koppeling</h3>
+    <p>Na ontvangst van een aanvraag zoekt Timmerly een geschikte vakman. De opdrachtgever wordt per telefoon of e-mail geïnformeerd over de beschikbare vaklieden en het verdere verloop.</p>
+
+    <!-- 5 -->
+    <h2 id="vaklieden">5. Registratie als vakman</h2>
+    <h3>5.1 Aanmelding</h3>
+    <p>Vaklieden kunnen zich aanmelden via het platform. Bij aanmelding geldt:</p>
+    <ul>
+      <li>De vakman dient te beschikken over een geldig KVK-nummer of te werken via een erkend uitzendbureau.</li>
+      <li>De door de vakman verstrekte informatie dient juist, volledig en actueel te zijn.</li>
+      <li>Timmerly behoudt het recht om registraties te weigeren of te verwijderen.</li>
+    </ul>
+    <h3>5.2 Screening</h3>
+    <p>Alle vaklieden worden gescreend voordat zij actief worden op het platform. Screening omvat onder meer verificatie van identiteit, vakdiploma's en referenties. Zie onze <a href="kwaliteitsgarantie.html">Kwaliteitsgarantie</a> voor meer informatie.</p>
+    <h3>5.3 Profiel</h3>
+    <p>De vakman is zelf verantwoordelijk voor de juistheid van de informatie op zijn profiel. Timmerly mag profielinformatie gebruiken voor marketingdoeleinden, tenzij de vakman hier bezwaar tegen maakt.</p>
+
+    <!-- 6 -->
+    <h2 id="tarieven">6. Tarieven en betaling</h2>
+    <p>Het gebruik van het platform als opdrachtgever is gratis. Timmerly brengt vergoedingen in rekening bij vaklieden en/of via de uitzendconstructie. Specifieke tariefafspraken worden schriftelijk vastgelegd bij het aangaan van de samenwerking.</p>
+    <p>Timmerly publiceert geen uurtarieven of dagtarieven van individuele vaklieden op het platform. Prijsopgaven worden uitsluitend door Timmerly verstrekt.</p>
+
+    <!-- 7 -->
+    <h2 id="aansprakelijkheid">7. Aansprakelijkheid</h2>
+    <h3>7.1 Beperking aansprakelijkheid</h3>
+    <p>Timmerly is uitsluitend aansprakelijk voor schade die het directe gevolg is van een toerekenbare tekortkoming of onrechtmatige daad van Timmerly. De aansprakelijkheid van Timmerly is te allen tijde beperkt tot het bedrag dat in het desbetreffende geval door de aansprakelijkheidsverzekering van Timmerly wordt uitbetaald.</p>
+    <h3>7.2 Uitsluiting</h3>
+    <p>Timmerly is niet aansprakelijk voor:</p>
+    <ul>
+      <li>schade ontstaan door handelen of nalaten van een vakman;</li>
+      <li>indirecte schade, gevolgschade of gederfde winst;</li>
+      <li>schade door onjuiste of onvolledige informatie verstrekt door gebruikers;</li>
+      <li>tijdelijke of permanente onbeschikbaarheid van het platform.</li>
+    </ul>
+    <h3>7.3 Vrijwaring</h3>
+    <p>De opdrachtgever en vakman vrijwaren Timmerly van alle aanspraken van derden die verband houden met het gebruik van het platform of de uitgevoerde werkzaamheden.</p>
+
+    <!-- 8 -->
+    <h2 id="privacy">8. Privacy en gegevensverwerking</h2>
+    <p>Timmerly verwerkt persoonsgegevens conform de Algemene Verordening Gegevensbescherming (AVG). Voor meer informatie verwijzen wij naar ons <a href="privacybeleid.html">Privacybeleid</a>.</p>
+    <p>Door gebruik te maken van het platform stemt u in met de verwerking van uw persoonsgegevens zoals beschreven in het privacybeleid.</p>
+
+    <!-- 9 -->
+    <h2 id="intellectueel">9. Intellectueel eigendom</h2>
+    <p>Alle intellectuele eigendomsrechten op de inhoud van het platform — waaronder teksten, afbeeldingen, logo's, ontwerpen en software — berusten bij Timmerly of haar licentiegevers. Het is niet toegestaan deze inhoud te kopiëren, te verspreiden of anderszins te gebruiken zonder uitdrukkelijke schriftelijke toestemming van Timmerly.</p>
+
+    <!-- 10 -->
+    <h2 id="gedragsregels">10. Gedragsregels en verboden gebruik</h2>
+    <p>Het is gebruikers verboden om:</p>
+    <ul>
+      <li>onjuiste of misleidende informatie te verstrekken op het platform;</li>
+      <li>het platform te gebruiken voor onwettige doeleinden;</li>
+      <li>rechtstreeks contact te zoeken met een vakman buiten Timmerly om teneinde de bemiddelingsrol te omzeilen;</li>
+      <li>het platform te gebruiken op een manier die andere gebruikers schaadt of hinder oplevert;</li>
+      <li>geautomatiseerde tools te gebruiken om data van het platform te verzamelen (scraping).</li>
+    </ul>
+    <p>Bij overtreding van deze regels heeft Timmerly het recht de toegang tot het platform te blokkeren en/of juridische stappen te ondernemen.</p>
+
+    <!-- 11 -->
+    <h2 id="duur">11. Duur en beëindiging</h2>
+    <p>Een overeenkomst met Timmerly wordt aangegaan voor onbepaalde tijd, tenzij schriftelijk anders is overeengekomen. Beide partijen kunnen de samenwerking op elk moment beëindigen met inachtneming van een opzegtermijn van 30 dagen, tenzij er sprake is van een ernstige tekortkoming die onmiddellijke beëindiging rechtvaardigt.</p>
+    <p>Bij beëindiging worden gegevens bewaard conform het privacybeleid en de wettelijke bewaartermijnen.</p>
+
+    <!-- 12 -->
+    <h2 id="wijzigingen">12. Wijzigingen van de voorwaarden</h2>
+    <p>Timmerly behoudt zich het recht voor deze algemene voorwaarden te wijzigen. Gewijzigde voorwaarden worden gepubliceerd op het platform en gelden 30 dagen na publicatie. Indien u niet akkoord gaat met de gewijzigde voorwaarden, dient u het gebruik van het platform te staken.</p>
+
+    <!-- 13 -->
+    <h2 id="toepasselijk-recht">13. Toepasselijk recht en geschillen</h2>
+    <p>Op alle overeenkomsten met Timmerly is uitsluitend Nederlands recht van toepassing. Geschillen worden voorgelegd aan de bevoegde rechter in het arrondissement Amsterdam, tenzij de wet dwingendrechtelijk een andere rechter aanwijst.</p>
+    <p>Timmerly streeft ernaar geschillen in goed overleg op te lossen. Wij verzoeken u contact op te nemen via <a href="mailto:info@timmerly.nl">info@timmerly.nl</a> voordat u een juridische procedure start.</p>
+
+    <!-- 14 -->
+    <h2 id="contact-av">14. Contact</h2>
+    <p>Voor vragen over deze algemene voorwaarden kunt u contact opnemen met:</p>
+    <div class="contact-block">
+      <p><strong>Timmerly B.V.</strong><br/>
+      Keizersgracht 100<br/>
+      1015 CR Amsterdam<br/>
+      <a href="mailto:info@timmerly.nl">info@timmerly.nl</a><br/>
+      <a href="tel:+31201234567">020 – 123 45 67</a><br/>
+      KVK: 90123456</p>
+    </div>
+    <p style="margin-top:8px;font-size:.88rem;color:var(--gray-text);">Deze algemene voorwaarden zijn voor het laatst bijgewerkt in <strong>januari 2026</strong>.</p>
+  </article>
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-card toc">
+      <p class="toc-header">Inhoudsopgave</p>
+      <ul>
+        <li><a href="#definities">1. Definities</a></li>
+        <li><a href="#toepasselijkheid">2. Toepasselijkheid</a></li>
+        <li><a href="#diensten">3. Diensten</a></li>
+        <li><a href="#aanvragen">4. Aanvragen</a></li>
+        <li><a href="#vaklieden">5. Registratie vakman</a></li>
+        <li><a href="#tarieven">6. Tarieven</a></li>
+        <li><a href="#aansprakelijkheid">7. Aansprakelijkheid</a></li>
+        <li><a href="#privacy">8. Privacy</a></li>
+        <li><a href="#intellectueel">9. Intellectueel eigendom</a></li>
+        <li><a href="#gedragsregels">10. Gedragsregels</a></li>
+        <li><a href="#duur">11. Duur &amp; beëindiging</a></li>
+        <li><a href="#wijzigingen">12. Wijzigingen</a></li>
+        <li><a href="#toepasselijk-recht">13. Toepasselijk recht</a></li>
+        <li><a href="#contact-av">14. Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Snel naar</h3>
+      <ul>
+        <li><a href="privacybeleid.html">Privacybeleid</a></li>
+        <li><a href="veelgestelde-vragen.html">Veelgestelde vragen</a></li>
+        <li><a href="contact.html">Contact opnemen</a></li>
+      </ul>
+    </div>
+
+    <div class="highlight-card">
+      <h3>Vragen?</h3>
+      <p>Staat uw vraag er niet bij? Neem gerust contact met ons op — wij helpen u graag.</p>
+      <a href="contact.html" class="btn-orange">Stuur een bericht →</a>
+    </div>
+  </aside>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo logo-footer">
+        <span style="display:inline-flex;align-items:center;gap:9px;"><span style="width:32px;height:32px;background:#F26522;border-radius:7px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:1.25rem;font-family:'Segoe UI',system-ui,sans-serif;flex-shrink:0;">T</span><span style="font-size:1.25rem;font-weight:800;color:white;letter-spacing:-.5px;">immerly</span></span>
+      </a>
+      <p>Dé marktplaats voor beschikbare timmermannen in Nederland. Opgericht in 2026.</p>
+      <div class="social-links">
+        <a href="#" class="social-link" aria-label="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color:white;"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color:white;"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Vaklieden</h4>
+      <ul>
+        <li><a href="alle-timmermannen.html?regio=amsterdam">Amsterdam</a></li>
+        <li><a href="alle-timmermannen.html?regio=rotterdam">Rotterdam</a></li>
+        <li><a href="alle-timmermannen.html?regio=denhaag">Den Haag</a></li>
+        <li><a href="alle-timmermannen.html?regio=utrecht">Utrecht</a></li>
+        <li><a href="alle-timmermannen.html">Alle regio's</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Specialismen</h4>
+      <ul>
+        <li><a href="alle-timmermannen.html?specialism=kozijnen">Kozijnen &amp; deuren</a></li>
+        <li><a href="alle-timmermannen.html?specialism=dakkapel">Dakkapel</a></li>
+        <li><a href="alle-timmermannen.html?specialism=vloeren">Vloeren leggen</a></li>
+        <li><a href="alle-timmermannen.html?specialism=trap">Trap maken</a></li>
+        <li><a href="alle-timmermannen.html?specialism=aanbouw">Aanbouw &amp; uitbouw</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Over ons</h4>
+      <ul>
+        <li><a href="hoe-het-werkt.html">Hoe het werkt</a></li>
+        <li><a href="aanmelden.html">Timmerman worden?</a></li>
+        <li><a href="kwaliteitsgarantie.html">Kwaliteitsgarantie</a></li>
+        <li><a href="veelgestelde-vragen.html">Veelgestelde vragen</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Timmerly. Alle rechten voorbehouden.</span>
+    <div style="display:flex;gap:20px;">
+      <a href="privacybeleid.html">Privacybeleid</a>
+      <a href="algemene-voorwaarden.html">Algemene voorwaarden</a>
+      <a href="#" style="transition:color .2s;" onmouseover="this.style.color='#F26522'" onmouseout="this.style.color=''">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
