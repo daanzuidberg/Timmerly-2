@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Nieuws – Timmerly</title>
+  <meta name="description" content="Het laatste nieuws over zzp-timmermannen in de bouw: regelgeving, arbeidsmarkt, vakmanschap en sectorontwikkelingen."/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange:    #F26522;
+      --orange-dk: #D4531A;
+      --navy:      #1C2B4A;
+      --navy-lt:   #2C3E6B;
+      --gray-bg:   #F5F6F8;
+      --gray-mid:  #E0E3EA;
+      --gray-text: #6B7280;
+      --white:     #FFFFFF;
+      --green:     #22C55E;
+      --radius:    10px;
+      --shadow:    0 4px 20px rgba(0,0,0,.08);
+    }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; color: var(--navy); background: var(--white); line-height: 1.6; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--white); border-bottom: 1px solid var(--gray-mid);
+      padding: 0 5%; display: flex; align-items: center; justify-content: space-between;
+      height: 68px; box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { font-size: .9rem; font-weight: 500; color: var(--navy); transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--orange); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 8px; font-weight: 600; font-size: .9rem; cursor: pointer; transition: all .2s; border: none; }
+    .btn-primary { background: var(--orange); color: white; }
+    .btn-primary:hover { background: var(--orange-dk); }
+    .btn-outline { background: transparent; color: var(--navy); border: 2px solid var(--navy); }
+    .btn-outline:hover { background: var(--navy); color: white; }
+
+    /* ─── HERO ─── */
+    .page-hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-lt) 100%);
+      padding: 56px 5% 48px; color: white;
+    }
+    .page-hero .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+      border-radius: 100px; padding: 5px 14px;
+      font-size: .8rem; font-weight: 600; letter-spacing: .5px; text-transform: uppercase;
+      color: rgba(255,255,255,.9); margin-bottom: 16px;
+    }
+    .page-hero h1 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 10px; }
+    .page-hero p { font-size: 1rem; color: rgba(255,255,255,.8); max-width: 520px; }
+
+    /* ─── FILTERS ─── */
+    .filter-bar {
+      background: var(--white); border-bottom: 1px solid var(--gray-mid);
+      padding: 14px 5%; position: sticky; top: 68px; z-index: 90;
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    }
+    .filter-bar-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .cat-btn {
+      padding: 6px 16px; border-radius: 50px; border: 1.5px solid var(--gray-mid);
+      background: white; font-size: .82rem; font-weight: 600; color: var(--gray-text);
+      cursor: pointer; transition: all .2s;
+    }
+    .cat-btn:hover, .cat-btn.active { border-color: var(--orange); color: var(--orange); background: rgba(242,101,34,.06); }
+    .cat-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+
+    /* ─── LAYOUT ─── */
+    .page-body { max-width: 1200px; margin: 0 auto; padding: 48px 5% 80px; }
+
+    /* ─── FEATURED ─── */
+    .featured-article {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+      border-radius: 16px; overflow: hidden; box-shadow: var(--shadow);
+      border: 1px solid var(--gray-mid); margin-bottom: 48px;
+    }
+    .featured-image {
+      background: linear-gradient(145deg, #1C2B4A 0%, #2C3E6B 50%, #3A5298 100%);
+      min-height: 340px; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .featured-image .img-icon { font-size: 5rem; opacity: .25; }
+    .featured-image .featured-cat {
+      position: absolute; top: 20px; left: 20px;
+      background: var(--orange); color: white; border-radius: 6px;
+      padding: 4px 12px; font-size: .75rem; font-weight: 700; text-transform: uppercase;
+    }
+    .featured-content { padding: 36px 40px; display: flex; flex-direction: column; justify-content: center; }
+    .featured-content .meta { display: flex; align-items: center; gap: 12px; font-size: .78rem; color: var(--gray-text); margin-bottom: 14px; }
+    .featured-content h2 { font-size: clamp(1.3rem, 2.5vw, 1.7rem); font-weight: 800; line-height: 1.3; margin-bottom: 14px; }
+    .featured-content p { font-size: .95rem; color: var(--gray-text); line-height: 1.7; margin-bottom: 20px; }
+    .read-more { display: inline-flex; align-items: center; gap: 6px; color: var(--orange); font-weight: 700; font-size: .9rem; transition: gap .2s; }
+    .read-more:hover { gap: 10px; }
+
+    /* ─── ARTICLES GRID ─── */
+    .section-label { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--gray-text); margin-bottom: 20px; }
+    .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-bottom: 48px; }
+    .article-card {
+      background: white; border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow); border: 1px solid var(--gray-mid);
+      transition: transform .25s, box-shadow .25s; display: flex; flex-direction: column;
+    }
+    .article-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.12); }
+    .article-card[style*="display:none"] { display: none !important; }
+    .article-image {
+      height: 160px; display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; position: relative; overflow: hidden;
+    }
+    .article-cat {
+      position: absolute; top: 12px; left: 12px;
+      border-radius: 6px; padding: 3px 10px; font-size: .7rem; font-weight: 700; text-transform: uppercase;
+    }
+    .article-body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
+    .article-meta { display: flex; align-items: center; gap: 10px; font-size: .75rem; color: var(--gray-text); margin-bottom: 10px; }
+    .article-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gray-mid); }
+    .article-body h3 { font-size: 1rem; font-weight: 700; line-height: 1.4; margin-bottom: 8px; }
+    .article-body p { font-size: .88rem; color: var(--gray-text); line-height: 1.6; flex: 1; margin-bottom: 14px; }
+    .article-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--gray-mid); }
+    .author { display: flex; align-items: center; gap: 8px; }
+    .author-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 700; color: white; }
+    .author-name { font-size: .78rem; font-weight: 600; }
+
+    /* ─── CATEGORY COLORS ─── */
+    .cat-regelgeving  { background: rgba(239,68,68,.1);   color: #EF4444; }
+    .cat-arbeidsmarkt { background: rgba(59,130,246,.1);  color: #3B82F6; }
+    .cat-vakmanschap  { background: rgba(242,101,34,.1);  color: var(--orange); }
+    .cat-verduurzaming{ background: rgba(34,197,94,.1);   color: var(--green); }
+    .cat-financien    { background: rgba(245,158,11,.1);  color: #F59E0B; }
+    .cat-digitaal     { background: rgba(124,58,237,.1);  color: #7C3AED; }
+    .img-regelgeving  { background: linear-gradient(135deg, #FEE2E2, #FECACA); }
+    .img-arbeidsmarkt { background: linear-gradient(135deg, #DBEAFE, #BFDBFE); }
+    .img-vakmanschap  { background: linear-gradient(135deg, #FEE8D6, #FCD3B0); }
+    .img-verduurzaming{ background: linear-gradient(135deg, #DCFCE7, #BBF7D0); }
+    .img-financien    { background: linear-gradient(135deg, #FEF3C7, #FDE68A); }
+    .img-digitaal     { background: linear-gradient(135deg, #EDE9FE, #DDD6FE); }
+
+    /* ─── SIDEBAR ─── */
+    .two-col { display: grid; grid-template-columns: 1fr 320px; gap: 40px; align-items: start; }
+    .sidebar { display: flex; flex-direction: column; gap: 24px; position: sticky; top: 130px; }
+    .sidebar-block { background: var(--gray-bg); border-radius: var(--radius); padding: 24px; }
+    .sidebar-block h3 { font-size: .95rem; font-weight: 700; margin-bottom: 16px; }
+    .sidebar-block p { font-size: .85rem; color: var(--gray-text); margin-bottom: 12px; }
+    .newsletter-input { width: 100%; padding: 10px 12px; border: 1.5px solid var(--gray-mid); border-radius: 8px; font-size: .88rem; color: var(--navy); font-family: inherit; margin-bottom: 10px; }
+    .newsletter-input:focus { outline: none; border-color: var(--orange); }
+    .newsletter-btn { width: 100%; padding: 10px; background: var(--orange); color: white; border: none; border-radius: 8px; font-size: .88rem; font-weight: 700; cursor: pointer; transition: background .2s; }
+    .newsletter-btn:hover { background: var(--orange-dk); }
+    .newsletter-done { display: none; color: var(--green); font-weight: 600; font-size: .88rem; text-align: center; padding: 8px 0; }
+    .trending-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .trending-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--gray-mid); }
+    .trending-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .trending-num { font-size: 1.3rem; font-weight: 900; color: var(--gray-mid); flex-shrink: 0; line-height: 1.2; }
+    .trending-title { font-size: .85rem; font-weight: 600; line-height: 1.4; color: var(--navy); }
+    .trending-cat { font-size: .72rem; color: var(--gray-text); margin-top: 3px; }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag-link { padding: 5px 12px; border-radius: 50px; background: white; border: 1.5px solid var(--gray-mid); font-size: .78rem; font-weight: 600; color: var(--gray-text); cursor: pointer; transition: all .2s; }
+    .tag-link:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--navy); color: rgba(255,255,255,.7); padding: 56px 5% 32px; }
+    .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    .footer-brand p { font-size: .88rem; line-height: 1.7; margin-top: 14px; }
+    .footer-col h4 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: white; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a { font-size: .88rem; color: rgba(255,255,255,.7); transition: color .2s; }
+    .footer-col ul li a:hover { color: var(--orange); }
+    .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: .82rem; }
+    .footer-bottom a { color: rgba(255,255,255,.7); transition: color .2s; }
+    .footer-bottom a:hover { color: var(--orange); }
+    .social-links { display: flex; gap: 10px; margin-top: 20px; }
+    .social-link { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; transition: background .2s; }
+    .social-link:hover { background: var(--orange); }
+
+    @media (max-width: 900px) {
+      .featured-article { grid-template-columns: 1fr; }
+      .featured-image { min-height: 200px; }
+      .two-col { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .articles-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 420px) { .footer-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="index.html" class="logo">
+    <span style="display:inline-flex;align-items:center;gap:9px;"><span style="width:32px;height:32px;background:#F26522;border-radius:7px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:1.25rem;font-family:'Segoe UI',system-ui,sans-serif;flex-shrink:0;">T</span><span style="font-size:1.25rem;font-weight:800;color:var(--navy);letter-spacing:-.5px;">immerly</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="hoe-het-werkt.html">Hoe het werkt</a></li>
+    <li><a href="nieuws.html" class="active">Nieuws</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="aanmelden.html" class="btn btn-outline" style="padding:8px 18px;">Timmerman worden?</a></li>
+  </ul>
+  <a href="index.html#aanbod" class="btn btn-primary">Timmerman aanvragen</a>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="page-hero">
+  <div class="badge">Actueel</div>
+  <h1>Nieuws &amp; Ontwikkelingen</h1>
+  <p>Blijf op de hoogte van regelgeving, markttrends en vaknieuws voor zzp-timmermannen in de bouw.</p>
+</section>
+
+<!-- ─── FILTER BAR ─── -->
+<div class="filter-bar">
+  <div class="filter-bar-inner">
+    <button class="cat-btn active" onclick="filterCat('all',this)">Alle berichten</button>
+    <button class="cat-btn" onclick="filterCat('regelgeving',this)"><span class="cat-dot" style="background:#EF4444;"></span>Regelgeving</button>
+    <button class="cat-btn" onclick="filterCat('arbeidsmarkt',this)"><span class="cat-dot" style="background:#3B82F6;"></span>Arbeidsmarkt</button>
+    <button class="cat-btn" onclick="filterCat('vakmanschap',this)"><span class="cat-dot" style="background:var(--orange);"></span>Vakmanschap</button>
+    <button class="cat-btn" onclick="filterCat('verduurzaming',this)"><span class="cat-dot" style="background:var(--green);"></span>Verduurzaming</button>
+    <button class="cat-btn" onclick="filterCat('financien',this)"><span class="cat-dot" style="background:#F59E0B;"></span>Financiën</button>
+    <button class="cat-btn" onclick="filterCat('digitaal',this)"><span class="cat-dot" style="background:#7C3AED;"></span>Digitaal</button>
+  </div>
+</div>
+
+<!-- ─── PAGE BODY ─── -->
+<div class="page-body">
+
+  <!-- FEATURED ARTICLE -->
+  <article class="featured-article" data-cat="regelgeving">
+    <div class="featured-image img-regelgeving">
+      <span class="img-icon">⚖️</span>
+      <span class="featured-cat">Regelgeving</span>
+    </div>
+    <div class="featured-content">
+      <div class="meta">
+        <span>16 juni 2026</span>
+        <span>·</span>
+        <span>5 min leestijd</span>
+        <span>·</span>
+        <span style="color:var(--orange);font-weight:600;">Actueel</span>
+      </div>
+      <h2>Handhaving DBA in de bouw: wat verandert er voor zzp-timmermannen in 2026?</h2>
+      <p>Per 1 januari 2026 handhaaft de Belastingdienst de Wet DBA zonder terughoudendheid. Voor zzp-timmermannen betekent dit dat schijnzelfstandigheid actief wordt opgespoord en bestraft. Wij zetten de belangrijkste veranderingen voor u op een rij en leggen uit welke stappen u kunt nemen om compliant te blijven.</p>
+      <a href="#artikel-dba" class="read-more">Lees het volledige artikel <span>→</span></a>
+    </div>
+  </article>
+
+  <div class="two-col">
+    <div>
+      <p class="section-label">Recente berichten</p>
+      <div class="articles-grid" id="articles-grid">
+
+        <!-- 1 -->
+        <article class="article-card" data-cat="arbeidsmarkt">
+          <div class="article-image img-arbeidsmarkt">
+            <span>👷</span>
+            <span class="article-cat cat-arbeidsmarkt">Arbeidsmarkt</span>
+          </div>
+          <div class="article-body">
+            <div class="article-meta">
+              <span>12 juni 2026</span><span class="dot"></span><span>3 min</span>
+            </div>
+            <h3>Tekort aan timmermannen loopt op: bouw vraagt 14.000 extra vaklieden</h3>
+            <p>Het tekort aan gekwalificeerde timmermannen in Nederland is in 2026 opgelopen tot ruim 14.000 fte. Woningbouwcorporaties en aannemers maken zich zorgen over de uitvoerbaarheid van het nationaal bouwprogramma.</p>
+            <div class="article-footer">
+              <div class="author">
+                <div class="author-avatar" style="background:#3B82F6;">RB</div>
+                <span class="author-name">Redactie Bouw</span>
+              </div>
+              <span class="read-more" style="font-size:.82rem;">Lees meer →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2 -->
+        <article class="article-card" data-cat="financien">
+          <div class="article-image img-financien">
+            <span>💰</span>
+            <span class="article-cat cat-financien">Financiën</span>
+          </div>
+          <div class="article-body">
+            <div class="article-meta">
+              <span>10 juni 2026</span><span class="dot"></span><span>4 min</span>
+            </div>
+            <h3>Nieuwe AOV-plicht voor zzp'ers: alles wat timmermannen moeten weten</h3>
+            <p>De wettelijke verplichte arbeidsongeschiktheidsverzekering (AOV) voor zzp'ers treedt gefaseerd in werking. Voor timmermannen — met een relatief hoog risico op blessures — is dit ingrijpend. Wij vergelijken de opties.</p>
+            <div class="article-footer">
+              <div class="author">
+                <div class="author-avatar" style="background:#F59E0B;">MP</div>
+                <span class="author-name">M. Peters</span>
+              </div>
+              <span class="read-more" style="font-size:.82rem;">Lees meer →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3 -->
+        <article class="article-card" data-cat="verduurzaming">
+          <div class="article-image img-verduurzaming">
+            <span>🌱</span>
+            <span class="article-cat cat-verduurzaming">Verduurzaming</span>
+          </div>
+          <div class="article-body">
+            <div class="article-meta">
+              <span>7 juni 2026</span><span class="dot"></span><span>4 min</span>
+            </div>
+            <h3>BENG-norm aangescherpt: hogere eisen aan isolatie en kozijnen in nieuwbouw</h3>
+            <p>De Bijna Energieneutrale Gebouwen (BENG) norm wordt per medio 2026 aangescherpt. Timmermannen die kozijnen en gevelisolatie plaatsen moeten rekening houden met strengere U-waardes en nieuwe certificeringsvereisten.</p>
+            <div class="article-footer">
+              <div class="author">
+                <div class="author-avatar" style="background:var(--green);">LV</div>
+                <span class="author-name">L. van Houten</span>
+              </div>
+              <span class="read-more" style="font-size:.82rem;">Lees meer →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4 -->
+        <article class="article-card" data-cat="regelgeving">
+          <div class="article-image img-regelgeving">
+            <span>📋</span>
+            <span class="article-cat cat-regelgeving">Regelgeving</span>
+          </div>
+          <div class="article-body">
+            <div class="article-meta">
+              <span>4 juni 2026</span><span class="dot"></span><span>6 min</span>
+            </div>
+            <h3>CAO Bouwnijverheid 2026–2027: loonsverhoging 4,5% en nieuwe arbeidsvoorwaarden</h3>
+            <p>FNV Bouwen &amp; Wonen en Bouwend Nederland sloten een nieuwe CAO af met een loonsverhoging van 4,5% en verbeterde regelingen voor uitzend- en detacheringskrachten. Voor zzp'ers in de bouw veranderen ook de ondergrenzen van de tariefstelling.</p>
+            <div class="article-footer">
+              <div class="author">
+                <div class="author-avatar" style="background:#EF4444;">TK</div>
+                <span class="author-name">T. Klaassen</span>
+              </div>
+              <span class="read-more" style="font-size:.82rem;">Lees meer →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 5 -->
+        <article class="article-card" data-cat="digitaal">
+          <div class="article-image img-digitaal">
+            <span>📱</span>
+            <span class="article-cat cat-digitaal">Digitaal</span>
+          </div>
+          <div class="article-body">
+            <div class="article-meta">
+              <span>1 juni 2026</span><span class="dot"></span><span>3 min</span>
+            </div>
+            <h3>AI-tekeningen en BIM: hoe digitale tools het werk van de timmerman veranderen</h3>
+            <p>Steeds meer aannemers werken met BIM-modellen en AI-gegenereerde werktekeningen. Timmermannen die digitaal kunnen lezen en communiceren, hebben een duidelijk voordeel op de arbeidsmarkt. Een overzicht van de meest gebruikte tools.</p>
+            <div class="article-footer">
+              <div class="author">
+                <div class="author-avatar" style="background:#7C3AED;">JD</div>
+                <span class="author-name">J. de Boer</span>
+              </div>
+              <span class="read-more" style="font-size:.82rem;">Lees meer →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6 -->
+        <article class="article-card" data-cat="vakmanschap">
+          <div class="article-image img-vakmanschap">
+            <span>🪚</span>
+            <span class="article-cat cat-vakmanschap">Vakmanschap</span>
+          </div>
+          <div class="article-body">
+            <div class="article-meta">
+              <span>28 mei 2026</span><span class="dot"></span><span>5 min</span>
+            </div>
+            <h3>VCA-certificering voor timmermannen: verplicht of aanbevolen?</h3>
+            <p>Veiligheid op de bouwplaats staat hoog op de agenda. Opdrachtgevers eisen steeds vaker VCA-certificering, ook van zzp'ers. Wij leggen uit wat VCA inhoudt, welke variant voor timmermannen het meest relevant is en waar u de cursus kunt volgen.</p>
+            <div class="article-footer">
+              <div class="author">
+                <div class="author-avatar" style="background:var(--orange);">SW</div>
+                <span class="author-name">S. Willems</span>
+              </div>
+              <span class="read-more" style="font-size:.82rem;">Lees meer →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 7 -->
+        <article class="article-card" data-cat="arbeidsmarkt">
+          <div class="article-image img-arbeidsmarkt">
+            <span>🤝</span>
+            <span class="article-cat cat-arbeidsmarkt">Arbeidsmarkt</span>
+          </div>
+          <div class="article-body">
+            <div class="article-meta">
+              <span>22 mei 2026</span><span class="dot"></span><span>3 min</span>
+            </div>
+            <h3>Platformwerk in de bouw groeit: meer timmermannen kiezen voor flexibel werken</h3>
+            <p>Het aantal timmermannen dat via online platforms en intermediairs werkt is het afgelopen jaar met 31% gestegen. Flexibiliteit en hogere effectieve uurtarieven zijn de belangrijkste redenen om als zzp'er via een platform te werken.</p>
+            <div class="article-footer">
+              <div class="author">
+                <div class="author-avatar" style="background:#3B82F6;">NV</div>
+                <span class="author-name">N. Vos</span>
+              </div>
+              <span class="read-more" style="font-size:.82rem;">Lees meer →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 8 -->
+        <article class="article-card" data-cat="financien">
+          <div class="article-image img-financien">
+            <span>🧾</span>
+            <span class="article-cat cat-financien">Financiën</span>
+          </div>
+          <div class="article-body">
+            <div class="article-meta">
+              <span>18 mei 2026</span><span class="dot"></span><span>4 min</span>
+            </div>
+            <h3>Btw-aangifte als timmerman-zzp'er: 10 veelgemaakte fouten</h3>
+            <p>Veel zelfstandige timmermannen betalen onnodig te veel btw of lopen naheffingen op door fouten in hun btw-aangifte. Een belastingadviseur gespecialiseerd in de bouw zet de tien meest voorkomende fouten op een rij.</p>
+            <div class="article-footer">
+              <div class="author">
+                <div class="author-avatar" style="background:#F59E0B;">AB</div>
+                <span class="author-name">A. Brouwer</span>
+              </div>
+              <span class="read-more" style="font-size:.82rem;">Lees meer →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 9 -->
+        <article class="article-card" data-cat="verduurzaming">
+          <div class="article-image img-verduurzaming">
+            <span>🏠</span>
+            <span class="article-cat cat-verduurzaming">Verduurzaming</span>
+          </div>
+          <div class="article-body">
+            <div class="article-meta">
+              <span>14 mei 2026</span><span class="dot"></span><span>3 min</span>
+            </div>
+            <h3>Subsidie voor dakkapellen én dakisolatie: ISDE-regeling uitgebreid in 2026</h3>
+            <p>De Investeringssubsidie Duurzame Energie en Energiebesparing (ISDE) is uitgebreid met dakkapellen in combinatie met dakisolatie. Opdrachtgevers kunnen tot €3.000 subsidie ontvangen — een kans voor timmermannen om meer opdrachten binnen te halen.</p>
+            <div class="article-footer">
+              <div class="author">
+                <div class="author-avatar" style="background:var(--green);">EH</div>
+                <span class="author-name">E. Hendriks</span>
+              </div>
+              <span class="read-more" style="font-size:.82rem;">Lees meer →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 10 -->
+        <article class="article-card" data-cat="vakmanschap">
+          <div class="article-image img-vakmanschap">
+            <span>🎓</span>
+            <span class="article-cat cat-vakmanschap">Vakmanschap</span>
+          </div>
+          <div class="article-body">
+            <div class="article-meta">
+              <span>9 mei 2026</span><span class="dot"></span><span>4 min</span>
+            </div>
+            <h3>Nieuwe MBO-richting 'Slim Timmerwerk' combineert houtbewerking met digitale vaardigheden</h3>
+            <p>ROC's in Amsterdam, Rotterdam en Eindhoven starten per september 2026 met een vernieuwd MBO-programma dat traditioneel timmerwerk combineert met CAD/CAM-software, duurzaamheidstechnieken en ondernemerschap.</p>
+            <div class="article-footer">
+              <div class="author">
+                <div class="author-avatar" style="background:var(--orange);">KM</div>
+                <span class="author-name">K. Mulder</span>
+              </div>
+              <span class="read-more" style="font-size:.82rem;">Lees meer →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 11 -->
+        <article class="article-card" data-cat="regelgeving">
+          <div class="article-image img-regelgeving">
+            <span>🏗️</span>
+            <span class="article-cat cat-regelgeving">Regelgeving</span>
+          </div>
+          <div class="article-body">
+            <div class="article-meta">
+              <span>5 mei 2026</span><span class="dot"></span><span>5 min</span>
+            </div>
+            <h3>Omgevingswet en zzp-timmermannen: wat verandert er bij vergunningaanvragen?</h3>
+            <p>Sinds de invoering van de Omgevingswet is het vergunningsproces veranderd. Voor timmermannen die verbouwingen begeleiden, is het belangrijk te weten welke werkzaamheden nog vergunningvrij zijn en wanneer een omgevingsvergunning verplicht is.</p>
+            <div class="article-footer">
+              <div class="author">
+                <div class="author-avatar" style="background:#EF4444;">PL</div>
+                <span class="author-name">P. Laan</span>
+              </div>
+              <span class="read-more" style="font-size:.82rem;">Lees meer →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 12 -->
+        <article class="article-card" data-cat="digitaal">
+          <div class="article-image img-digitaal">
+            <span>🔧</span>
+            <span class="article-cat cat-digitaal">Digitaal</span>
+          </div>
+          <div class="article-body">
+            <div class="article-meta">
+              <span>29 april 2026</span><span class="dot"></span><span>3 min</span>
+            </div>
+            <h3>Factureren als timmerman: de beste apps voor mobiel en onderweg</h3>
+            <p>Administratie is voor veel zzp-timmermannen een last. Gelukkig zijn er steeds betere apps die factureren, kilometerregistratie en btw-aangifte eenvoudig maken — ook op de bouwplaats, via je telefoon.</p>
+            <div class="article-footer">
+              <div class="author">
+                <div class="author-avatar" style="background:#7C3AED;">CV</div>
+                <span class="author-name">C. Visser</span>
+              </div>
+              <span class="read-more" style="font-size:.82rem;">Lees meer →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- NO RESULTS -->
+        <div id="no-results" style="display:none;grid-column:1/-1;text-align:center;padding:60px 0;color:var(--gray-text);">
+          <div style="font-size:2.5rem;margin-bottom:12px;">📰</div>
+          <h3 style="color:var(--navy);margin-bottom:6px;">Geen berichten gevonden</h3>
+          <p>Probeer een andere categorie.</p>
+        </div>
+
+      </div><!-- /articles-grid -->
+    </div><!-- /main col -->
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <!-- Newsletter -->
+      <div class="sidebar-block" style="background:linear-gradient(135deg,var(--navy),var(--navy-lt));color:white;">
+        <h3 style="color:white;">📬 Nieuwsbrief</h3>
+        <p style="color:rgba(255,255,255,.8);">Ontvang wekelijks het laatste nieuws voor zzp-timmermannen in uw inbox.</p>
+        <input class="newsletter-input" id="nl-email" type="email" placeholder="uw@emailadres.nl"/>
+        <button class="newsletter-btn" onclick="subscribeNewsletter()">Aanmelden</button>
+        <p class="newsletter-done" id="nl-done" style="color:#86EFAC;">✓ U bent aangemeld!</p>
+      </div>
+
+      <!-- Trending -->
+      <div class="sidebar-block">
+        <h3>🔥 Meest gelezen</h3>
+        <ul class="trending-list">
+          <li class="trending-item">
+            <span class="trending-num">01</span>
+            <div><div class="trending-title">Handhaving DBA: wat verandert voor zzp-timmermannen?</div><div class="trending-cat">Regelgeving · 16 jun</div></div>
+          </li>
+          <li class="trending-item">
+            <span class="trending-num">02</span>
+            <div><div class="trending-title">AOV-plicht zzp'ers: opties en kosten vergeleken</div><div class="trending-cat">Financiën · 10 jun</div></div>
+          </li>
+          <li class="trending-item">
+            <span class="trending-num">03</span>
+            <div><div class="trending-title">14.000 timmermannen te weinig: de cijfers</div><div class="trending-cat">Arbeidsmarkt · 12 jun</div></div>
+          </li>
+          <li class="trending-item">
+            <span class="trending-num">04</span>
+            <div><div class="trending-title">BENG-norm aangescherpt: hogere eisen kozijnen</div><div class="trending-cat">Verduurzaming · 7 jun</div></div>
+          </li>
+          <li class="trending-item">
+            <span class="trending-num">05</span>
+            <div><div class="trending-title">VCA-certificering: verplicht of aanbevolen?</div><div class="trending-cat">Vakmanschap · 28 mei</div></div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Tags -->
+      <div class="sidebar-block">
+        <h3>🏷 Onderwerpen</h3>
+        <div class="tag-cloud">
+          <span class="tag-link" onclick="filterCat('regelgeving',null)">Wet DBA</span>
+          <span class="tag-link" onclick="filterCat('financien',null)">AOV</span>
+          <span class="tag-link" onclick="filterCat('arbeidsmarkt',null)">Arbeidsmarkt</span>
+          <span class="tag-link" onclick="filterCat('verduurzaming',null)">BENG</span>
+          <span class="tag-link" onclick="filterCat('regelgeving',null)">CAO Bouw</span>
+          <span class="tag-link" onclick="filterCat('vakmanschap',null)">VCA</span>
+          <span class="tag-link" onclick="filterCat('digitaal',null)">BIM</span>
+          <span class="tag-link" onclick="filterCat('financien',null)">Btw</span>
+          <span class="tag-link" onclick="filterCat('verduurzaming',null)">ISDE-subsidie</span>
+          <span class="tag-link" onclick="filterCat('digitaal',null)">Apps</span>
+          <span class="tag-link" onclick="filterCat('vakmanschap',null)">MBO</span>
+          <span class="tag-link" onclick="filterCat('regelgeving',null)">Omgevingswet</span>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="sidebar-block" style="background:rgba(242,101,34,.06);border:1px solid rgba(242,101,34,.2);">
+        <h3>Bent u timmerman?</h3>
+        <p>Sluit u aan bij ons netwerk van gekwalificeerde vaklieden en ontvang opdrachten in uw regio.</p>
+        <a href="aanmelden.html" class="btn btn-primary" style="width:100%;justify-content:center;font-size:.88rem;padding:10px;">Aanmelden als timmerman</a>
+      </div>
+
+    </aside>
+  </div><!-- /two-col -->
+</div><!-- /page-body -->
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo logo-footer">
+        <span style="display:inline-flex;align-items:center;gap:9px;"><span style="width:32px;height:32px;background:#F26522;border-radius:7px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:1.25rem;font-family:'Segoe UI',system-ui,sans-serif;flex-shrink:0;">T</span><span style="font-size:1.25rem;font-weight:800;color:white;letter-spacing:-.5px;">immerly</span></span>
+      </a>
+      <p>Dé marktplaats voor beschikbare timmermannen in Nederland. Opgericht in 2026.</p>
+      <div class="social-links">
+        <a href="#" class="social-link" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color:white;"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        <a href="#" class="social-link" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color:white;"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="#" class="social-link" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Vaklieden</h4>
+      <ul>
+        <li><a href="alle-timmermannen.html?regio=amsterdam">Amsterdam</a></li>
+        <li><a href="alle-timmermannen.html?regio=rotterdam">Rotterdam</a></li>
+        <li><a href="alle-timmermannen.html?regio=denhaag">Den Haag</a></li>
+        <li><a href="alle-timmermannen.html?regio=utrecht">Utrecht</a></li>
+        <li><a href="alle-timmermannen.html">Alle regio's</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Informatie</h4>
+      <ul>
+        <li><a href="hoe-het-werkt.html">Hoe het werkt</a></li>
+        <li><a href="nieuws.html">Nieuws</a></li>
+        <li><a href="kwaliteitsgarantie.html">Kwaliteitsgarantie</a></li>
+        <li><a href="veelgestelde-vragen.html">Veelgestelde vragen</a></li>
+        <li><a href="nieuws.html">Nieuws</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Over ons</h4>
+      <ul>
+        <li><a href="aanmelden.html">Timmerman worden?</a></li>
+        <li><a href="privacybeleid.html">Privacybeleid</a></li>
+        <li><a href="algemene-voorwaarden.html">Algemene voorwaarden</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Timmerly. Alle rechten voorbehouden.</span>
+    <div style="display:flex;gap:20px;">
+      <a href="privacybeleid.html">Privacybeleid</a>
+      <a href="algemene-voorwaarden.html">Algemene voorwaarden</a>
+      <a href="#">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function filterCat(cat, btn) {
+    // Update active button
+    if (btn) {
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    const articles = document.querySelectorAll('#articles-grid .article-card');
+    const featured = document.querySelector('.featured-article');
+    let visible = 0;
+
+    articles.forEach(a => {
+      const show = cat === 'all' || a.dataset.cat === cat;
+      a.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    if (featured) {
+      featured.style.display = (cat === 'all' || featured.dataset.cat === cat) ? '' : 'none';
+    }
+
+    document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  function subscribeNewsletter() {
+    const email = document.getElementById('nl-email').value.trim();
+    if (!email || !email.includes('@')) { alert('Vul een geldig e-mailadres in.'); return; }
+    document.getElementById('nl-email').style.display = 'none';
+    document.querySelector('.newsletter-btn').style.display = 'none';
+    document.getElementById('nl-done').style.display = 'block';
+  }
+</script>
+</body>
+</html>
