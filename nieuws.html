@@ -683,5 +683,14 @@
     document.getElementById('nl-done').style.display = 'block';
   }
 </script>
+<script>
+(function(){
+  var p = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-links a').forEach(function(a){
+    var h = (a.getAttribute('href') || '').split('#')[0].split('?')[0];
+    if(h === p) a.classList.add('active');
+  });
+})();
+</script>
 </body>
 </html>

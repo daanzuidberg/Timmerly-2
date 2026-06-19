@@ -41,6 +41,7 @@
     .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
     .nav-links a { font-size: .9rem; font-weight: 500; color: var(--navy); text-decoration: none; transition: color .2s; }
     .nav-links a:hover { color: var(--orange); }
+    .nav-links a.active { color: var(--orange); font-weight: 700; }
     .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 8px; font-weight: 600; font-size: .9rem; cursor: pointer; transition: all .2s; text-decoration: none; border: none; }
     .btn-primary { background: var(--orange); color: white; }
     .btn-primary:hover { background: var(--orange-dk); text-decoration: none; }
@@ -438,5 +439,14 @@
   </div>
 </footer>
 
+<script>
+(function(){
+  var p = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-links a').forEach(function(a){
+    var h = (a.getAttribute('href') || '').split('#')[0].split('?')[0];
+    if(h === p) a.classList.add('active');
+  });
+})();
+</script>
 </body>
 </html>
