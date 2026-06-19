@@ -254,6 +254,7 @@
             <p>Overzicht van uw Timmerly-platform</p>
           </div>
           <button class="filter-chip active" onclick="refreshAll()">↻ Vernieuwen</button>
+          <button class="filter-chip" onclick="loadDemoData()" style="border-color:var(--orange);color:var(--orange);">🧪 Testdata laden</button>
         </div>
 
         <div class="stats-grid" id="stats-grid">
@@ -714,6 +715,35 @@
   // ─── DETAIL PANEL ───────────────────────────────────────────────────────────
   function closeDetail(e) { if (e.target === document.getElementById('detail-overlay')) closeDetailPanel(); }
   function closeDetailPanel() { document.getElementById('detail-overlay').classList.remove('open'); }
+
+  // ─── DEMO DATA ──────────────────────────────────────────────────────────────
+  function loadDemoData() {
+    const now = new Date();
+    const ago = (days, hours) => { const d = new Date(now); d.setDate(d.getDate()-days); d.setHours(d.getHours()-(hours||0)); return d.toISOString(); };
+
+    const demoCarpenters = [
+      { id:'demo1', status:'pending', firstName:'Kevin', lastName:'Smits', email:'k.smits@email.nl', phone:'06 12 34 56 78', postcode:'2000 AB', city:'Rotterdam', kvk:'87654321', experience:'5-10 jaar', education:'MBO niveau 4 Timmerwerk', specialisms:['Kozijnen & deuren','Dakkapel','Renovatie'], specialismValues:['kozijnen','dakkapel','renovatie'], bio:'Gespecialiseerd in kozijnen en dakkapellen in de regio Rotterdam.', availability:'Fulltime beschikbaar', startDate:'Per direct', travelDistance:'50', regions:['rotterdam','denhaag'], avatarColor:'#7C3AED', rating:0, reviews:0, projects:0, createdAt: ago(2) },
+      { id:'demo2', status:'pending', firstName:'Nadia', lastName:'Bergsma', email:'n.bergsma@vakman.nl', phone:'06 98 76 54 32', postcode:'3500 CD', city:'Utrecht', kvk:'11223344', experience:'10-15 jaar', education:'HBO Bouwkunde', specialisms:['Keuken plaatsen','Badkamer','Maatwerk meubels'], specialismValues:['keuken','badkamer','maatwerk'], bio:'Gepassioneerd bouwprofessional met focus op duurzaamheid.', availability:'Parttime beschikbaar', startDate:'Over 2 weken', travelDistance:'30', regions:['utrecht','amsterdam'], avatarColor:'#059669', rating:0, reviews:0, projects:12, createdAt: ago(1) },
+      { id:'demo3', status:'approved', firstName:'Thomas', lastName:'de Wit', email:'t.dewit@timmerman.nl', phone:'06 55 44 33 22', postcode:'5600 EF', city:'Eindhoven', kvk:'99887766', experience:'15+ jaar', education:'MBO niveau 3', specialisms:['Aanbouw & uitbouw','Vloeren leggen','Trap maken'], specialismValues:['aanbouw','vloeren','trap'], bio:'Allround timmerman met 18 jaar ervaring in nieuwbouw en renovatie.', availability:'Fulltime beschikbaar', startDate:'Per direct', travelDistance:'75', regions:['eindhoven','utrecht'], avatarColor:'#D97706', rating:4.7, reviews:23, projects:67, createdAt: ago(7) },
+      { id:'demo4', status:'rejected', firstName:'Bas', lastName:'Janssen', email:'b.janssen@mail.nl', phone:'06 11 22 33 44', postcode:'1011 GH', city:'Amsterdam', kvk:'44332211', experience:'0-2 jaar', education:'Geen formele opleiding', specialisms:['Vloeren leggen'], specialismValues:['vloeren'], bio:'Starter op zoek naar opdrachten.', availability:'Flexibel', startDate:'Per direct', travelDistance:'20', regions:['amsterdam'], avatarColor:'#3A5298', rating:0, reviews:0, projects:2, createdAt: ago(14) },
+    ];
+
+    const demoRequests = [
+      { id:'req1', status:'nieuw', firstName:'Marieke', lastName:'van den Berg', email:'marieke@gmail.com', phone:'06 22 33 44 55', postcode:'1015 AB', type:'Dakkapel plaatsen', description:'Wij willen een dakkapel laten plaatsen op onze woning uit 1970. Dakkapel van ca. 4 meter breed aan de achterkant.', carpenterName:'Marco van der Berg', createdAt: ago(0,3) },
+      { id:'req2', status:'in behandeling', firstName:'Jeroen', lastName:'Postma', email:'j.postma@bedrijf.nl', phone:'06 77 88 99 00', postcode:'3012 CD', type:'Kozijnen & deuren', description:'Vervanging van 6 kozijnen en 2 deuren in een woning uit 1985. Graag houten kozijnen.', carpenterName:null, createdAt: ago(3) },
+      { id:'req3', status:'nieuw', firstName:'Sandra', lastName:'Hoekstra', email:'sandra.h@outlook.com', phone:'06 44 55 66 77', postcode:'2516 EF', type:'Keuken plaatsen', description:'Nieuwe keuken van IKEA die geplaatst moet worden. Incl. aansluiting afzuigkap en inbouwapparatuur.', carpenterName:'Peter Hendriks', createdAt: ago(0,8) },
+      { id:'req4', status:'afgerond', firstName:'Dirk', lastName:'Mulder', email:'d.mulder@gmail.com', phone:'06 33 44 55 66', postcode:'5611 GH', type:'Vloeren leggen', description:'Leggen van een eiken parketvloer op de begane grond, ca. 45m².', carpenterName:'Lars van Molen', createdAt: ago(10) },
+    ];
+
+    // Merge with existing (don't duplicate demo IDs)
+    const existingC = getCarpenters().filter(c => !c.id.startsWith('demo'));
+    const existingR = getRequests().filter(r => !r.id.startsWith('req'));
+    saveCarpenters([...demoCarpenters, ...existingC]);
+    saveRequests([...demoRequests, ...existingR]);
+
+    toast('Testdata geladen! Dashboard wordt vernieuwd.');
+    refreshAll();
+  }
 
   // ─── INIT ───────────────────────────────────────────────────────────────────
   if (sessionStorage.getItem('timmerly_admin') === '1') {
