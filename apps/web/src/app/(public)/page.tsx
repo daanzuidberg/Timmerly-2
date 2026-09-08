@@ -28,8 +28,15 @@ export default async function Home() {
 
   return (
     <>
-      <section className="bg-navy px-6 py-20 text-white">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.2fr_1fr]">
+      <section className="relative overflow-hidden bg-navy px-6 py-20 text-white">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/images/banner-timmermannen.webp')" }}
+          role="img"
+          aria-label="Een aannemer en een timmerman schudden elkaar de hand op een bouwplaats"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/85 to-navy/50" />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.2fr_1fr]">
           <div>
             <div className="mb-5 inline-flex items-center rounded-[3px] border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-bold text-[#FCD34D]">Voor zzp-timmermannen en aannemers in Nederland</div>
             <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight md:text-6xl">Goede bouwprojecten,<br /><span className="text-orange">zonder eindeloos zoeken.</span></h1>

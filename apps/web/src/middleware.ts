@@ -19,4 +19,9 @@ export function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
-export const config = { matcher: ['/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)'] };
+// Naast Next.js' eigen assets ook alles onder public/ (afbeeldingen, etc.) en
+// veelvoorkomende statische bestandsextensies overslaan — die zijn altijd
+// openbaar en horen nooit achter de sessiecheck te belanden.
+export const config = {
+  matcher: ['/((?!_next/static|_next/image|images/|favicon.ico|robots.txt|sitemap.xml|.*\\.(?:svg|png|jpe?g|webp|gif|ico|css|js|woff2?|ttf|map)$).*)']
+};
