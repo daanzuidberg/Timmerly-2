@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 
@@ -85,10 +86,13 @@ export function Alert({ tone = 'info', children }: { tone?: 'info' | 'ok' | 'war
   return <div className={`rounded-card border px-4 py-3 text-sm ${tones[tone]}`} role={tone === 'bad' ? 'alert' : undefined}>{children}</div>;
 }
 
+// Beeldmerk: 512×491px bronbestand, dus breedte volgt de hoogte in diezelfde verhouding.
+const LOGO_MARK_RATIO = 512 / 491;
+
 export function Logo({ light = false, size = 32 }: { light?: boolean; size?: number }) {
   return (
     <Link href="/" className="inline-flex items-center gap-2.5 no-underline">
-      <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill={light ? 'rgba(255,255,255,.1)' : '#0C1A2A'} /><path d="M9.5 7.5h4.2v11.3h9.8v4.2H9.5z" fill="#F26522" /></svg>
+      <Image src="/images/logo-mark.png" alt="" width={Math.round(size * LOGO_MARK_RATIO)} height={size} priority />
       <span className={`text-xl font-bold tracking-tight ${light ? 'text-white' : 'text-navy'}`}>Timmerly</span>
     </Link>
   );
