@@ -40,7 +40,7 @@ export default async function Home() {
         <div className="container-x relative grid items-center gap-12 lg:grid-cols-[1.2fr_1fr]">
           <div>
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-bold text-[#FCD34D] backdrop-blur"><span className="h-1.5 w-1.5 rounded-full bg-[#FCD34D]" />Voor zzp-timmermannen en aannemers in Nederland</div>
-            <h1 className="text-[1.375rem] font-semibold leading-[1.2] tracking-tight [text-shadow:0_2px_24px_rgba(0,0,0,.35)] sm:text-4xl sm:leading-[1.1] md:text-5xl lg:text-6xl">Goede bouwprojecten,<br /><span className="text-orange">zonder eindeloos zoeken.</span></h1>
+            <h1 className="text-[1.375rem] font-semibold leading-[1.2] tracking-tight [text-shadow:0_2px_24px_rgba(0,0,0,.35)] sm:text-4xl sm:leading-[1.1] md:text-5xl xl:text-6xl">Goede bouwprojecten,<br /><span className="text-orange">zonder eindeloos zoeken.</span></h1>
             <p className="mt-5 max-w-xl text-lg text-white/85 [text-shadow:0_1px_12px_rgba(0,0,0,.35)]">Maak één keer je profiel. Timmerly toont projecten die passen bij je vak, regio en beschikbaarheid, screent beide kanten en regelt de match en de afhandeling.</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/projecten" className="btn-primary px-7 py-3.5 text-base">Bekijk projecten</Link>
