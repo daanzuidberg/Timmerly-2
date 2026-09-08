@@ -38,7 +38,7 @@ export default async function ProfilePage() {
               <div><h2 className="text-2xl font-bold">{user.firstName} {user.lastName}</h2><div className="text-muted">{TRADE_LABELS[profile.trade as Trade]} · {profile.city} · {profile.yearsExperience} jaar ervaring</div></div>
               <div className="flex gap-2">{badges.filter((b) => b[1]).map(([l]) => <Pill key={String(l)} tone="ok">✓ {l}</Pill>)}</div>
             </div>
-            <div className="mt-3 flex flex-wrap gap-1.5">{profile.specialisms.map((s) => <span key={s} className="rounded-[3px] border border-line bg-ground px-2.5 py-1 text-xs font-bold">{SPECIALISM_LABELS[s as Specialism] ?? s}</span>)}</div>
+            <div className="mt-3 flex flex-wrap gap-1.5">{profile.specialisms.map((s) => <span key={s} className="rounded-md border border-line bg-ground px-2.5 py-1 text-xs font-bold">{SPECIALISM_LABELS[s as Specialism] ?? s}</span>)}</div>
             {profile.bio && <p className="mt-4 text-[15px]">{profile.bio}</p>}
             <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
               {[['Trust', trust, 'verificaties, opkomst, reviews'], ['Beoordeling', avg ?? '—', `${reviews.length} reviews`], ['Afgerond', String(reviews.length), 'projecten via Timmerly'], ['Reisafstand', `${profile.maxTravelKm} km`, `vanaf ${profile.city}`]].map(([l, val, h]) => <div key={l} className="rounded-card bg-ground p-3"><div className="eyebrow">{l}</div><div className="text-lg font-bold">{val}</div><div className="text-xs text-muted">{h}</div></div>)}
@@ -56,7 +56,7 @@ export default async function ProfilePage() {
             {profile.workArrangement !== 'employment' && <Link href="/profiel/zzp" className="btn-secondary btn-sm mt-4">ZZP-gegevens</Link>}
           </Card>
           <Card title="Reviews van opdrachtgevers">
-            {reviews.length ? <ul className="flex flex-col gap-4">{reviews.map((r) => <li key={r.id} className="border-b border-line pb-3 last:border-0"><div className="flex items-center justify-between"><span className="font-bold">{r.application.project.company.name}</span><span className="font-bold text-orange-700">{(r.overall / 10).toFixed(1).replace('.', ',')}</span></div><p className="mt-1 text-sm">{r.comment}</p><div className="mt-2 flex flex-wrap gap-1">{Object.entries(r.scores).map(([k, s]) => <span key={k} className="rounded-[3px] bg-ground px-2 py-0.5 text-xs">{REVIEW_CATEGORY_LABELS[k] ?? k} {s}</span>)}</div></li>)}</ul> : <p className="text-sm text-muted">Nog geen reviews. Die komen na je eerste afgeronde opdracht via Timmerly.</p>}
+            {reviews.length ? <ul className="flex flex-col gap-4">{reviews.map((r) => <li key={r.id} className="border-b border-line pb-3 last:border-0"><div className="flex items-center justify-between"><span className="font-bold">{r.application.project.company.name}</span><span className="font-bold text-orange-700">{(r.overall / 10).toFixed(1).replace('.', ',')}</span></div><p className="mt-1 text-sm">{r.comment}</p><div className="mt-2 flex flex-wrap gap-1">{Object.entries(r.scores).map(([k, s]) => <span key={k} className="rounded-md bg-ground px-2 py-0.5 text-xs">{REVIEW_CATEGORY_LABELS[k] ?? k} {s}</span>)}</div></li>)}</ul> : <p className="text-sm text-muted">Nog geen reviews. Die komen na je eerste afgeronde opdracht via Timmerly.</p>}
           </Card>
         </div>
       </div>

@@ -47,7 +47,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ id: 
           </div>
           <h1 className="h1 mt-3">{project.title}</h1>
           <p className="mt-2 text-muted">{project.company.name}{project.company.verifiedAt ? ' · Bedrijf geverifieerd ✓' : ''} · {project.headcount} {project.headcount === 1 ? 'persoon' : 'personen'} gezocht</p>
-          <div className="mt-4 flex flex-wrap gap-1.5">{project.specialisms.map((s) => <span key={s} className="rounded-[3px] border border-line bg-ground px-2.5 py-1 text-xs font-bold">{SPECIALISM_LABELS[s as Specialism] ?? s}</span>)}</div>
+          <div className="mt-4 flex flex-wrap gap-1.5">{project.specialisms.map((s) => <span key={s} className="rounded-md border border-line bg-ground px-2.5 py-1 text-xs font-bold">{SPECIALISM_LABELS[s as Specialism] ?? s}</span>)}</div>
 
           {match && (
             <section className="card mt-8 flex items-start gap-5">

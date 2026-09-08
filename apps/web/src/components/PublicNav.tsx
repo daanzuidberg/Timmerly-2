@@ -5,7 +5,7 @@ import { Logo } from './ui';
 export async function PublicNav() {
   const user = await getSession();
   return (
-    <nav className="sticky top-0 z-40 border-b border-line bg-white">
+    <nav className="sticky top-0 z-40 bg-white/95 shadow-nav backdrop-blur">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-3.5">
         <Logo />
         <div className="hidden items-center gap-6 text-[15px] font-semibold text-navy md:flex">

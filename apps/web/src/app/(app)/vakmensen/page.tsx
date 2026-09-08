@@ -54,7 +54,7 @@ export default async function ProfessionalsSearch({ searchParams }: { searchPara
           {items.length ? <div className="grid gap-4 md:grid-cols-2">{items.map((i) => (
             <Link key={i.p.id} href={`/vakmensen/${i.p.id}`} className="card no-underline transition hover:border-navy">
               <div className="flex items-start justify-between gap-2"><div><div className="font-bold text-navy">{TRADE_LABELS[i.p.trade as Trade]}</div><div className="text-sm text-muted">{i.p.city}{i.km != null ? ` · ${i.km} km` : ''} · {i.p.yearsExperience} jaar</div></div><StatusPill status={i.p.availability} /></div>
-              <div className="mt-2 flex flex-wrap gap-1">{i.p.specialisms.slice(0, 4).map((s) => <span key={s} className="rounded-[3px] bg-ground px-2 py-0.5 text-xs font-bold text-navy">{SPECIALISM_LABELS[s as Specialism] ?? s}</span>)}</div>
+              <div className="mt-2 flex flex-wrap gap-1">{i.p.specialisms.slice(0, 4).map((s) => <span key={s} className="rounded-md bg-ground px-2 py-0.5 text-xs font-bold text-navy">{SPECIALISM_LABELS[s as Specialism] ?? s}</span>)}</div>
               <div className="mt-2 flex flex-wrap gap-1">{i.certs.map((c) => <Pill key={c.id} tone="ok">✓ {CERTIFICATE_LABELS[c.type as CertificateType]}</Pill>)}{i.p.trustScore >= 75 && <Pill tone="orange">Top vakman</Pill>}</div>
               <div className="mt-2 text-sm text-muted">{i.p.availableFrom ? `Beschikbaar vanaf ${formatDateNl(i.p.availableFrom)}` : AVAILABILITY_LABELS[i.p.availability as AvailabilityStatus]} · {i.p.workArrangement === 'zzp' ? 'ZZP' : i.p.workArrangement === 'employment' ? 'Loondienst' : 'ZZP of loondienst'}</div>
             </Link>

@@ -43,7 +43,7 @@ export function Card({ children, className = '', title, action }: { children: Re
   return (
     <section className={`card ${className}`}>
       {(title || action) && (
-        <div className="mb-4 flex items-center justify-between gap-3">
+        <div className="-mx-6 -mt-6 mb-5 flex items-center justify-between gap-3 border-b border-line-soft px-6 py-4">
           {title && <h2 className="h3">{title}</h2>}
           {action}
         </div>
@@ -54,7 +54,7 @@ export function Card({ children, className = '', title, action }: { children: Re
 }
 
 export function Empty({ children }: { children: ReactNode }) {
-  return <div className="rounded-card border border-dashed border-line bg-white px-6 py-10 text-center text-muted">{children}</div>;
+  return <div className="rounded-card border border-dashed border-line bg-ground/50 px-6 py-10 text-center text-sm text-muted">{children}</div>;
 }
 
 export function Score({ value, size = 'md' }: { value: number; size?: 'sm' | 'md' | 'lg' }) {
@@ -112,10 +112,11 @@ export function Avatar({ name, color, size = 40 }: { name: string; color?: strin
 
 export function Stat({ label, value, hint }: { label: string; value: ReactNode; hint?: string }) {
   return (
-    <div className="card">
+    <div className="card relative overflow-hidden p-5">
+      <span className="absolute inset-y-0 left-0 w-1 bg-orange" aria-hidden="true" />
       <div className="eyebrow">{label}</div>
-      <div className="mt-1 text-2xl font-bold">{value}</div>
-      {hint && <div className="mt-0.5 text-sm text-muted">{hint}</div>}
+      <div className="mt-1 text-3xl font-bold tracking-tight">{value}</div>
+      {hint && <div className="mt-1 text-sm text-muted">{hint}</div>}
     </div>
   );
 }

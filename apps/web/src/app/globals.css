@@ -1,6 +1,14 @@
 @import 'tailwindcss';
 
-/* Huisstijl Timmerly: rustig, veel wit, sterke typografie, één accentkleur. */
+/*
+ * Huisstijl Timmerly: rustig, veel wit, sterke typografie, één accentkleur.
+ *
+ * Diepte werkt met drie niveaus, niet meer: vlak (achtergrond), kaart
+ * (subtiele schaduw) en zwevend (navigatie, dropdowns, de hero-kaart). Alle
+ * schaduwen zijn navy-getint in plaats van zwart — dat oogt als één materiaal
+ * in plaats van grijze vlekken. Hoekradius loopt mee met de grootte van het
+ * element: knoppen en velden 6px, kaarten 12px.
+ */
 @theme {
   --color-navy: #0c1a2a;
   --color-navy-700: #1c2b4a;
@@ -10,6 +18,7 @@
   --color-orange-100: #ffedd5;
   --color-ground: #f2f3f5;
   --color-line: #dce0e6;
+  --color-line-soft: #e8ebef;
   --color-muted: #6b7280;
   --color-faint: #8a93a3;
   --color-ok: #22c55e;
@@ -21,47 +30,63 @@
   --color-bad: #ef4444;
   --color-bad-100: #fee2e2;
   --color-bad-800: #991b1b;
-  --radius-card: 6px;
+
+  --radius-control: 6px;
+  --radius-card: 12px;
+
+  --shadow-card: 0 1px 2px rgba(12, 26, 42, 0.04), 0 4px 16px -4px rgba(12, 26, 42, 0.08);
+  --shadow-card-hover: 0 2px 4px rgba(12, 26, 42, 0.05), 0 16px 32px -8px rgba(12, 26, 42, 0.16);
+  --shadow-float: 0 8px 24px -8px rgba(12, 26, 42, 0.2), 0 24px 56px -16px rgba(12, 26, 42, 0.28);
+  --shadow-nav: 0 1px 0 rgba(12, 26, 42, 0.06), 0 8px 24px -16px rgba(12, 26, 42, 0.18);
+  --shadow-button: 0 1px 2px rgba(12, 26, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
   --font-sans: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
 }
 
 /*
- * Tailwind plaatst zijn eigen utilities in cascade layers (@layer utilities
- * e.d.). Een niet-gelaagde regel wint in CSS altijd van elke gelaagde regel,
- * ongeacht specificiteit — dus onze eigen basisstijlen horen ook in een layer,
- * anders verslaat bijvoorbeeld dit `a{}`-standaardkleurtje elke `text-navy` of
- * `text-white` die je op een link zet (precies dat gebeurde: navigatielinks
- * bleven oranje, wat de klasse ook zei).
+ * Tailwind plaatst zijn utilities in cascade layers. Een niet-gelaagde regel
+ * wint altijd van elke gelaagde regel, dus onze eigen basis- en
+ * componentstijlen horen ook in een layer — anders overschrijft `a{}` elke
+ * text-*-klasse op een link.
  */
 @layer base {
   html { color-scheme: light; }
   body { @apply bg-ground text-navy antialiased; font-family: var(--font-sans); }
   a { @apply text-orange-700 hover:text-orange; }
   input, select, textarea { font: inherit; }
+  ::selection { background: rgba(242, 101, 34, 0.22); }
 }
 
 @layer components {
   /* Formuliervelden */
-  .input { @apply w-full rounded-[4px] border border-line bg-white px-3.5 py-2.5 text-[15px] text-navy outline-none focus:border-orange focus:ring-2 focus:ring-orange/20 disabled:bg-ground; }
+  .input { @apply w-full rounded-control border border-line bg-white px-3.5 py-2.5 text-[15px] text-navy shadow-[inset_0_1px_2px_rgba(12,26,42,0.04)] outline-none transition placeholder:text-faint hover:border-navy/40 focus:border-orange focus:ring-4 focus:ring-orange/15 disabled:bg-ground disabled:shadow-none; }
   .label { @apply mb-1.5 block text-xs font-bold uppercase tracking-wider text-faint; }
   .help { @apply mt-1 text-sm text-muted; }
   .error { @apply mt-1 text-sm font-semibold text-bad-800; }
 
-  /* Knoppen */
-  .btn, .btn-primary, .btn-dark, .btn-secondary, .btn-ghost { @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-[4px] px-5 py-2.5 text-[15px] font-bold no-underline transition disabled:cursor-not-allowed disabled:opacity-60; }
-  .btn-primary { @apply bg-orange text-white hover:bg-orange-700 hover:text-white; }
-  .btn-dark { @apply bg-navy text-white hover:bg-navy-700 hover:text-white; }
-  .btn-secondary { @apply border border-line bg-white text-navy hover:border-navy hover:text-navy; }
-  .btn-ghost { @apply bg-transparent text-navy hover:bg-white hover:text-navy; }
+  /* Knoppen: één primaire per scherm, de rest houdt zich koest. */
+  .btn, .btn-primary, .btn-dark, .btn-secondary, .btn-ghost { @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-control px-5 py-2.5 text-[15px] font-bold no-underline transition duration-150 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-orange/25 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-60 disabled:active:translate-y-0; }
+  .btn-primary { @apply bg-orange text-white shadow-button hover:bg-orange-700 hover:text-white hover:shadow-card-hover; }
+  .btn-dark { @apply bg-navy text-white shadow-button hover:bg-navy-700 hover:text-white; }
+  .btn-secondary { @apply border border-line bg-white text-navy shadow-[0_1px_2px_rgba(12,26,42,0.05)] hover:border-navy/50 hover:text-navy hover:shadow-card; }
+  .btn-ghost { @apply bg-transparent text-navy hover:bg-navy/5 hover:text-navy; }
   .btn-sm { @apply px-3.5 py-1.5 text-sm; }
 
-  /* Kaarten en labels */
-  .card { @apply rounded-card border border-line bg-white p-5; }
-  .pill { @apply inline-flex items-center whitespace-nowrap rounded-[3px] px-2.5 py-1 text-xs font-bold; }
-  .chip { @apply inline-flex cursor-pointer items-center rounded-[4px] border border-line bg-white px-3 py-1.5 text-sm font-semibold text-navy-500 transition hover:border-navy; }
-  .chip-on { @apply border-orange bg-orange text-white; }
+  /* Kaarten: één materiaal, één schaduw. Interactieve kaarten tillen op bij hover. */
+  .card { @apply rounded-card border border-line-soft bg-white p-6 shadow-card; }
+  .card-hover { @apply transition duration-200 hover:-translate-y-0.5 hover:border-line hover:shadow-card-hover; }
+  .panel { @apply rounded-card border border-line-soft bg-ground/60 p-6; }
+
+  .pill { @apply inline-flex items-center whitespace-nowrap rounded-md px-2.5 py-1 text-xs font-bold; }
+  .chip { @apply inline-flex cursor-pointer items-center rounded-control border border-line bg-white px-3 py-1.5 text-sm font-semibold text-navy-500 transition hover:border-navy/50 hover:shadow-[0_1px_2px_rgba(12,26,42,0.06)]; }
+  .chip-on { @apply border-orange bg-orange text-white shadow-button hover:border-orange-700 hover:bg-orange-700; }
+
   .eyebrow { @apply text-xs font-bold uppercase tracking-[.12em] text-faint; }
   .h1 { @apply text-3xl font-bold tracking-tight md:text-4xl; }
   .h2 { @apply text-2xl font-bold tracking-tight; }
   .h3 { @apply text-lg font-bold; }
+
+  /* Sectieritme op de publieke pagina's. */
+  .section { @apply px-6 py-16 md:py-24; }
+  .container-x { @apply mx-auto max-w-6xl; }
 }

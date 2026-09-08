@@ -39,7 +39,7 @@ export function AvailabilityCalendar({ year, month, days, booked }: { year: numb
           const next = CYCLE[(CYCLE.indexOf(status === 'default' ? 'default' : (status as AvailabilityStatus)) + 1) % CYCLE.length]!;
           return (
             <button key={iso} type="button" disabled={pending || isBooked} title={isBooked ? 'Geboekt' : status === 'default' ? 'Standaard' : AVAILABILITY_LABELS[status as AvailabilityStatus]}
-              className={`aspect-square rounded-[4px] text-sm font-bold ${colors[status]} ${isBooked ? 'cursor-default' : 'cursor-pointer hover:opacity-80'}`}
+              className={`aspect-square rounded-control text-sm font-bold ${colors[status]} ${isBooked ? 'cursor-default' : 'cursor-pointer hover:opacity-80'}`}
               onClick={() => start(() => setAvailabilityDay(iso, next))}>{n}</button>
           );
         })}

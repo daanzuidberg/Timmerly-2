@@ -37,7 +37,7 @@ export async function AppShell({ user, children, title, subtitle, actions }: { u
         <Logo light />
         <nav className="mt-8 flex flex-1 flex-col gap-0.5">
           {items.map((n) => (
-            <Link key={n.href} href={n.href} className="rounded-[4px] px-3 py-2.5 text-[15px] font-semibold text-white/70 no-underline hover:bg-white/10 hover:text-white">{n.label}</Link>
+            <Link key={n.href} href={n.href} className="rounded-control px-3 py-2.5 text-[15px] font-semibold text-white/70 no-underline hover:bg-white/10 hover:text-white">{n.label}</Link>
           ))}
         </nav>
         <div className="border-t border-white/10 pt-4 text-xs text-white/50">
@@ -46,7 +46,7 @@ export async function AppShell({ user, children, title, subtitle, actions }: { u
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex items-center justify-between gap-4 border-b border-line bg-white px-5 py-3">
+        <header className="sticky top-0 z-30 flex items-center justify-between gap-4 bg-white/95 px-5 py-3 shadow-nav backdrop-blur">
           <div className="min-w-0">
             <div className="lg:hidden"><Logo size={24} /></div>
             {title && <h1 className="truncate text-lg font-bold lg:text-xl">{title}</h1>}
@@ -54,10 +54,10 @@ export async function AppShell({ user, children, title, subtitle, actions }: { u
           </div>
           <div className="flex items-center gap-2">
             {actions}
-            <Link href="/meldingen" className="relative rounded-[4px] border border-line px-3 py-2 text-sm font-semibold text-navy no-underline hover:border-navy" aria-label="Meldingen">
+            <Link href="/meldingen" className="relative rounded-control border border-line px-3 py-2 text-sm font-semibold text-navy no-underline hover:border-navy" aria-label="Meldingen">
               Meldingen{unread!.n > 0 && <span className="absolute -right-1.5 -top-1.5 rounded-full bg-orange px-1.5 text-[10px] font-bold text-white">{unread!.n}</span>}
             </Link>
-            <Link href="/instellingen" className="flex items-center gap-2 rounded-[4px] border border-line py-1 pl-1 pr-3 text-sm font-semibold text-navy no-underline hover:border-navy">
+            <Link href="/instellingen" className="flex items-center gap-2 rounded-control border border-line py-1 pl-1 pr-3 text-sm font-semibold text-navy no-underline hover:border-navy">
               <Avatar name={`${user.firstName} ${user.lastName}`} size={28} /><span className="hidden sm:inline">{user.firstName}</span>
             </Link>
             <form action={logout}><button className="btn-ghost btn-sm" type="submit">Uitloggen</button></form>

@@ -10,7 +10,7 @@ type Project = {
 export function ProjectCard({ project, score, distanceKm }: { project: Project; score?: number; distanceKm?: number | null }) {
   const spots = project.headcount - project.filledCount;
   return (
-    <Link href={`/projecten/${project.id}`} className="card flex flex-col gap-3 no-underline transition hover:border-navy">
+    <Link href={`/projecten/${project.id}`} className="card card-hover flex flex-col gap-3 text-navy no-underline hover:text-navy">
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="text-lg font-bold leading-snug text-navy">{project.title}</div>
@@ -21,7 +21,7 @@ export function ProjectCard({ project, score, distanceKm }: { project: Project; 
         {score != null ? <Score value={score} /> : project.status === 'published' ? <Pill tone={spots <= 1 ? 'warn' : 'ok'}>{spots <= 1 ? 'Bijna vol' : 'Open'}</Pill> : <StatusPill status={project.status} />}
       </div>
       <div className="flex flex-wrap gap-1.5">
-        {project.specialisms.slice(0, 3).map((s) => <span key={s} className="rounded-[3px] border border-line bg-ground px-2 py-0.5 text-xs font-bold text-navy">{SPECIALISM_LABELS[s as Specialism] ?? s}</span>)}
+        {project.specialisms.slice(0, 3).map((s) => <span key={s} className="rounded-md border border-line bg-ground px-2 py-0.5 text-xs font-bold text-navy">{SPECIALISM_LABELS[s as Specialism] ?? s}</span>)}
       </div>
       <div className="grid grid-cols-2 gap-2 border-t border-line pt-3 text-sm">
         <div><div className="text-xs text-faint">Start</div><div className="font-semibold">{formatDateNl(project.startDate)}</div></div>
