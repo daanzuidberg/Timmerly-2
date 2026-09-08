@@ -3,6 +3,11 @@ import { eq, schema } from '@timmerly/db';
 import { db } from '@/lib/db';
 import { PLACE_COORDS } from '@timmerly/core';
 
+// Projecten wijzigen continu; per request opbouwen in plaats van bevriezen op
+// het moment van de build. Voorkomt ook dat de build zelf een databaseverbinding
+// nodig heeft (die tijdens `next build` niet gegarandeerd beschikbaar is).
+export const dynamic = 'force-dynamic';
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = process.env.APP_URL ?? 'http://localhost:3000';
   const pages = ['', '/projecten', '/hoe-het-werkt', '/voor-opdrachtgevers', '/zzp-check', '/over-timmerly', '/prijzen', '/privacy', '/voorwaarden', '/support', '/verificatie'].map((p) => ({ url: `${base}${p}`, changeFrequency: 'weekly' as const }));

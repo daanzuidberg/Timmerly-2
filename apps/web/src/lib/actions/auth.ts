@@ -14,7 +14,13 @@ import { audit } from '../audit';
 import { createSession, destroySession, getSession, requireUser, revokeAllSessions } from '../auth/session';
 import { fieldErrors, formToObject, type ActionState } from './types';
 
-const TOTP_KEY = createHash('sha256').update(env.SESSION_SECRET + ':totp').digest();
+// Lazy: env.SESSION_SECRET pas opeisen bij het eerste gebruik, niet bij het
+// importeren van deze module (Next.js evalueert routemodules tijdens de
+// build om hun exports te lezen, ook zonder request of .env aanwezig).
+let totpKey: Buffer | undefined;
+function getTotpKey(): Buffer {
+  return (totpKey ??= createHash('sha256').update(env.SESSION_SECRET + ':totp').digest());
+}
 
 async function securityEvent(userId: string | null, type: string) {
   const { ip, userAgent } = await requestMeta();
@@ -93,7 +99,7 @@ export async function verifyTwoFactor(_prev: ActionState, form: FormData): Promi
   if (!rateLimit(`totp:${session.id}:${ip}`, { capacity: 6, refillPerMinute: 1 }).ok) return { error: 'Te veel pogingen. Wacht even.' };
   const user = await db().query.users.findFirst({ where: eq(schema.users.id, session.id) });
   if (!user?.totpSecretEnc) redirect('/dashboard');
-  if (!verifyTotp(decryptSecret(user.totpSecretEnc, TOTP_KEY), code)) { await securityEvent(user.id, 'mfa_failed'); return { error: 'De code klopt niet. Controleer de tijd op je telefoon en probeer opnieuw.' }; }
+  if (!verifyTotp(decryptSecret(user.totpSecretEnc, getTotpKey()), code)) { await securityEvent(user.id, 'mfa_failed'); return { error: 'De code klopt niet. Controleer de tijd op je telefoon en probeer opnieuw.' }; }
   await db().update(schema.sessions).set({ mfaPassed: true }).where(eq(schema.sessions.id, session.sessionId));
   await securityEvent(user.id, 'mfa_ok');
   redirect('/dashboard');
@@ -171,7 +177,7 @@ export async function changePassword(_prev: ActionState, form: FormData): Promis
 export async function beginTotpSetup(): Promise<{ secret: string; uri: string }> {
   const user = await requireUser();
   const secret = generateTotpSecret();
-  await db().update(schema.users).set({ totpSecretEnc: encryptSecret(secret, TOTP_KEY), totpEnabledAt: null }).where(eq(schema.users.id, user.id));
+  await db().update(schema.users).set({ totpSecretEnc: encryptSecret(secret, getTotpKey()), totpEnabledAt: null }).where(eq(schema.users.id, user.id));
   return { secret, uri: totpUri(secret, user.email) };
 }
 
@@ -180,7 +186,7 @@ export async function confirmTotp(_prev: ActionState, form: FormData): Promise<A
   const user = await requireUser();
   const row = (await db().query.users.findFirst({ where: eq(schema.users.id, user.id) }))!;
   if (!row.totpSecretEnc) return { error: 'Start de instelling opnieuw.' };
-  if (!verifyTotp(decryptSecret(row.totpSecretEnc, TOTP_KEY), String(form.get('code') ?? ''))) return { error: 'De code klopt niet. Scan de QR-code opnieuw en probeer het nog eens.' };
+  if (!verifyTotp(decryptSecret(row.totpSecretEnc, getTotpKey()), String(form.get('code') ?? ''))) return { error: 'De code klopt niet. Scan de QR-code opnieuw en probeer het nog eens.' };
   await db().update(schema.users).set({ totpEnabledAt: new Date() }).where(eq(schema.users.id, user.id));
   await db().update(schema.sessions).set({ mfaPassed: true }).where(eq(schema.sessions.id, user.sessionId));
   await securityEvent(user.id, 'mfa_enabled');
