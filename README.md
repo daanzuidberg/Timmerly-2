@@ -54,3 +54,8 @@ infra/                 docker-compose
 
 Lees [docs/README.md](docs/README.md) voor de volledige architectuur en de
 roadmap.
+
+## Live zetten
+
+Zie [DEPLOY.md](DEPLOY.md) — de database staat al klaar (Supabase), alleen
+het Vercel-project en drie environment variables resten nog.
