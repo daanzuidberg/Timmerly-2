@@ -115,7 +115,7 @@ export function Stat({ label, value, hint }: { label: string; value: ReactNode; 
     <div className="card relative overflow-hidden p-5">
       <span className="absolute inset-y-0 left-0 w-1 bg-orange" aria-hidden="true" />
       <div className="eyebrow">{label}</div>
-      <div className="mt-1 text-3xl font-bold tracking-tight">{value}</div>
+      <div className="tabular mt-1 text-3xl font-bold tracking-tight">{value}</div>
       {hint && <div className="mt-1 text-sm text-muted">{hint}</div>}
     </div>
   );
