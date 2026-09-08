@@ -48,7 +48,7 @@ input, select, textarea { font: inherit; }
 .card { @apply rounded-card border border-line bg-white p-5; }
 .pill { @apply inline-flex items-center whitespace-nowrap rounded-[3px] px-2.5 py-1 text-xs font-bold; }
 .chip { @apply inline-flex cursor-pointer items-center rounded-[4px] border border-line bg-white px-3 py-1.5 text-sm font-semibold text-navy-500 transition hover:border-navy; }
-.chip-on { @apply border-orange bg-orange/10 text-orange-700; }
+.chip-on { @apply border-orange bg-orange text-white; }
 .eyebrow { @apply text-xs font-bold uppercase tracking-[.12em] text-faint; }
 .h1 { @apply text-3xl font-bold tracking-tight md:text-4xl; }
 .h2 { @apply text-2xl font-bold tracking-tight; }
