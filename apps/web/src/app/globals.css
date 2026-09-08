@@ -1,0 +1,55 @@
+@import 'tailwindcss';
+
+/* Huisstijl Timmerly: rustig, veel wit, sterke typografie, één accentkleur. */
+@theme {
+  --color-navy: #0c1a2a;
+  --color-navy-700: #1c2b4a;
+  --color-navy-500: #28405c;
+  --color-orange: #f26522;
+  --color-orange-700: #d4531a;
+  --color-orange-100: #ffedd5;
+  --color-ground: #f2f3f5;
+  --color-line: #dce0e6;
+  --color-muted: #6b7280;
+  --color-faint: #8a93a3;
+  --color-ok: #22c55e;
+  --color-ok-100: #dcfce7;
+  --color-ok-800: #166534;
+  --color-warn: #f59e0b;
+  --color-warn-100: #fef3c7;
+  --color-warn-800: #92400e;
+  --color-bad: #ef4444;
+  --color-bad-100: #fee2e2;
+  --color-bad-800: #991b1b;
+  --radius-card: 6px;
+  --font-sans: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+}
+
+html { color-scheme: light; }
+body { @apply bg-ground text-navy antialiased; font-family: var(--font-sans); }
+a { @apply text-orange-700 hover:text-orange; }
+input, select, textarea { font: inherit; }
+
+/* Formuliervelden */
+.input { @apply w-full rounded-[4px] border border-line bg-white px-3.5 py-2.5 text-[15px] text-navy outline-none focus:border-orange focus:ring-2 focus:ring-orange/20 disabled:bg-ground; }
+.label { @apply mb-1.5 block text-xs font-bold uppercase tracking-wider text-faint; }
+.help { @apply mt-1 text-sm text-muted; }
+.error { @apply mt-1 text-sm font-semibold text-bad-800; }
+
+/* Knoppen */
+.btn, .btn-primary, .btn-dark, .btn-secondary, .btn-ghost { @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-[4px] px-5 py-2.5 text-[15px] font-bold no-underline transition disabled:cursor-not-allowed disabled:opacity-60; }
+.btn-primary { @apply bg-orange text-white hover:bg-orange-700 hover:text-white; }
+.btn-dark { @apply bg-navy text-white hover:bg-navy-700 hover:text-white; }
+.btn-secondary { @apply border border-line bg-white text-navy hover:border-navy hover:text-navy; }
+.btn-ghost { @apply bg-transparent text-navy hover:bg-white hover:text-navy; }
+.btn-sm { @apply px-3.5 py-1.5 text-sm; }
+
+/* Kaarten en labels */
+.card { @apply rounded-card border border-line bg-white p-5; }
+.pill { @apply inline-flex items-center whitespace-nowrap rounded-[3px] px-2.5 py-1 text-xs font-bold; }
+.chip { @apply inline-flex cursor-pointer items-center rounded-[4px] border border-line bg-white px-3 py-1.5 text-sm font-semibold text-navy-500 transition hover:border-navy; }
+.chip-on { @apply border-orange bg-orange/10 text-orange-700; }
+.eyebrow { @apply text-xs font-bold uppercase tracking-[.12em] text-faint; }
+.h1 { @apply text-3xl font-bold tracking-tight md:text-4xl; }
+.h2 { @apply text-2xl font-bold tracking-tight; }
+.h3 { @apply text-lg font-bold; }

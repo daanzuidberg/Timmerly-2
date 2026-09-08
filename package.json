@@ -1,0 +1,25 @@
+{
+  "name": "timmerly",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Timmerly — het landelijke matchingplatform voor de bouw",
+  "packageManager": "pnpm@10.33.0",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "pnpm --filter @timmerly/web dev",
+    "build": "pnpm -r --filter './packages/**' build && pnpm --filter @timmerly/web build",
+    "start": "pnpm --filter @timmerly/web start",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "db:generate": "pnpm --filter @timmerly/db generate",
+    "db:migrate": "pnpm --filter @timmerly/db migrate",
+    "db:seed": "pnpm --filter @timmerly/db seed",
+    "check": "pnpm typecheck && pnpm lint && pnpm test"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}

@@ -1,0 +1,19 @@
+# Lokale ontwikkeling: `docker compose -f infra/docker-compose.yml up -d`
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: timmerly
+      POSTGRES_PASSWORD: timmerly
+      POSTGRES_DB: timmerly
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U timmerly"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  pgdata:

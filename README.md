@@ -1,54 +1,56 @@
-# Timmerly — prototype v2
+# Timmerly
 
-Klikbaar prototype van het Timmerly-platform: een matchingplatform voor
-zzp-timmermannen en aannemers. De site is een directe port van het Claude
-Design-project *Timmerly Prototype v2* en draait zonder build of framework —
-open `index.html` in een browser of zet de map op een statische host.
+Het landelijke matchingplatform voor de bouw: aannemers en bouwprofessionals
+vinden elkaar op basis van vak, ervaring, afstand, beschikbaarheid en
+geverifieerde certificaten. Geen vacaturebank — elke match heeft een score
+mét uitleg, beide kanten zijn gescreend, en gesprek, voorstel, uren en review
+lopen in één omgeving.
+
+## Starten
+
+```sh
+cp .env.example .env                              # DATABASE_URL, SESSION_SECRET, APP_URL
+docker compose -f infra/docker-compose.yml up -d  # PostgreSQL 16
+pnpm install
+pnpm db:migrate && pnpm db:seed                   # schema + demodata
+pnpm dev                                          # http://localhost:3000
+```
+
+Demo-accounts na `pnpm db:seed` (wachtwoord voor allemaal `Timmerly-demo-2026`):
+
+| Rol | E-mail |
+| --- | --- |
+| Admin | admin@timmerly.nl |
+| Vakman (zzp, geverifieerd) | daan@verhoeventimmerwerken.nl |
+| Opdrachtgever (geverifieerd) | planning@vandijkbouw.nl |
+| Opdrachtgever (nieuw, ongeverifieerd) | jan@janssenbouw.nl |
+
+Mails (verificatielinks, meldingen) worden in ontwikkeling naar de terminal
+gelogd. De worker voor e-mail en certificaatwaarschuwingen:
+`pnpm --filter @timmerly/web worker`.
+
+## Controleren
+
+```sh
+pnpm typecheck   # alle packages en de app
+pnpm lint
+pnpm test        # matching, compliance, auth, core
+pnpm build       # productiebuild
+```
 
 ## Structuur
 
-| Pad | Wat |
-| --- | --- |
-| `index.html` | De app: 19 schermen in één single-page prototype |
-| `assets/dc-runtime.js` | Mini-runtime voor de templatetaal van het ontwerp |
-| `assets/app.js` | Schermlogica en demodata, uit de ontwerpbron |
-| `*.html` (overig) | Inhoudelijke pagina's: over, hoe het werkt, voorwaarden, privacy |
-| `design/` | De ontwerpbronnen uit Claude Design (`.dc.html`) |
-| `tools/build.js` | Genereert de site uit `design/` |
-
-## Schermen
-
-De app kent drie rollen, om te wisselen via het demopaneel linksonder:
-
-- **Publiek** — homepage, projectoverzicht met filters, projectdetail en een
-  aanmelding in negen stappen.
-- **Vakman** — dashboard met screeningstatus, projecten, mijn aanmeldingen,
-  profiel, meldingen, instellingen, urenregistratie, beschikbaarheidskalender,
-  berichten, kaart en de ZZP-check.
-- **Aannemer** — dashboard, project aanmelden, voorgestelde kandidaten, de
-  opdrachtfunnel van match tot review, en uren goedkeuren.
-- **Admin** — kandidaten screenen, projecten door de statusketen halen,
-  matching en een auditlog dat wijzigingen vastlegt.
-
-`Mobiele weergave` in hetzelfde paneel zet de app in een telefoonframe.
-
-Een scherm is ook direct te openen via de URL, bijvoorbeeld
-`index.html?startScreen=admin`. Verder werken `proName`, `showMatchReasons` en
-`forceOnboard` als query-parameter.
-
-## Wijzigen
-
-De HTML in de root en `assets/app.js` worden **gegenereerd**. Pas het ontwerp
-aan in Claude Design, vervang de bestanden in `design/` en draai:
-
-```sh
-node tools/build.js
+```
+apps/web               Next.js 15-app: pagina's, server actions, worker
+packages/core          domeinwaarden, validatie (Zod), geo, datums
+packages/db            Drizzle-schema, migraties, seed
+packages/auth          scrypt, tokens, TOTP
+packages/matching      matching-engine met uitleg (puur, getest)
+packages/compliance    ZZP-check: versiebeheerde regelset (puur, getest)
+docs/                  architectuur, flows, datamodel, security, roadmap
+prototype/             klikbaar UX-prototype (referentie)
+infra/                 docker-compose
 ```
 
-Alleen `assets/dc-runtime.js` en `tools/build.js` zijn met de hand geschreven.
-
-## Over de data
-
-Alle namen, tarieven, projecten en beoordelingen zijn fictief; de app bewaart
-niets tussen sessies. De ZZP-check is risicosignalering en geen juridisch
-advies.
+Lees [docs/README.md](docs/README.md) voor de volledige architectuur en de
+roadmap.

@@ -19,7 +19,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.join(__dirname, '..');
+const ROOT = path.join(__dirname, '..'); // prototype/
 const DESIGN = path.join(ROOT, 'design');
 const ASSETS = path.join(ROOT, 'assets');
 
