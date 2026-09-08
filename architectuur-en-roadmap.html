@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Architectuur en roadmap — Timmerly</title>
+<!-- Gegenereerd uit design/ met `node tools/build.js` — niet handmatig bewerken. -->
+<style>
+body{margin:0;font-family:"Segoe UI",system-ui,sans-serif;color:#0C1A2A;background:#F2F3F5;-webkit-font-smoothing:antialiased}
+a{color:#D4531A}a:hover{color:#B5430F}
+  footer a:hover{color:#F26522}
+</style>
+</head>
+<body>
+<nav style="position:sticky;top:0;z-index:50;background:#FFFFFF;border-bottom:1px solid #DCE0E6;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap">
+  <a href="index.html" style="display:inline-flex;align-items:center;gap:11px;text-decoration:none;color:inherit">
+    <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#0C1A2A"></rect><path d="M9.5 7.5h4.2v11.3h9.8v4.2H9.5z" fill="#F26522"></path></svg>
+    <span style="display:inline-flex;align-items:baseline;gap:9px">
+      <span style="font-size:1.22rem;font-weight:700;letter-spacing:-.4px;color:#0C1A2A">Timmerly</span>
+      <span style="font-size:.66rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8A93A3;border-left:1px solid #DCE0E6;padding-left:9px;white-space:nowrap">Voor de bouw</span>
+    </span>
+  </a>
+  <div style="display:flex;align-items:center;gap:26px;font-size:.92rem;font-weight:500;color:#0C1A2A;white-space:nowrap;flex-wrap:wrap">
+    <span style="cursor:default">Voor aannemers</span>
+    <span style="cursor:default">Voor vakmensen</span>
+    <span style="cursor:default">ZZP-check</span>
+    <span style="cursor:default">Prijzen</span>
+  </div>
+  <div style="display:flex;gap:10px;white-space:nowrap">
+    <a href="index.html" style="padding:10px 20px;border-radius:2px;border:1px solid #DCE0E6;background:#fff;color:#0C1A2A;font-weight:600;font-size:.9rem;text-decoration:none">Inloggen</a>
+    <a href="index.html" style="padding:10px 22px;border-radius:2px;border:none;background:#F26522;color:#fff;font-weight:600;font-size:.9rem;text-decoration:none">Project plaatsen</a>
+  </div>
+</nav>
+<div style="max-width:960px;margin:0 auto;padding:48px 24px 80px;display:flex;flex-direction:column;gap:28px">
+  <div>
+    <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#8A93A3;font-weight:700;margin-bottom:10px">Intern document · september 2026</div>
+    <h1 style="font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:600;letter-spacing:-1px;margin:0 0 10px">Timmerly: architectuur en roadmap</h1>
+    <p style="color:#6B7280;font-size:1rem;margin:0;max-width:680px;text-wrap:pretty">Wat er nodig is om van het prototype een werkend platform te maken: datamodel, API, rollen, beveiliging en de drie fases.</p>
+  </div>
+
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:26px">
+    <h2 style="font-size:1.25rem;font-weight:700;margin:0 0 6px">1. Positionering</h2>
+    <p style="font-size:.95rem;color:#4B5563;margin:0 0 12px;text-wrap:pretty">Het vaknetwerk voor zzp-timmermannen. Geen vacaturebank en geen uitzendbureau: een geselecteerd netwerk waar Timmerly screent, matcht en de afhandeling regelt. Vakmensen betalen niets; opdrachtgevers kopen een ingevulde positie, geen CV-toegang.</p>
+    <p style="font-size:.95rem;color:#4B5563;margin:0;text-wrap:pretty">Toetsvraag bij elke functie: zou een Nederlandse zzp-timmerman dit vertrouwen, en zou een professionele aannemer dit serieus nemen als kanaal?</p>
+  </div>
+
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:26px">
+    <h2 style="font-size:1.25rem;font-weight:700;margin:0 0 14px">2. Datamodel</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px">
+      <sc-for list="{{ entities }}" as="e" hint-placeholder-count="12">
+        <div style="background:#F2F3F5;border-radius:2px;padding:14px">
+          <div style="font-family:ui-monospace,Menlo,monospace;font-weight:700;font-size:.9rem;margin-bottom:4px">{{ e.name }}</div>
+          <div style="font-size:.84rem;color:#6B7280">{{ e.fields }}</div>
+        </div>
+      </sc-for>
+    </div>
+    <p style="font-size:.85rem;color:#6B7280;margin:14px 0 0;text-wrap:pretty">Alle gestructureerde kenmerken (specialisme, regio, certificaat) zijn referentietabellen, geen vrije tekst. Dat maakt matching, filters en SEO-pagina's per regio mogelijk zonder herwerk. Soft delete met <code>deleted_at</code> en een bewaartermijn-job voor AVG.</p>
+  </div>
+
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:26px">
+    <h2 style="font-size:1.25rem;font-weight:700;margin:0 0 14px">3. API-schets (REST, JSON, versie in pad)</h2>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <sc-for list="{{ endpoints }}" as="ep" hint-placeholder-count="12">
+        <div style="display:grid;grid-template-columns:70px 1fr 1fr;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid #EDEFF2;font-size:.86rem">
+          <span style="{{ ep.style }}">{{ ep.method }}</span>
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem">{{ ep.path }}</span>
+          <span style="color:#6B7280">{{ ep.note }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <p style="font-size:.85rem;color:#6B7280;margin:14px 0 0;text-wrap:pretty">Publieke endpoints leveren alleen gepubliceerde projecten zonder opdrachtgeversgegevens. Kandidaatdata komt nooit via een publiek endpoint. Webhooks (<code>application.status_changed</code>, <code>project.published</code>) en een import/export-laag maken latere koppeling met CRM, ATS, planning en facturatie mogelijk zonder dubbele invoer.</p>
+  </div>
+
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:26px">
+    <h2 style="font-size:1.25rem;font-weight:700;margin:0 0 14px">4. Rollen en rechten</h2>
+    <div style="overflow-x:auto">
+      <div style="display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:8px;min-width:560px;font-size:.84rem">
+        <span style="font-weight:700;color:#8A93A3;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;padding:6px 0">Gegevens</span>
+        <span style="font-weight:700;font-size:.8rem;padding:6px 0">Admin</span><span style="font-weight:700;font-size:.8rem;padding:6px 0">Recruiter</span><span style="font-weight:700;font-size:.8rem;padding:6px 0">Projectbeheer</span><span style="font-weight:700;font-size:.8rem;padding:6px 0">Vakman</span>
+        <sc-for list="{{ rights }}" as="r" hint-placeholder-count="6">
+          <span style="padding:8px 0;border-top:1px solid #EDEFF2;font-weight:600">{{ r.what }}</span>
+          <span style="padding:8px 0;border-top:1px solid #EDEFF2;color:#4B5563">{{ r.a }}</span>
+          <span style="padding:8px 0;border-top:1px solid #EDEFF2;color:#4B5563">{{ r.b }}</span>
+          <span style="padding:8px 0;border-top:1px solid #EDEFF2;color:#4B5563">{{ r.c }}</span>
+          <span style="padding:8px 0;border-top:1px solid #EDEFF2;color:#4B5563">{{ r.d }}</span>
+        </sc-for>
+      </div>
+    </div>
+    <p style="font-size:.85rem;color:#6B7280;margin:14px 0 0">Opdrachtgevers zien uitsluitend kandidaten die Timmerly heeft voorgesteld, en pas na akkoord van de vakman. Elke statuswijziging, publicatie en documenttoegang schrijft een regel in <code>AuditLogs</code>.</p>
+  </div>
+
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:26px">
+    <h2 style="font-size:1.25rem;font-weight:700;margin:0 0 14px">5. Beveiliging en AVG</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px 28px">
+      <sc-for list="{{ security }}" as="sx" hint-placeholder-count="10">
+        <div style="display:flex;gap:10px;font-size:.88rem;padding:6px 0;border-bottom:1px solid #EDEFF2"><span style="width:6px;height:6px;background:#F26522;flex-shrink:0;margin-top:7px"></span><span>{{ sx }}</span></div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px">
+    <sc-for list="{{ phases }}" as="ph" hint-placeholder-count="3">
+      <div style="{{ ph.style }}">
+        <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;opacity:.7;margin-bottom:6px">{{ ph.tag }}</div>
+        <div style="font-size:1.2rem;font-weight:700;margin-bottom:12px">{{ ph.title }}</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <sc-for list="{{ ph.items }}" as="it" hint-placeholder-count="8"><span style="font-size:.87rem">· {{ it }}</span></sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:26px">
+    <h2 style="font-size:1.25rem;font-weight:700;margin:0 0 10px">7. Stack-advies</h2>
+    <p style="font-size:.95rem;color:#4B5563;margin:0 0 10px;text-wrap:pretty">De huidige repo is statische HTML zonder backend. Voor accounts, screening en AVG is een echte backend onvermijdelijk. Voorstel met minimale verandering aan de voorkant: Next.js (server-rendered pagina's voor SEO, dezelfde HTML/CSS-huisstijl), PostgreSQL met Prisma, Auth met e-mailverificatie en optionele 2FA, object storage met signed URLs voor documenten, e-mail via een transactionele provider. PWA-manifest vanaf dag één. Secrets uitsluitend in environment variables.</p>
+    <p style="font-size:.85rem;color:#6B7280;margin:0">Matching als aparte module (<code>/lib/matching</code>) met een score-interface, zodat de regelgebaseerde versie later door een geavanceerder model vervangen kan worden zonder de rest te raken.</p>
+  </div>
+</div>
+<footer style="background:#0C1A2A;color:rgba(255,255,255,.7)">
+  <div style="max-width:1120px;margin:0 auto;padding:56px 24px 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:32px">
+    <div>
+      <a href="index.html" style="display:inline-flex;align-items:center;gap:9px;margin-bottom:14px;text-decoration:none">
+        <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="rgba(255,255,255,.1)"></rect><path d="M9.5 7.5h4.2v11.3h9.8v4.2H9.5z" fill="#F26522"></path></svg>
+        <span style="font-size:1.05rem;font-weight:700;color:#fff;letter-spacing:-.3px">Timmerly</span>
+      </a>
+      <p style="font-size:.86rem;line-height:1.6;max-width:260px;margin-bottom:16px">Landelijk matchingplatform voor aannemers en bouwprofessionals.</p>
+      <div style="display:flex;gap:10px">
+        <span style="width:32px;height:32px;border:1px solid rgba(255,255,255,.22);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff">Li</span>
+        <span style="width:32px;height:32px;border:1px solid rgba(255,255,255,.22);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff">Ig</span>
+        <span style="width:32px;height:32px;border:1px solid rgba(255,255,255,.22);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff">X</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8A93A3;margin-bottom:14px">Platform</div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:.88rem">
+        <a href="over-timmerly.html" style="color:rgba(255,255,255,.78)" style-hover="color:#F26522">Over Timmerly</a>
+        <a href="hoe-het-werkt.html" style="color:rgba(255,255,255,.78)" style-hover="color:#F26522">Hoe het werkt</a>
+        <span>Prijzen</span><span>Klantverhalen</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8A93A3;margin-bottom:14px">Voor aannemers</div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:.88rem">
+        <span>Project plaatsen</span><span>Smart Match</span><span>Talentpool</span><span>Urenbeheer</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8A93A3;margin-bottom:14px">Voor vakmensen</div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:.88rem">
+        <span>Werk vinden</span><span>Beschikbaarheid instellen</span><span>ZZP-check</span><span>Certificaten</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8A93A3;margin-bottom:14px">Vertrouwen &amp; contact</div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:.88rem">
+        <a href="verificatie-en-certificaten.html" style="color:rgba(255,255,255,.78)" style-hover="color:#F26522">Verificatie &amp; certificaten</a>
+        <a href="avg-en-privacy.html" style="color:rgba(255,255,255,.78)" style-hover="color:#F26522">AVG &amp; privacy</a>
+        <a href="support.html" style="color:rgba(255,255,255,.78)" style-hover="color:#F26522">Support</a>
+        <span>support@timmerly.nl</span>
+      </div>
+    </div>
+  </div>
+  <div style="border-top:1px solid rgba(255,255,255,.12)">
+    <div style="max-width:1120px;margin:0 auto;padding:20px 24px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;font-size:.8rem;color:#8A93A3">
+      <span>© 2026 Timmerly B.V. · KvK 84213967</span>
+      <div style="display:flex;gap:20px;flex-wrap:wrap">
+        <a href="algemene-voorwaarden.html" style="color:#8A93A3" style-hover="color:#F26522">Algemene voorwaarden</a>
+        <a href="privacybeleid.html" style="color:#8A93A3" style-hover="color:#F26522">Privacybeleid</a>
+        <a href="cookies.html" style="color:#8A93A3" style-hover="color:#F26522">Cookies</a>
+      </div>
+    </div>
+  </div>
+  <div style="border-top:1px solid rgba(255,255,255,.12);padding:16px 24px;text-align:center;font-size:.78rem;color:#8A93A3">
+    Demo-omgeving. Voorbeeldnamen en tarieven zijn fictief. De ZZP-check is risicosignalering, geen juridisch advies.
+  </div>
+</footer>
+</body>
+</html>

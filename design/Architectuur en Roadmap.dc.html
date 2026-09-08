@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:"Segoe UI",system-ui,sans-serif;color:#0C1A2A;background:#F2F3F5;-webkit-font-smoothing:antialiased}
+a{color:#D4531A}a:hover{color:#B5430F}
+</style>
+</helmet>
+<dc-import name="Site Header" hint-size="100%,64px"></dc-import>
+<div style="max-width:960px;margin:0 auto;padding:48px 24px 80px;display:flex;flex-direction:column;gap:28px">
+  <div>
+    <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#8A93A3;font-weight:700;margin-bottom:10px">Intern document · september 2026</div>
+    <h1 style="font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:600;letter-spacing:-1px;margin:0 0 10px">Timmerly: architectuur en roadmap</h1>
+    <p style="color:#6B7280;font-size:1rem;margin:0;max-width:680px;text-wrap:pretty">Wat er nodig is om van het prototype een werkend platform te maken: datamodel, API, rollen, beveiliging en de drie fases.</p>
+  </div>
+
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:26px">
+    <h2 style="font-size:1.25rem;font-weight:700;margin:0 0 6px">1. Positionering</h2>
+    <p style="font-size:.95rem;color:#4B5563;margin:0 0 12px;text-wrap:pretty">Het vaknetwerk voor zzp-timmermannen. Geen vacaturebank en geen uitzendbureau: een geselecteerd netwerk waar Timmerly screent, matcht en de afhandeling regelt. Vakmensen betalen niets; opdrachtgevers kopen een ingevulde positie, geen CV-toegang.</p>
+    <p style="font-size:.95rem;color:#4B5563;margin:0;text-wrap:pretty">Toetsvraag bij elke functie: zou een Nederlandse zzp-timmerman dit vertrouwen, en zou een professionele aannemer dit serieus nemen als kanaal?</p>
+  </div>
+
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:26px">
+    <h2 style="font-size:1.25rem;font-weight:700;margin:0 0 14px">2. Datamodel</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px">
+      <sc-for list="{{ entities }}" as="e" hint-placeholder-count="12">
+        <div style="background:#F2F3F5;border-radius:2px;padding:14px">
+          <div style="font-family:ui-monospace,Menlo,monospace;font-weight:700;font-size:.9rem;margin-bottom:4px">{{ e.name }}</div>
+          <div style="font-size:.84rem;color:#6B7280">{{ e.fields }}</div>
+        </div>
+      </sc-for>
+    </div>
+    <p style="font-size:.85rem;color:#6B7280;margin:14px 0 0;text-wrap:pretty">Alle gestructureerde kenmerken (specialisme, regio, certificaat) zijn referentietabellen, geen vrije tekst. Dat maakt matching, filters en SEO-pagina's per regio mogelijk zonder herwerk. Soft delete met <code>deleted_at</code> en een bewaartermijn-job voor AVG.</p>
+  </div>
+
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:26px">
+    <h2 style="font-size:1.25rem;font-weight:700;margin:0 0 14px">3. API-schets (REST, JSON, versie in pad)</h2>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <sc-for list="{{ endpoints }}" as="ep" hint-placeholder-count="12">
+        <div style="display:grid;grid-template-columns:70px 1fr 1fr;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid #EDEFF2;font-size:.86rem">
+          <span style="{{ ep.style }}">{{ ep.method }}</span>
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem">{{ ep.path }}</span>
+          <span style="color:#6B7280">{{ ep.note }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <p style="font-size:.85rem;color:#6B7280;margin:14px 0 0;text-wrap:pretty">Publieke endpoints leveren alleen gepubliceerde projecten zonder opdrachtgeversgegevens. Kandidaatdata komt nooit via een publiek endpoint. Webhooks (<code>application.status_changed</code>, <code>project.published</code>) en een import/export-laag maken latere koppeling met CRM, ATS, planning en facturatie mogelijk zonder dubbele invoer.</p>
+  </div>
+
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:26px">
+    <h2 style="font-size:1.25rem;font-weight:700;margin:0 0 14px">4. Rollen en rechten</h2>
+    <div style="overflow-x:auto">
+      <div style="display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:8px;min-width:560px;font-size:.84rem">
+        <span style="font-weight:700;color:#8A93A3;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;padding:6px 0">Gegevens</span>
+        <span style="font-weight:700;font-size:.8rem;padding:6px 0">Admin</span><span style="font-weight:700;font-size:.8rem;padding:6px 0">Recruiter</span><span style="font-weight:700;font-size:.8rem;padding:6px 0">Projectbeheer</span><span style="font-weight:700;font-size:.8rem;padding:6px 0">Vakman</span>
+        <sc-for list="{{ rights }}" as="r" hint-placeholder-count="6">
+          <span style="padding:8px 0;border-top:1px solid #EDEFF2;font-weight:600">{{ r.what }}</span>
+          <span style="padding:8px 0;border-top:1px solid #EDEFF2;color:#4B5563">{{ r.a }}</span>
+          <span style="padding:8px 0;border-top:1px solid #EDEFF2;color:#4B5563">{{ r.b }}</span>
+          <span style="padding:8px 0;border-top:1px solid #EDEFF2;color:#4B5563">{{ r.c }}</span>
+          <span style="padding:8px 0;border-top:1px solid #EDEFF2;color:#4B5563">{{ r.d }}</span>
+        </sc-for>
+      </div>
+    </div>
+    <p style="font-size:.85rem;color:#6B7280;margin:14px 0 0">Opdrachtgevers zien uitsluitend kandidaten die Timmerly heeft voorgesteld, en pas na akkoord van de vakman. Elke statuswijziging, publicatie en documenttoegang schrijft een regel in <code>AuditLogs</code>.</p>
+  </div>
+
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:26px">
+    <h2 style="font-size:1.25rem;font-weight:700;margin:0 0 14px">5. Beveiliging en AVG</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px 28px">
+      <sc-for list="{{ security }}" as="sx" hint-placeholder-count="10">
+        <div style="display:flex;gap:10px;font-size:.88rem;padding:6px 0;border-bottom:1px solid #EDEFF2"><span style="width:6px;height:6px;background:#F26522;flex-shrink:0;margin-top:7px"></span><span>{{ sx }}</span></div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px">
+    <sc-for list="{{ phases }}" as="ph" hint-placeholder-count="3">
+      <div style="{{ ph.style }}">
+        <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;opacity:.7;margin-bottom:6px">{{ ph.tag }}</div>
+        <div style="font-size:1.2rem;font-weight:700;margin-bottom:12px">{{ ph.title }}</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <sc-for list="{{ ph.items }}" as="it" hint-placeholder-count="8"><span style="font-size:.87rem">· {{ it }}</span></sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:26px">
+    <h2 style="font-size:1.25rem;font-weight:700;margin:0 0 10px">7. Stack-advies</h2>
+    <p style="font-size:.95rem;color:#4B5563;margin:0 0 10px;text-wrap:pretty">De huidige repo is statische HTML zonder backend. Voor accounts, screening en AVG is een echte backend onvermijdelijk. Voorstel met minimale verandering aan de voorkant: Next.js (server-rendered pagina's voor SEO, dezelfde HTML/CSS-huisstijl), PostgreSQL met Prisma, Auth met e-mailverificatie en optionele 2FA, object storage met signed URLs voor documenten, e-mail via een transactionele provider. PWA-manifest vanaf dag één. Secrets uitsluitend in environment variables.</p>
+    <p style="font-size:.85rem;color:#6B7280;margin:0">Matching als aparte module (<code>/lib/matching</code>) met een score-interface, zodat de regelgebaseerde versie later door een geavanceerder model vervangen kan worden zonder de rest te raken.</p>
+  </div>
+</div>
+<dc-import name="Site Footer" hint-size="100%,380px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const m = {GET:'#166534', POST:'#D4531A', PATCH:'#92400E', DELETE:'#991B1B'};
+    return {
+      entities: [
+        ['Users','id, email, password_hash, role, email_verified_at, mfa_enabled, last_login_at'],
+        ['CandidateProfiles','user_id, name, phone, city, years_experience, bio, screening_status, screened_by, screened_at'],
+        ['Companies','name, kvk, btw, city, contact_user_id, verified_at'],
+        ['Projects','company_id, title, description, location_id, start_date, duration, hours_per_week, rate_min, rate_max, headcount, status, published_at'],
+        ['Applications','candidate_id, project_id, status, match_score, proposed_at, decided_at'],
+        ['Skills / CandidateSkills','specialisme-referentietabel, koppeltabel met niveau'],
+        ['Certificates / CandidateCertificates','type, document_id, valid_until, verified_by, verified_at, status'],
+        ['Availability','candidate_id, available_from, days_per_week, status, date-overrides'],
+        ['Locations / WorkAreas','plaats, provincie, lat/lng; kandidaat: provincies + max_km'],
+        ['Documents','owner_id, type, storage_key, mime, uploaded_at, access_scope'],
+        ['Notifications','user_id, type, payload, channel, read_at, sent_at'],
+        ['Messages','thread_id, sender_id, body, read_at (Fase 2)'],
+        ['AdminUsers','user_id, role (admin, recruiter, projectbeheer), notes'],
+        ['AuditLogs','actor_id, action, entity_type, entity_id, before, after, ip, created_at']
+      ].map(([name, fields]) => ({name, fields})),
+      endpoints: [
+        ['GET','/v1/projects?prov=&spec=&start=&km=','publiek, alleen gepubliceerd'],
+        ['GET','/v1/projects/:slug','publiek, zonder opdrachtgeversdata'],
+        ['POST','/v1/auth/register · /login · /verify-email · /reset','rate-limited, sessies server-side'],
+        ['POST','/v1/candidates/me/onboarding/:step','per stap opslaan'],
+        ['GET','/v1/candidates/me · /matches · /applications','alleen eigen data'],
+        ['POST','/v1/projects/:id/applications','interesse tonen'],
+        ['POST','/v1/companies/:id/projects','aanvraag → status Nieuw'],
+        ['GET','/v1/admin/candidates?status=&q=','recruiter, admin'],
+        ['PATCH','/v1/admin/candidates/:id/status','schrijft AuditLog'],
+        ['PATCH','/v1/admin/projects/:id/status','statusketen afgedwongen'],
+        ['GET','/v1/admin/projects/:id/matches','score uit matching-module'],
+        ['POST','/v1/me/export · DELETE /v1/me','AVG: export en verwijdering']
+      ].map(([method, path, note]) => ({method, path, note, style: 'font-weight:700;font-size:.74rem;color:' + (m[method] || '#0C1A2A')})),
+      rights: [
+        {what: 'Kandidaatprofielen', a: 'Alles', b: 'Alles', c: 'Naam, vak, status', d: 'Eigen profiel'},
+        {what: 'Documenten (KvK, VCA)', a: 'Alles', b: 'Alles', c: 'Geen', d: 'Eigen documenten'},
+        {what: 'Projecten', a: 'Alles', b: 'Lezen + koppelen', c: 'Alles', d: 'Gepubliceerd'},
+        {what: 'Statuswijzigingen', a: 'Alles', b: 'Kandidaten', c: 'Projecten', d: 'Geen'},
+        {what: 'Interne notities', a: 'Alles', b: 'Alles', c: 'Project-notities', d: 'Geen'},
+        {what: 'Auditlog', a: 'Lezen', b: 'Geen', c: 'Geen', d: 'Geen'}
+      ],
+      security: [
+        'Wachtwoordbeleid (min. 12 tekens), bcrypt/argon2, e-mailverificatie verplicht',
+        'Rate limiting en lockout op login, reset en registratie',
+        '2FA optioneel voor vakmensen, verplicht voor admin-rollen',
+        'Sessies server-side, korte levensduur, HttpOnly/SameSite cookies',
+        'CSRF-tokens op formulieren, output-escaping tegen XSS, parametrized queries',
+        'Documenten alleen via signed URLs met korte geldigheid, nooit publiek',
+        'Dataminimalisatie: BTW-nummer en documenten pas in stap 4 en 5, niet bij eerste interesse',
+        'Bewaartermijn: afgewezen profielen 12 maanden, verwijderd account 30 dagen daarna definitief',
+        'Export van persoonsgegevens (JSON/PDF) en verwijdering via self-service',
+        'Cookiebanner: functioneel standaard, analytics alleen na toestemming, privacyvriendelijke analytics zonder cookies als alternatief'
+      ],
+      phases: [
+        {tag: 'Fase 1', title: 'MVP', style: 'background:#0C1A2A;color:#fff;border-radius:2px;padding:22px', items: ['Homepage gericht op de vakman', 'Projectoverzicht met filters + detailpagina', '9-stappen onboarding, e-mailverificatie', 'Dashboard: aanmeldingen, meldingen, instellingen', 'Screeningstatussen + interne notities', 'Opdrachtgever: aanvraag → interne beoordeling', 'Admin: kandidaten, projecten, regelgebaseerde matchscore', 'Role-based access, auditlog, AVG-export en -verwijdering']},
+        {tag: 'Fase 2', title: 'Professionalisering', style: 'background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:22px', items: ['Berichten tussen Timmerly en vakman', 'Beschikbaarheidskalender en kaartweergave', 'Timmerly Verified na volledige documentcontrole', 'Kennisbank ZZP & Bouw', 'SEO-pagina's per regio en specialisme', 'Reviews na afgeronde projecten', 'PWA met push-meldingen', 'Analytics-dashboard, klantverhalen, prijzen']},
+        {tag: 'Fase 3', title: 'Schaal', style: 'background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:22px', items: ['Urenregistratie en facturatie', 'Digitale contracten en betalingen', 'Geavanceerde/AI-matching', 'Koppelingen CRM, ATS, planning', 'Dashboard voor opdrachtgevers', 'Native app', 'Uitbreiding naar andere bouwdisciplines', 'Verdienmodellen: fee per match, abonnement, premium']}
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

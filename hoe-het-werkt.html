@@ -1,870 +1,138 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hoe Werkt Timmerly? – Van aanvraag tot vakman aan de deur</title>
-  <meta name="description" content="Ontdek hoe Timmerly werkt. Van aanvraag tot vakman aan de deur – wij regelen alles voor opdrachtgevers én timmermannen." />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --orange:    #F26522;
-      --orange-dk: #D4531A;
-      --navy:      #1C2B4A;
-      --navy-lt:   #2C3E6B;
-      --gray-bg:   #F5F6F8;
-      --gray-mid:  #E0E3EA;
-      --gray-text: #6B7280;
-      --white:     #FFFFFF;
-      --green:     #22C55E;
-      --radius:    10px;
-      --shadow:    0 4px 20px rgba(0,0,0,.08);
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      color: var(--navy);
-      background: var(--white);
-      line-height: 1.6;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    /* ─── NAVBAR ─── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--white);
-      box-shadow: 0 2px 12px rgba(0,0,0,.07);
-      padding: 0 5%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 68px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-    }
-
-    .logo img {
-      height: 46px;
-      width: auto;
-    }
-
-    .logo-footer img {
-      height: 42px;
-      filter: brightness(0) invert(1);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      list-style: none;
-      font-size: .93rem;
-      font-weight: 500;
-    }
-
-    .nav-links a:hover { color: var(--orange); }
-    .nav-links a.active { color: var(--orange); font-weight: 700; }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 22px;
-      border-radius: var(--radius);
-      font-weight: 600;
-      font-size: .93rem;
-      cursor: pointer;
-      border: none;
-      transition: background .2s, transform .1s;
-    }
-
-    .btn:active { transform: scale(.98); }
-
-    .btn-primary {
-      background: var(--orange);
-      color: white;
-    }
-
-    .btn-primary:hover { background: var(--orange-dk); }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--navy);
-      border: 2px solid var(--gray-mid);
-    }
-
-    .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
-
-    .btn-white {
-      background: white;
-      color: var(--orange);
-      font-weight: 700;
-    }
-
-    .btn-white:hover { background: var(--gray-bg); }
-
-    .btn-outline-white {
-      background: transparent;
-      color: white;
-      border: 2px solid rgba(255,255,255,.5);
-      font-weight: 600;
-    }
-
-    .btn-outline-white:hover { border-color: white; background: rgba(255,255,255,.1); }
-
-    .nav-cta { margin-left: 8px; }
-
-    /* ─── HERO ─── */
-    .hero {
-      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-lt) 60%, #3A5298 100%);
-      padding: 90px 5% 100px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255,255,255,.12);
-      border: 1px solid rgba(255,255,255,.2);
-      color: #FCD34D;
-      padding: 6px 14px;
-      border-radius: 50px;
-      font-size: .82rem;
-      font-weight: 600;
-      margin-bottom: 22px;
-      backdrop-filter: blur(4px);
-    }
-
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 800;
-      color: white;
-      line-height: 1.2;
-      margin-bottom: 18px;
-    }
-
-    .hero h1 em {
-      font-style: normal;
-      color: var(--orange);
-    }
-
-    .hero-sub {
-      font-size: 1.1rem;
-      color: rgba(255,255,255,.75);
-      max-width: 560px;
-      margin: 0 auto;
-    }
-
-    /* ─── SECTION HELPERS ─── */
-    section { padding: 80px 5%; }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 52px;
-    }
-
-    .section-tag {
-      display: inline-block;
-      background: rgba(242,101,34,.1);
-      color: var(--orange);
-      padding: 5px 14px;
-      border-radius: 50px;
-      font-size: .78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      margin-bottom: 12px;
-    }
-
-    .section-header h2 {
-      font-size: clamp(1.6rem, 3.5vw, 2.3rem);
-      font-weight: 800;
-      line-height: 1.25;
-    }
-
-    .section-header p {
-      color: var(--gray-text);
-      font-size: 1rem;
-      max-width: 520px;
-      margin: 12px auto 0;
-    }
-
-    /* ─── STAPPEN OPDRACHTGEVERS ─── */
-    .steps-section { background: var(--white); }
-
-    .steps-large {
-      max-width: 860px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      position: relative;
-    }
-
-    .steps-large::before {
-      content: '';
-      position: absolute;
-      left: 44px;
-      top: 72px;
-      bottom: 72px;
-      width: 2px;
-      background: var(--gray-mid);
-      z-index: 0;
-    }
-
-    .step-large {
-      display: flex;
-      align-items: flex-start;
-      gap: 32px;
-      padding: 36px 0;
-      position: relative;
-    }
-
-    .step-large:not(:last-child) {
-      border-bottom: none;
-    }
-
-    .step-num-large {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: var(--navy);
-      color: white;
-      font-size: 2rem;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      border: 5px solid white;
-      box-shadow: 0 6px 24px rgba(28,43,74,.2);
-      position: relative;
-      z-index: 1;
-    }
-
-    .step-num-large.orange { background: var(--orange); }
-
-    .step-content { padding-top: 18px; }
-
-    .step-content h3 {
-      font-size: 1.25rem;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-
-    .step-content p {
-      color: var(--gray-text);
-      font-size: .97rem;
-      max-width: 560px;
-      line-height: 1.7;
-    }
-
-    .step-label {
-      display: inline-block;
-      font-size: .72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: var(--orange);
-      background: rgba(242,101,34,.08);
-      padding: 3px 10px;
-      border-radius: 50px;
-      margin-bottom: 10px;
-    }
-
-    /* ─── VOOR TIMMERMANNEN ─── */
-    .carpenters-process { background: var(--gray-bg); }
-
-    .process-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 24px;
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
-    .process-card {
-      background: white;
-      border-radius: 14px;
-      padding: 32px 24px;
-      text-align: center;
-      box-shadow: var(--shadow);
-      border: 2px solid var(--gray-mid);
-      transition: border-color .2s, transform .2s;
-      position: relative;
-    }
-
-    .process-card:hover {
-      border-color: var(--orange);
-      transform: translateY(-4px);
-    }
-
-    .process-icon {
-      font-size: 2.2rem;
-      margin-bottom: 14px;
-      display: block;
-    }
-
-    .process-card h3 {
-      font-size: 1rem;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-
-    .process-card p {
-      font-size: .86rem;
-      color: var(--gray-text);
-      line-height: 1.6;
-    }
-
-    .process-num {
-      position: absolute;
-      top: -14px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: var(--orange);
-      color: white;
-      font-size: .78rem;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 3px solid white;
-    }
-
-    /* ─── FAQ ─── */
-    .faq-section { background: var(--white); }
-
-    .faq-list {
-      max-width: 720px;
-      margin: 0 auto 40px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .faq-item {
-      border: 2px solid var(--gray-mid);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: border-color .2s;
-    }
-
-    .faq-item.open {
-      border-color: var(--orange);
-    }
-
-    .faq-question {
-      width: 100%;
-      background: none;
-      border: none;
-      padding: 20px 24px;
-      text-align: left;
-      font-family: inherit;
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--navy);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .faq-question:hover { color: var(--orange); }
-
-    .faq-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--gray-bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--orange);
-      transition: transform .25s, background .2s;
-    }
-
-    .faq-item.open .faq-icon {
-      transform: rotate(45deg);
-      background: rgba(242,101,34,.12);
-    }
-
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height .35s ease, padding .2s;
-      font-size: .95rem;
-      color: var(--gray-text);
-      line-height: 1.7;
-      padding: 0 24px;
-    }
-
-    .faq-item.open .faq-answer {
-      max-height: 300px;
-      padding: 0 24px 20px;
-    }
-
-    .faq-more {
-      text-align: center;
-    }
-
-    /* ─── CTA BANNER ─── */
-    .cta-banner {
-      background: linear-gradient(135deg, var(--orange) 0%, #E55A1C 100%);
-      padding: 70px 5%;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-banner::after {
-      content: '🔨';
-      position: absolute;
-      right: 8%;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 8rem;
-      opacity: .12;
-    }
-
-    .cta-banner h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 800; color: white; margin-bottom: 14px; }
-    .cta-banner p { color: rgba(255,255,255,.85); font-size: 1.05rem; margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto; }
-
-    .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-
-    /* ─── FOOTER ─── */
-    footer {
-      background: var(--navy);
-      color: rgba(255,255,255,.75);
-      padding: 40px 5% 24px;
-    }
-
-    .footer-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 14px;
-      font-size: .82rem;
-    }
-
-    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
-    .footer-links a { transition: color .2s; }
-    .footer-links a:hover { color: var(--orange); }
-
-    /* ─── MODAL ─── */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.5);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      backdrop-filter: blur(4px);
-    }
-
-    .modal-overlay.open { display: flex; }
-
-    .modal {
-      background: white;
-      border-radius: 16px;
-      padding: 36px;
-      max-width: 520px;
-      width: 100%;
-      position: relative;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: var(--gray-bg);
-      border: none;
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gray-text);
-    }
-
-    .modal h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; }
-    .modal .modal-sub { font-size: .88rem; color: var(--gray-text); margin-bottom: 24px; }
-
-    .form-group { margin-bottom: 16px; }
-    .form-group label { display: block; font-size: .82rem; font-weight: 600; color: var(--gray-text); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      padding: 12px 14px;
-      border: 2px solid var(--gray-mid);
-      border-radius: var(--radius);
-      font-size: .95rem;
-      font-family: inherit;
-      outline: none;
-      transition: border-color .2s;
-      color: var(--navy);
-      background: var(--gray-bg);
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus { border-color: var(--orange); background: white; }
-
-    .form-group textarea { resize: vertical; min-height: 100px; }
-
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      section { padding: 60px 5%; }
-      .cta-banner::after { display: none; }
-
-      .steps-large::before { left: 36px; }
-      .step-num-large { width: 72px; height: 72px; font-size: 1.5rem; }
-      .step-large { gap: 20px; }
-      .form-row { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 480px) {
-      .footer-bottom { flex-direction: column; align-items: flex-start; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hoe het werkt — Timmerly</title>
+<!-- Gegenereerd uit design/ met `node tools/build.js` — niet handmatig bewerken. -->
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#FFFFFF;color:#0C1A2A;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:#D4531A;text-decoration:none}
+  a:hover{color:#F26522}
+  footer a:hover{color:#F26522}
+</style>
 </head>
 <body>
-
-<!-- ─── NAVBAR ─── -->
-<nav>
-  <a href="index.html" class="logo">
-    <span style="display:inline-flex;align-items:center;gap:9px;"><span style="width:32px;height:32px;background:#F26522;border-radius:7px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:1.25rem;font-family:'Segoe UI',system-ui,sans-serif;flex-shrink:0;">T</span><span style="font-size:1.25rem;font-weight:800;color:var(--navy);letter-spacing:-.5px;">immerly</span></span>
+<nav style="position:sticky;top:0;z-index:50;background:#FFFFFF;border-bottom:1px solid #DCE0E6;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap">
+  <a href="index.html" style="display:inline-flex;align-items:center;gap:11px;text-decoration:none;color:inherit">
+    <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#0C1A2A"></rect><path d="M9.5 7.5h4.2v11.3h9.8v4.2H9.5z" fill="#F26522"></path></svg>
+    <span style="display:inline-flex;align-items:baseline;gap:9px">
+      <span style="font-size:1.22rem;font-weight:700;letter-spacing:-.4px;color:#0C1A2A">Timmerly</span>
+      <span style="font-size:.66rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8A93A3;border-left:1px solid #DCE0E6;padding-left:9px;white-space:nowrap">Voor de bouw</span>
+    </span>
   </a>
-  <ul class="nav-links">
-    <li><a href="index.html">← Terug naar overzicht</a></li>
-    <li><a href="kwaliteitsgarantie.html">Kwaliteitsgarantie</a></li>
-    <li><a href="nieuws.html">Nieuws</a></li>
-    <li><a href="veelgestelde-vragen.html">FAQ</a></li>
-    <li><a href="aanmelden.html" style="color:var(--orange);font-weight:700;">Timmerman worden?</a></li>
-  </ul>
-  <button class="btn btn-primary nav-cta" onclick="openModal()">Timmerman aanvragen</button>
+  <div style="display:flex;align-items:center;gap:26px;font-size:.92rem;font-weight:500;color:#0C1A2A;white-space:nowrap;flex-wrap:wrap">
+    <span style="cursor:default">Voor aannemers</span>
+    <span style="cursor:default">Voor vakmensen</span>
+    <span style="cursor:default">ZZP-check</span>
+    <span style="cursor:default">Prijzen</span>
+  </div>
+  <div style="display:flex;gap:10px;white-space:nowrap">
+    <a href="index.html" style="padding:10px 20px;border-radius:2px;border:1px solid #DCE0E6;background:#fff;color:#0C1A2A;font-weight:600;font-size:.9rem;text-decoration:none">Inloggen</a>
+    <a href="index.html" style="padding:10px 22px;border-radius:2px;border:none;background:#F26522;color:#fff;font-weight:600;font-size:.9rem;text-decoration:none">Project plaatsen</a>
+  </div>
 </nav>
-
-<!-- ─── HERO ─── -->
-<section class="hero">
-  <div class="hero-badge">
-    <span>🔨</span> Simpel, snel en betrouwbaar
-  </div>
-  <h1>Hoe Werkt <em>Timmerly?</em></h1>
-  <p class="hero-sub">Van aanvraag tot vakman aan de deur — wij regelen alles.</p>
-</section>
-
-<!-- ─── STAPPEN OPDRACHTGEVERS ─── -->
-<section class="steps-section" id="opdrachtgevers">
-  <div class="section-header">
-    <div class="section-tag">Voor opdrachtgevers</div>
-    <h2>Jouw Timmerman in 4 Stappen</h2>
-    <p>Wij verbinden jou snel en eenvoudig met de juiste vakman in jouw regio.</p>
-  </div>
-
-  <div class="steps-large">
-
-    <div class="step-large">
-      <div class="step-num-large orange">1</div>
-      <div class="step-content">
-        <span class="step-label">Stap 1</span>
-        <h3>Timmerman aanvragen</h3>
-        <p>Vul het formulier in met je naam, contactgegevens en een duidelijke beschrijving van het werk. Hoe meer detail, hoe beter wij de juiste vakman voor je kunnen vinden. Het aanvragen is volledig gratis en vrijblijvend.</p>
-      </div>
-    </div>
-
-    <div class="step-large">
-      <div class="step-num-large">2</div>
-      <div class="step-content">
-        <span class="step-label">Stap 2</span>
-        <h3>Wij zoeken de juiste vakman</h3>
-        <p>Timmerly selecteert een beschikbare, gekwalificeerde timmerman in jouw regio. We houden daarbij rekening met het type werk, de gewenste startdatum en de afstand. Alleen geverifieerde en verzekerde vaklieden komen in aanmerking.</p>
-      </div>
-    </div>
-
-    <div class="step-large">
-      <div class="step-num-large">3</div>
-      <div class="step-content">
-        <span class="step-label">Stap 3</span>
-        <h3>Timmerly neemt contact op</h3>
-        <p>Binnen 1 werkdag bellen of mailen wij je terug met een passende vakman. Je hoeft zelf nergens achteraan te bellen. Wij koppelen je persoonlijk en bespreken de details zodat alles klopt vóór de vakman langskomt.</p>
-      </div>
-    </div>
-
-    <div class="step-large">
-      <div class="step-num-large">4</div>
-      <div class="step-content">
-        <span class="step-label">Stap 4</span>
-        <h3>Vakman aan de slag</h3>
-        <p>De timmerman komt langs en voert het werk vakkundig uit. Na afloop kun je een beoordeling achterlaten. Zo houden wij de kwaliteit hoog voor alle opdrachtgevers na jou.</p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ─── VOOR TIMMERMANNEN ─── -->
-<section class="carpenters-process" id="vaklieden">
-  <div class="section-header">
-    <div class="section-tag">Voor timmermannen</div>
-    <h2>Word Onderdeel van Ons Netwerk</h2>
-    <p>Als timmerman profiteer jij van een constante stroom aan opdrachten zonder zelf te hoeven adverteren.</p>
-  </div>
-
-  <div class="process-grid">
-    <div class="process-card">
-      <div class="process-num">1</div>
-      <span class="process-icon">📝</span>
-      <h3>Aanmelden</h3>
-      <p>Meld je aan via ons formulier. Geef je specialismen, werkgebied en beschikbaarheid op.</p>
-    </div>
-    <div class="process-card">
-      <div class="process-num">2</div>
-      <span class="process-icon">🔍</span>
-      <h3>Screening</h3>
-      <p>Wij controleren je identiteit, KVK-inschrijving, verzekering en werkervaring grondig.</p>
-    </div>
-    <div class="process-card">
-      <div class="process-num">3</div>
-      <span class="process-icon">✅</span>
-      <h3>Aan het werk</h3>
-      <p>Na goedkeuring word je zichtbaar voor opdrachtgevers en ontvang je je eerste opdrachten.</p>
-    </div>
-    <div class="process-card">
-      <div class="process-num">4</div>
-      <span class="process-icon">📅</span>
-      <h3>Regelmatig opdrachten</h3>
-      <p>Afhankelijk van jouw beschikbaarheid koppelen wij je aan passende klussen in jouw regio.</p>
-    </div>
-  </div>
-
-  <div style="text-align:center;margin-top:40px;">
-    <a href="aanmelden.html" class="btn btn-primary" style="font-size:1rem;padding:14px 32px;">
-      Nu aanmelden als timmerman →
-    </a>
-  </div>
-</section>
-
-<!-- ─── FAQ TEASER ─── -->
-<section class="faq-section" id="faq">
-  <div class="section-header">
-    <div class="section-tag">Veelgestelde vragen</div>
-    <h2>Antwoorden op Jouw Vragen</h2>
-    <p>Hier vind je de meest gestelde vragen over Timmerly.</p>
-  </div>
-
-  <div class="faq-list">
-
-    <div class="faq-item" id="faq-1">
-      <button class="faq-question" onclick="toggleFaq('faq-1')">
-        Wat kost het aanvragen van een timmerman?
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-answer">
-        Het aanvragen van een timmerman via Timmerly is volledig gratis en vrijblijvend. Je betaalt pas als je akkoord gaat met de vakman en het werk daadwerkelijk wordt uitgevoerd. Er zijn geen verborgen kosten of aanmeldingsvergoedingen.
-      </div>
-    </div>
-
-    <div class="faq-item" id="faq-2">
-      <button class="faq-question" onclick="toggleFaq('faq-2')">
-        Hoe snel kan een timmerman bij mij langskomen?
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-answer">
-        Dat hangt af van de beschikbaarheid van de vaklieden in jouw regio. In veel gevallen nemen wij binnen 1 werkdag contact op met een passende vakman die dezelfde week of de week erna beschikbaar is. Bij spoedeisend werk doen wij ons best om dit zo snel mogelijk te regelen.
-      </div>
-    </div>
-
-    <div class="faq-item" id="faq-3">
-      <button class="faq-question" onclick="toggleFaq('faq-3')">
-        Zijn alle timmermannen in het netwerk verzekerd?
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-answer">
-        Ja, absoluut. Elke timmerman in ons netwerk heeft een aansprakelijkheidsverzekering van minimaal €500.000. Dit is een vereiste voor opname in het Timmerly-netwerk. Je kunt hierdoor met een gerust hart een vakman inschakelen via ons platform.
-      </div>
-    </div>
-
-  </div>
-
-  <div class="faq-more">
-    <a href="veelgestelde-vragen.html" class="btn btn-outline" style="padding:12px 28px;font-size:.95rem;">
-      Alle veelgestelde vragen bekijken →
-    </a>
-  </div>
-</section>
-
-<!-- ─── CTA BANNER ─── -->
-<div class="cta-banner">
-  <h2>Klaar om te Beginnen?</h2>
-  <p>Laat je gegevens achter en Timmerly zorgt dat de juiste vakman contact met je opneemt.</p>
-  <div class="cta-buttons">
-    <button class="btn btn-white" onclick="openModal()" style="font-size:1rem;padding:14px 30px;">
-      Timmerman aanvragen
-    </button>
-    <a href="aanmelden.html" class="btn btn-outline-white" style="font-size:1rem;padding:14px 30px;">
-      Timmerman worden →
-    </a>
+<div style="background:#0C1A2A;padding:56px 24px 64px">
+  <div style="max-width:820px;margin:0 auto">
+    <div style="font-size:.75rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#F26522;margin-bottom:14px">Hoe het werkt</div>
+    <h1 style="font-size:clamp(1.9rem,4vw,2.6rem);font-weight:600;color:#fff;letter-spacing:-1px;margin-bottom:14px;text-wrap:pretty">Van match tot review, in één doorlopende werkstroom</h1>
+    <p style="font-size:1.05rem;color:rgba(255,255,255,.78);max-width:640px;text-wrap:pretty">Elke opdracht doorloopt dezelfde zes stappen, of je nu aannemer of vakman bent.</p>
   </div>
 </div>
-
-<!-- ─── FOOTER ─── -->
-<footer>
-  <div class="footer-bottom">
-    <span>© 2026 Timmerly. Alle rechten voorbehouden.</span>
-    <div class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="kwaliteitsgarantie.html">Kwaliteitsgarantie</a>
-      <a href="aanmelden.html">Timmerman worden</a>
-      <a href="privacybeleid.html">Privacybeleid</a>
-      <a href="algemene-voorwaarden.html">Algemene voorwaarden</a>
+<div style="padding:56px 24px;max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:14px">
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:18px 20px;display:flex;gap:16px;align-items:flex-start">
+    <span style="width:30px;height:30px;border-radius:50%;background:#F26522;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88rem;flex-shrink:0">1</span>
+    <div><div style="font-weight:700;font-size:1rem;margin-bottom:3px">Match</div><p style="font-size:.9rem;color:#6B7280">Smart Match scoort kandidaten en projecten op ervaring, afstand, beschikbaarheid en certificaten.</p></div>
+  </div>
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:18px 20px;display:flex;gap:16px;align-items:flex-start">
+    <span style="width:30px;height:30px;border-radius:50%;background:#F26522;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88rem;flex-shrink:0">2</span>
+    <div><div style="font-weight:700;font-size:1rem;margin-bottom:3px">Interesse</div><p style="font-size:.9rem;color:#6B7280">Beide partijen geven interesse aan. Pas dan wordt het gesprek geopend.</p></div>
+  </div>
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:18px 20px;display:flex;gap:16px;align-items:flex-start">
+    <span style="width:30px;height:30px;border-radius:50%;background:#F26522;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88rem;flex-shrink:0">3</span>
+    <div><div style="font-weight:700;font-size:1rem;margin-bottom:3px">Contact</div><p style="font-size:.9rem;color:#6B7280">Werkzaamheden, werktijden en startdatum worden afgestemd in het gesprek bij het project.</p></div>
+  </div>
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:18px 20px;display:flex;gap:16px;align-items:flex-start">
+    <span style="width:30px;height:30px;border-radius:50%;background:#F26522;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88rem;flex-shrink:0">4</span>
+    <div><div style="font-weight:700;font-size:1rem;margin-bottom:3px">Voorstel</div><p style="font-size:.9rem;color:#6B7280">Tarief, looptijd, uren en contractvorm worden vastgelegd. Bij ZZP-inzet hoort de compliance-check erbij.</p></div>
+  </div>
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:18px 20px;display:flex;gap:16px;align-items:flex-start">
+    <span style="width:30px;height:30px;border-radius:50%;background:#F26522;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88rem;flex-shrink:0">5</span>
+    <div><div style="font-weight:700;font-size:1rem;margin-bottom:3px">Akkoord</div><p style="font-size:.9rem;color:#6B7280">De opdrachtbevestiging wordt ondertekend en staat in het documentencentrum.</p></div>
+  </div>
+  <div style="background:#fff;border:1px solid #DCE0E6;border-radius:2px;padding:18px 20px;display:flex;gap:16px;align-items:flex-start">
+    <span style="width:30px;height:30px;border-radius:50%;background:#F26522;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88rem;flex-shrink:0">6</span>
+    <div><div style="font-weight:700;font-size:1rem;margin-bottom:3px">Opdracht</div><p style="font-size:.9rem;color:#6B7280">Uren worden per week ingediend en goedgekeurd. Na afronding beoordelen beide partijen elkaar.</p></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:22px">
+    <div style="background:#F2F3F5;border:1px solid #DCE0E6;border-radius:2px;padding:18px">
+      <div style="font-weight:700;font-size:.95rem;margin-bottom:6px">Voor aannemers</div>
+      <p style="font-size:.88rem;color:#6B7280">Je plaatst een project in gewone taal, Timmerly zet dit om in een volledige aanvraag en toont direct gescoorde kandidaten.</p>
     </div>
+    <div style="background:#F2F3F5;border:1px solid #DCE0E6;border-radius:2px;padding:18px">
+      <div style="font-weight:700;font-size:.95rem;margin-bottom:6px">Voor vakmensen</div>
+      <p style="font-size:.88rem;color:#6B7280">Je zet je beschikbaarheid aan en ziet alleen projecten die passen bij je ervaring, regio en tarief.</p>
+    </div>
+  </div>
+</div>
+<footer style="background:#0C1A2A;color:rgba(255,255,255,.7)">
+  <div style="max-width:1120px;margin:0 auto;padding:56px 24px 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:32px">
+    <div>
+      <a href="index.html" style="display:inline-flex;align-items:center;gap:9px;margin-bottom:14px;text-decoration:none">
+        <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="rgba(255,255,255,.1)"></rect><path d="M9.5 7.5h4.2v11.3h9.8v4.2H9.5z" fill="#F26522"></path></svg>
+        <span style="font-size:1.05rem;font-weight:700;color:#fff;letter-spacing:-.3px">Timmerly</span>
+      </a>
+      <p style="font-size:.86rem;line-height:1.6;max-width:260px;margin-bottom:16px">Landelijk matchingplatform voor aannemers en bouwprofessionals.</p>
+      <div style="display:flex;gap:10px">
+        <span style="width:32px;height:32px;border:1px solid rgba(255,255,255,.22);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff">Li</span>
+        <span style="width:32px;height:32px;border:1px solid rgba(255,255,255,.22);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff">Ig</span>
+        <span style="width:32px;height:32px;border:1px solid rgba(255,255,255,.22);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff">X</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8A93A3;margin-bottom:14px">Platform</div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:.88rem">
+        <a href="over-timmerly.html" style="color:rgba(255,255,255,.78)" style-hover="color:#F26522">Over Timmerly</a>
+        <a href="hoe-het-werkt.html" style="color:rgba(255,255,255,.78)" style-hover="color:#F26522">Hoe het werkt</a>
+        <span>Prijzen</span><span>Klantverhalen</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8A93A3;margin-bottom:14px">Voor aannemers</div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:.88rem">
+        <span>Project plaatsen</span><span>Smart Match</span><span>Talentpool</span><span>Urenbeheer</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8A93A3;margin-bottom:14px">Voor vakmensen</div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:.88rem">
+        <span>Werk vinden</span><span>Beschikbaarheid instellen</span><span>ZZP-check</span><span>Certificaten</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8A93A3;margin-bottom:14px">Vertrouwen &amp; contact</div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:.88rem">
+        <a href="verificatie-en-certificaten.html" style="color:rgba(255,255,255,.78)" style-hover="color:#F26522">Verificatie &amp; certificaten</a>
+        <a href="avg-en-privacy.html" style="color:rgba(255,255,255,.78)" style-hover="color:#F26522">AVG &amp; privacy</a>
+        <a href="support.html" style="color:rgba(255,255,255,.78)" style-hover="color:#F26522">Support</a>
+        <span>support@timmerly.nl</span>
+      </div>
+    </div>
+  </div>
+  <div style="border-top:1px solid rgba(255,255,255,.12)">
+    <div style="max-width:1120px;margin:0 auto;padding:20px 24px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;font-size:.8rem;color:#8A93A3">
+      <span>© 2026 Timmerly B.V. · KvK 84213967</span>
+      <div style="display:flex;gap:20px;flex-wrap:wrap">
+        <a href="algemene-voorwaarden.html" style="color:#8A93A3" style-hover="color:#F26522">Algemene voorwaarden</a>
+        <a href="privacybeleid.html" style="color:#8A93A3" style-hover="color:#F26522">Privacybeleid</a>
+        <a href="cookies.html" style="color:#8A93A3" style-hover="color:#F26522">Cookies</a>
+      </div>
+    </div>
+  </div>
+  <div style="border-top:1px solid rgba(255,255,255,.12);padding:16px 24px;text-align:center;font-size:.78rem;color:#8A93A3">
+    Demo-omgeving. Voorbeeldnamen en tarieven zijn fictief. De ZZP-check is risicosignalering, geen juridisch advies.
   </div>
 </footer>
-
-<!-- ─── MODAL ─── -->
-<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <h2>Timmerman aanvragen</h2>
-    <p class="modal-sub">Laat je gegevens achter en Timmerly neemt contact met je op.</p>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label>Voornaam</label>
-        <input type="text" placeholder="Jan" />
-      </div>
-      <div class="form-group">
-        <label>Achternaam</label>
-        <input type="text" placeholder="Jansen" />
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>E-mailadres</label>
-      <input type="email" placeholder="jan@voorbeeld.nl" />
-    </div>
-
-    <div class="form-group">
-      <label>Telefoonnummer</label>
-      <input type="tel" placeholder="06 12 34 56 78" />
-    </div>
-
-    <div class="form-group">
-      <label>Postcode</label>
-      <input type="text" placeholder="1234 AB" />
-    </div>
-
-    <div class="form-group">
-      <label>Type werk</label>
-      <select>
-        <option value="">Selecteer specialisme</option>
-        <option>Kozijnen &amp; deuren</option>
-        <option>Vloeren leggen</option>
-        <option>Dakkapel</option>
-        <option>Keuken plaatsen</option>
-        <option>Trap maken</option>
-        <option>Aanbouw &amp; uitbouw</option>
-        <option>Zolderombouw</option>
-        <option>Maatwerk meubels</option>
-        <option>Anders</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Beschrijving van het werk</label>
-      <textarea placeholder="Omschrijf zo nauwkeurig mogelijk wat er gedaan moet worden..."></textarea>
-    </div>
-
-    <button class="btn btn-primary" style="width:100%;padding:14px;font-size:1rem;justify-content:center;" onclick="submitForm()">
-      Aanvraag versturen →
-    </button>
-
-    <p style="text-align:center;font-size:.78rem;color:var(--gray-text);margin-top:12px;">
-      Timmerly neemt binnen 1 werkdag contact met je op · Privacy gewaarborgd
-    </p>
-  </div>
-</div>
-
-<script>
-  function openModal() {
-    document.getElementById('modal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeModal() {
-    document.getElementById('modal').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  function closeModalOutside(e) {
-    if (e.target === document.getElementById('modal')) closeModal();
-  }
-
-  function submitForm() {
-    closeModal();
-    alert('Bedankt! Je aanvraag is ontvangen. Timmerly neemt binnen 1 werkdag contact met je op.');
-  }
-
-  function toggleFaq(id) {
-    const item = document.getElementById(id);
-    const isOpen = item.classList.contains('open');
-    // Sluit alle andere
-    document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
-    if (!isOpen) item.classList.add('open');
-  }
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
-  });
-</script>
-<script>
-(function(){
-  var p = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-links a').forEach(function(a){
-    var h = (a.getAttribute('href') || '').split('#')[0].split('?')[0];
-    if(h === p) a.classList.add('active');
-  });
-})();
-</script>
 </body>
 </html>

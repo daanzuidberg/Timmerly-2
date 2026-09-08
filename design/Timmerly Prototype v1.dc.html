@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#F5F6F8;color:#1C2B4A;line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:#D4531A;text-decoration:none}
+  a:hover{color:#F26522}
+  button{font-family:inherit}
+  input,select,textarea{font-family:inherit}
+  @keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.35}}
+</style>
+</helmet>
+
+<sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="Landingspagina" style="background:#FFFFFF">
+  <nav style="position:sticky;top:0;z-index:50;background:#FFFFFF;box-shadow:0 2px 12px rgba(0,0,0,.07);padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px">
+    <span style="display:inline-flex;align-items:center;gap:11px">
+      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#1C2B4A"></rect><path d="M9.5 7.5h4.2v11.3h9.8v4.2H9.5z" fill="#F26522"></path></svg>
+      <span style="display:inline-flex;align-items:baseline;gap:9px">
+        <span style="font-size:1.22rem;font-weight:800;letter-spacing:-.4px">Timmerly</span>
+        <span style="font-size:.66rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8A93A3;border-left:1px solid #E4E8EF;padding-left:9px">Voor de bouw</span>
+      </span>
+    </span>
+    <div style="display:flex;align-items:center;gap:26px;font-size:.93rem;font-weight:500;color:#1C2B4A">
+      <span style="cursor:default">Voor aannemers</span>
+      <span style="cursor:default">Voor vakmensen</span>
+      <span style="cursor:default">ZZP-check</span>
+      <span style="cursor:default">Prijzen</span>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button onClick="{{ goPro }}" style="padding:10px 20px;border-radius:10px;border:2px solid #E4E8EF;background:#fff;color:#1C2B4A;font-weight:600;font-size:.9rem;cursor:pointer">Inloggen</button>
+      <button onClick="{{ goCon }}" style="padding:10px 22px;border-radius:10px;border:none;background:#F26522;color:#fff;font-weight:600;font-size:.9rem;cursor:pointer">Project plaatsen</button>
+    </div>
+  </nav>
+
+  <div style="background:linear-gradient(180deg,#1C2B4A 0%,#152037 100%);padding:72px 24px 84px">
+    <div style="max-width:1120px;margin:0 auto;text-align:center">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:#FCD34D;padding:6px 16px;border-radius:50px;font-size:.82rem;font-weight:600;margin-bottom:22px">Landelijk platform voor de bouw</div>
+      <h1 style="font-size:clamp(2rem,4.6vw,3.1rem);font-weight:800;color:#fff;line-height:1.18;letter-spacing:-.5px;margin-bottom:16px;text-wrap:pretty">De juiste vakman op het juiste project,<br /><span style="color:#F26522">op het juiste moment.</span></h1>
+      <p style="font-size:1.08rem;color:rgba(255,255,255,.78);max-width:600px;margin:0 auto 40px;text-wrap:pretty">Aannemers en bouwprofessionals vinden elkaar op basis van vakgebied, beschikbaarheid, afstand en geverifieerde certificaten. Geen vacaturebank, maar een matchingplatform.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;max-width:820px;margin:0 auto;text-align:left">
+        <div style="background:#fff;border-radius:16px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.28)">
+          <div style="font-size:.75rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#6B7280;margin-bottom:8px">Voor aannemers</div>
+          <div style="font-size:1.35rem;font-weight:800;margin-bottom:10px">Ik zoek vakmensen</div>
+          <p style="font-size:.92rem;color:#6B7280;margin-bottom:18px">Plaats een project in twee minuten en krijg direct gescoorde kandidaten met geverifieerde certificaten.</p>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:.88rem;margin-bottom:22px">
+            <span>Projecten en templates plaatsen</span>
+            <span>Kandidaten met matchscore en onderbouwing</span>
+            <span>Eigen talentpool en urengoedkeuring</span>
+          </div>
+          <button onClick="{{ goCon }}" style="width:100%;padding:14px;border-radius:10px;border:none;background:#F26522;color:#fff;font-weight:700;font-size:.98rem;cursor:pointer">Start als aannemer</button>
+        </div>
+        <div style="background:#fff;border-radius:16px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.28)">
+          <div style="font-size:.75rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#6B7280;margin-bottom:8px">Voor vakmensen</div>
+          <div style="font-size:1.35rem;font-weight:800;margin-bottom:10px">Ik zoek werk</div>
+          <p style="font-size:.92rem;color:#6B7280;margin-bottom:18px">Zet je beschikbaarheid aan en zie alleen projecten die bij je ervaring, regio en tarief passen.</p>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:.88rem;margin-bottom:22px">
+            <span>Beschikbaarheidskalender en reisafstand</span>
+            <span>Certificaten met verificatiestatus</span>
+            <span>ZZP-check en urenregistratie</span>
+          </div>
+          <button onClick="{{ goPro }}" style="width:100%;padding:14px;border-radius:10px;border:2px solid #1C2B4A;background:#fff;color:#1C2B4A;font-weight:700;font-size:.98rem;cursor:pointer">Start als vakman</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border-bottom:1px solid #E4E8EF;padding:18px 24px">
+    <div style="max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:34px;flex-wrap:wrap">
+      <sc-for list="{{ trustPoints }}" as="t" hint-placeholder-count="5">
+        <span style="display:inline-flex;align-items:center;gap:9px;font-size:.84rem;font-weight:600;color:#1C2B4A"><span style="width:5px;height:5px;background:#F26522;border-radius:1px"></span>{{ t }}</span>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="padding:76px 24px;max-width:1120px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:44px">
+      <div style="display:inline-block;background:rgba(242,101,34,.1);color:#D4531A;padding:5px 14px;border-radius:50px;font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Van match tot review</div>
+      <h2 style="font-size:clamp(1.6rem,3.2vw,2.1rem);font-weight:800;letter-spacing:-.3px">Één doorlopende werkstroom</h2>
+      <p style="color:#6B7280;max-width:540px;margin:12px auto 0;font-size:1rem">Timmerly stopt niet bij het contact. Voorstel, akkoord, uren en beoordeling zitten in dezelfde opdracht.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px">
+      <sc-for list="{{ funnelStages }}" as="s" hint-placeholder-count="6">
+        <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:20px 18px">
+          <div style="width:34px;height:34px;border-radius:50%;background:#1C2B4A;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.88rem;margin-bottom:12px">{{ s.n }}</div>
+          <div style="font-weight:700;font-size:.98rem;margin-bottom:4px">{{ s.label }}</div>
+          <div style="font-size:.83rem;color:#6B7280">{{ s.hint }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="background:#1C2B4A;padding:56px 24px">
+    <div style="max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:28px;text-align:center;color:rgba(255,255,255,.8)">
+      <div><span style="display:block;font-size:1.9rem;font-weight:800;color:#fff">2.140</span><span style="font-size:.86rem">Actieve bouwprofessionals</span></div>
+      <div><span style="display:block;font-size:1.9rem;font-weight:800;color:#fff">318</span><span style="font-size:.86rem">Openstaande projecten</span></div>
+      <div><span style="display:block;font-size:1.9rem;font-weight:800;color:#fff">4 min</span><span style="font-size:.86rem">Gemiddeld tot eerste match</span></div>
+      <div><span style="display:block;font-size:1.9rem;font-weight:800;color:#fff">91%</span><span style="font-size:.86rem">Match leidt tot contact</span></div>
+    </div>
+  </div>
+
+  <div style="padding:28px 24px;background:#fff;border-top:1px solid #E4E8EF;text-align:center;color:#6B7280;font-size:.84rem">
+    Demo-omgeving. Voorbeeldnamen en tarieven zijn fictief. De ZZP-check is risicosignalering, geen juridisch advies.
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ inApp }}">
+<div style="{{ shellStyle }}">
+  <div style="display:flex;align-items:stretch;min-height:100%">
+    <sc-if value="{{ isDesktop }}">
+      <aside style="width:238px;flex-shrink:0;background:#1C2B4A;padding:20px 14px;display:flex;flex-direction:column;gap:26px">
+        <button onClick="{{ goLanding }}" style="display:flex;align-items:center;gap:9px;background:none;border:none;cursor:pointer;padding:6px">
+          <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="rgba(255,255,255,.09)"></rect><path d="M9.5 7.5h4.2v11.3h9.8v4.2H9.5z" fill="#F26522"></path></svg>
+          <span style="font-size:1.12rem;font-weight:800;color:#fff;letter-spacing:-.4px">Timmerly</span>
+        </button>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <sc-for list="{{ navItems }}" as="it" hint-placeholder-count="4">
+            <button onClick="{{ it.go }}" style="{{ it.style }}">{{ it.label }}<span style="{{ it.badgeStyle }}">{{ it.badge }}</span></button>
+          </sc-for>
+        </div>
+        <div style="margin-top:auto;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:14px">
+          <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.55);font-weight:700;margin-bottom:8px">Demo</div>
+          <div style="display:flex;gap:6px">
+            <button onClick="{{ setPro }}" style="{{ rolePillPro }}">Vakman</button>
+            <button onClick="{{ setCon }}" style="{{ rolePillCon }}">Aannemer</button>
+          </div>
+          <button onClick="{{ toggleDevice }}" style="margin-top:8px;width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:none;color:rgba(255,255,255,.8);font-size:.8rem;font-weight:600;cursor:pointer">Mobiele weergave</button>
+        </div>
+      </aside>
+    </sc-if>
+
+    <main style="flex:1;min-width:0;display:flex;flex-direction:column;background:#F5F6F8">
+      <header style="background:#fff;border-bottom:1px solid #E4E8EF;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
+        <div style="min-width:0">
+          <div style="font-size:1.02rem;font-weight:800;letter-spacing:-.2px">{{ pageTitle }}</div>
+          <div style="font-size:.8rem;color:#6B7280">{{ pageSub }}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <sc-if value="{{ isPhone }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ toggleDevice }}" style="padding:8px 12px;border-radius:8px;border:1.5px solid #E4E8EF;background:#fff;color:#6B7280;font-size:.78rem;font-weight:600;cursor:pointer">Desktop</button>
+          </sc-if>
+          <div style="display:flex;align-items:center;gap:8px;background:#F5F6F8;border:1px solid #E4E8EF;border-radius:50px;padding:5px 12px 5px 6px">
+            <span style="{{ avatarStyle }}">{{ initials }}</span>
+            <span style="font-size:.83rem;font-weight:700">{{ userName }}</span>
+          </div>
+        </div>
+      </header>
+
+      <div style="flex:1;padding:22px 20px 40px">
+        <div style="max-width:1180px;margin:0 auto">
+
+          <sc-if value="{{ isDashPro }}">
+          <div data-screen-label="Dashboard timmerman" style="display:flex;flex-direction:column;gap:18px">
+            <div style="background:linear-gradient(115deg,#1C2B4A 0%,#243756 100%);border-radius:12px;padding:24px;color:#fff;display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-size:1.4rem;font-weight:800;margin-bottom:4px">Goedemorgen Daan</div>
+                <div style="font-size:.9rem;color:rgba(255,255,255,.75)">3 nieuwe matches binnen 40 km van Kampen</div>
+              </div>
+              <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:12px 16px">
+                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:6px">Beschikbaarheid</div>
+                <div style="display:flex;gap:6px">
+                  <sc-for list="{{ availOptions }}" as="a" hint-placeholder-count="3">
+                    <button onClick="{{ a.go }}" style="{{ a.style }}">{{ a.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px">
+              <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:18px">
+                <div style="font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:#6B7280;font-weight:700;margin-bottom:10px">Profiel compleet</div>
+                <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px"><span style="font-size:1.8rem;font-weight:800">82%</span><span style="font-size:.83rem;color:#6B7280">+8% met werkhistorie</span></div>
+                <div style="height:7px;background:#E4E8EF;border-radius:50px;overflow:hidden"><div style="width:82%;height:100%;background:#F26522"></div></div>
+                <div style="margin-top:12px;font-size:.84rem;color:#6B7280">Voeg 2 afgeronde projecten toe om hoger in matches te komen.</div>
+              </div>
+              <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:18px">
+                <div style="font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:#6B7280;font-weight:700;margin-bottom:10px">Certificaten</div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <div style="display:flex;justify-content:space-between;align-items:center;font-size:.88rem"><span style="font-weight:600">VCA Basis</span><span style="background:#FEF3C7;color:#92400E;padding:2px 10px;border-radius:50px;font-size:.76rem;font-weight:700">Verloopt in 30 dagen</span></div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;font-size:.88rem"><span style="font-weight:600">BHV</span><span style="background:#DCFCE7;color:#166534;padding:2px 10px;border-radius:50px;font-size:.76rem;font-weight:700">Geverifieerd</span></div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;font-size:.88rem"><span style="font-weight:600">Hoogwerker</span><span style="background:#F5F6F8;color:#6B7280;padding:2px 10px;border-radius:50px;font-size:.76rem;font-weight:700">In behandeling</span></div>
+                </div>
+              </div>
+              <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:18px">
+                <div style="font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:#6B7280;font-weight:700;margin-bottom:10px">ZZP-status</div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="width:9px;height:9px;border-radius:50%;background:#22C55E"></span><span style="font-weight:700;font-size:.95rem">KvK gecontroleerd</span></div>
+                <div style="font-size:.84rem;color:#6B7280;margin-bottom:14px">Laatste compliance-check: 2 dagen geleden, laag risico.</div>
+                <button onClick="{{ goCompliance }}" style="width:100%;padding:10px;border-radius:9px;border:2px solid #E4E8EF;background:#fff;color:#1C2B4A;font-weight:700;font-size:.86rem;cursor:pointer">ZZP-check openen</button>
+              </div>
+            </div>
+
+            <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:18px">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px">
+                <div style="font-weight:800;font-size:1.02rem">Nieuwe matches</div>
+                <button onClick="{{ goMatches }}" style="background:none;border:none;color:#D4531A;font-weight:700;font-size:.86rem;cursor:pointer">Alle projecten</button>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <sc-for list="{{ projects }}" as="p" hint-placeholder-count="3">
+                  <button onClick="{{ p.open }}" style="text-align:left;width:100%;background:#F5F6F8;border:1px solid #E4E8EF;border-radius:10px;padding:14px;cursor:pointer;display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+                    <span style="{{ p.scoreStyle }}">{{ p.score }}</span>
+                    <span style="flex:1;min-width:160px">
+                      <span style="display:block;font-weight:700;font-size:.98rem">{{ p.title }}</span>
+                      <span style="display:block;font-size:.84rem;color:#6B7280">{{ p.meta }}</span>
+                    </span>
+                    <span style="font-weight:700;font-size:.9rem;white-space:nowrap">{{ p.rate }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:18px">
+              <div style="font-weight:800;font-size:1.02rem;margin-bottom:4px">Lopende opdracht</div>
+              <div style="font-size:.86rem;color:#6B7280;margin-bottom:14px">Aftimmering 46 appartementen · Bouwgroep Nagel · Deventer</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px">
+                <div style="background:#F5F6F8;border-radius:9px;padding:12px"><div style="font-size:.74rem;color:#6B7280;font-weight:700;text-transform:uppercase;letter-spacing:.06em">Deze week</div><div style="font-weight:800;font-size:1.1rem">38,5 uur</div></div>
+                <div style="background:#F5F6F8;border-radius:9px;padding:12px"><div style="font-size:.74rem;color:#6B7280;font-weight:700;text-transform:uppercase;letter-spacing:.06em">Goedgekeurd</div><div style="font-weight:800;font-size:1.1rem;color:#22C55E">32 uur</div></div>
+                <div style="background:#F5F6F8;border-radius:9px;padding:12px"><div style="font-size:.74rem;color:#6B7280;font-weight:700;text-transform:uppercase;letter-spacing:.06em">Openstaand</div><div style="font-weight:800;font-size:1.1rem;color:#F59E0B">6,5 uur</div></div>
+                <div style="background:#F5F6F8;border-radius:9px;padding:12px"><div style="font-size:.74rem;color:#6B7280;font-weight:700;text-transform:uppercase;letter-spacing:.06em">Einddatum</div><div style="font-weight:800;font-size:1.1rem">19 dec</div></div>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ isDashCon }}">
+          <div data-screen-label="Dashboard aannemer" style="display:flex;flex-direction:column;gap:18px">
+            <div style="background:linear-gradient(115deg,#1C2B4A 0%,#243756 100%);border-radius:12px;padding:24px;color:#fff;display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-size:1.4rem;font-weight:800;margin-bottom:4px">Goedemorgen, Janssen Bouw</div>
+                <div style="font-size:.9rem;color:rgba(255,255,255,.75)">4 projecten open · 11 kandidaten wachten op reactie</div>
+              </div>
+              <button onClick="{{ goPost }}" style="padding:13px 24px;border-radius:10px;border:none;background:#F26522;color:#fff;font-weight:700;font-size:.95rem;cursor:pointer">Project plaatsen</button>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px">
+              <sc-for list="{{ conStats }}" as="s" hint-placeholder-count="4">
+                <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:16px">
+                  <div style="font-size:.74rem;text-transform:uppercase;letter-spacing:.07em;color:#6B7280;font-weight:700;margin-bottom:6px">{{ s.label }}</div>
+                  <div style="font-size:1.5rem;font-weight:800">{{ s.value }}</div>
+                  <div style="font-size:.8rem;color:#6B7280">{{ s.hint }}</div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px">
+              <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:18px">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+                  <div style="font-weight:800;font-size:1.02rem">Openstaande projecten</div>
+                  <button onClick="{{ goMatches }}" style="background:none;border:none;color:#D4531A;font-weight:700;font-size:.86rem;cursor:pointer">Kandidaten</button>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <sc-for list="{{ openProjects }}" as="p" hint-placeholder-count="4">
+                    <div style="display:flex;gap:12px;align-items:center;background:#F5F6F8;border:1px solid #E4E8EF;border-radius:10px;padding:12px 14px">
+                      <span style="flex:1;min-width:0">
+                        <span style="display:block;font-weight:700;font-size:.93rem">{{ p.title }}</span>
+                        <span style="display:block;font-size:.82rem;color:#6B7280">{{ p.meta }}</span>
+                      </span>
+                      <span style="{{ p.pillStyle }}">{{ p.pill }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:18px">
+                <div style="font-weight:800;font-size:1.02rem;margin-bottom:14px">Uren ter goedkeuring</div>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <sc-for list="{{ hours }}" as="h" hint-placeholder-count="3">
+                    <div style="display:flex;gap:10px;align-items:center;background:#F5F6F8;border:1px solid #E4E8EF;border-radius:10px;padding:12px 14px">
+                      <span style="flex:1;min-width:0">
+                        <span style="display:block;font-weight:700;font-size:.93rem">{{ h.name }}</span>
+                        <span style="display:block;font-size:.82rem;color:#6B7280">{{ h.meta }}</span>
+                      </span>
+                      <span style="font-weight:800;font-size:.95rem;white-space:nowrap">{{ h.total }}</span>
+                      <span style="{{ h.state }}">{{ h.stateLabel }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:14px">
+                  <button onClick="{{ approveAll }}" style="flex:1;padding:11px;border-radius:9px;border:none;background:#1C2B4A;color:#fff;font-weight:700;font-size:.87rem;cursor:pointer">Alles goedkeuren</button>
+                  <button style="flex:1;padding:11px;border-radius:9px;border:2px solid #E4E8EF;background:#fff;color:#1C2B4A;font-weight:700;font-size:.87rem;cursor:pointer">Per week bekijken</button>
+                </div>
+              </div>
+            </div>
+
+            <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:18px">
+              <div style="font-weight:800;font-size:1.02rem;margin-bottom:14px">Talentpool · eerder ingezet</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px">
+                <sc-for list="{{ pool }}" as="c" hint-placeholder-count="4">
+                  <div style="display:flex;gap:11px;align-items:center;background:#F5F6F8;border:1px solid #E4E8EF;border-radius:10px;padding:12px">
+                    <span style="{{ c.avatar }}">{{ c.initials }}</span>
+                    <span style="min-width:0">
+                      <span style="display:block;font-weight:700;font-size:.9rem">{{ c.name }}</span>
+                      <span style="display:block;font-size:.8rem;color:#6B7280">{{ c.status }}</span>
+                    </span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ isPost }}">
+          <div data-screen-label="Project plaatsen" style="display:flex;flex-direction:column;gap:16px;max-width:860px">
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <sc-for list="{{ postSteps }}" as="s" hint-placeholder-count="3">
+                <span style="{{ s.style }}">{{ s.label }}</span>
+              </sc-for>
+            </div>
+
+            <sc-if value="{{ postStep1 }}">
+            <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:24px">
+              <div style="font-size:1.15rem;font-weight:800;margin-bottom:6px">Beschrijf je project in gewone taal</div>
+              <p style="font-size:.9rem;color:#6B7280;margin-bottom:18px">Timmerly zet je zin om in een volledige projectaanvraag. Je kunt alles daarna nog aanpassen.</p>
+              <textarea onChange="{{ setBrief }}" placeholder="Bijvoorbeeld: Ik zoek 4 timmermannen in Amsterdam voor 12 weken, minimaal 3 jaar ervaring." value="{{ briefValue }}" style="width:100%;min-height:110px;padding:14px;border:2px solid #E4E8EF;border-radius:10px;font-size:.95rem;color:#1C2B4A;background:#F5F6F8;resize:vertical;outline:none"></textarea>
+              <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+                <button onClick="{{ parseBrief }}" style="padding:13px 22px;border-radius:10px;border:none;background:#F26522;color:#fff;font-weight:700;font-size:.95rem;cursor:pointer">Omzetten naar aanvraag</button>
+                <button onClick="{{ useExample }}" style="padding:13px 20px;border-radius:10px;border:2px solid #E4E8EF;background:#fff;color:#1C2B4A;font-weight:700;font-size:.92rem;cursor:pointer">Voorbeeld invullen</button>
+                <button onClick="{{ nextPost }}" style="padding:13px 20px;border-radius:10px;border:none;background:none;color:#6B7280;font-weight:700;font-size:.92rem;cursor:pointer">Handmatig invullen</button>
+              </div>
+              <div style="margin-top:20px;background:#F5F6F8;border:1px solid #E4E8EF;border-radius:10px;padding:14px;font-size:.85rem;color:#6B7280">Eerder gebruikt: <strong style="color:#1C2B4A">Template · Aftimmering woningbouw (4 pers.)</strong></div>
+            </div>
+            </sc-if>
+
+            <sc-if value="{{ postStep2 }}">
+            <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:24px">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap">
+                <div style="font-size:1.15rem;font-weight:800">Projectgegevens</div>
+                <span style="{{ parsedPillStyle }}">{{ parsedPill }}</span>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
+                <sc-for list="{{ postFields }}" as="f" hint-placeholder-count="12">
+                  <label style="display:flex;flex-direction:column;gap:5px">
+                    <span style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6B7280">{{ f.label }}</span>
+                    <span style="{{ f.boxStyle }}">{{ f.value }}</span>
+                  </label>
+                </sc-for>
+              </div>
+              <div style="margin-top:18px;background:#F5F6F8;border:1px solid #E4E8EF;border-radius:10px;padding:16px">
+                <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6B7280;margin-bottom:8px">Vereiste certificaten</div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                  <span style="background:rgba(242,101,34,.1);color:#D4531A;padding:5px 12px;border-radius:50px;font-size:.8rem;font-weight:700">VCA Basis</span>
+                  <span style="background:rgba(242,101,34,.1);color:#D4531A;padding:5px 12px;border-radius:50px;font-size:.8rem;font-weight:700">Eigen vervoer</span>
+                  <span style="background:#fff;border:1.5px dashed #E4E8EF;color:#6B7280;padding:5px 12px;border-radius:50px;font-size:.8rem;font-weight:700">+ Certificaat</span>
+                </div>
+              </div>
+              <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+                <button onClick="{{ nextPost }}" style="padding:13px 24px;border-radius:10px;border:none;background:#F26522;color:#fff;font-weight:700;font-size:.95rem;cursor:pointer">Naar controle</button>
+                <button onClick="{{ prevPost }}" style="padding:13px 20px;border-radius:10px;border:2px solid #E4E8EF;background:#fff;color:#1C2B4A;font-weight:700;font-size:.92rem;cursor:pointer">Terug</button>
+                <button style="padding:13px 20px;border-radius:10px;border:none;background:none;color:#6B7280;font-weight:700;font-size:.92rem;cursor:pointer">Opslaan als template</button>
+              </div>
+            </div>
+            </sc-if>
+
+            <sc-if value="{{ postStep3 }}">
+            <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:24px">
+              <div style="font-size:1.15rem;font-weight:800;margin-bottom:16px">Controle en publiceren</div>
+              <div style="background:#F5F6F8;border:1px solid #E4E8EF;border-radius:10px;padding:16px;margin-bottom:14px">
+                <div style="font-weight:800;font-size:1rem;margin-bottom:4px">Aftimmering 84 woningen — Almere Poort</div>
+                <div style="font-size:.87rem;color:#6B7280">4 timmermannen · 12 weken · start 21 sept · 40 u/week · ZZP of loondienst · €45–50 p/u</div>
+              </div>
+              <div style="border:1px solid #FDE68A;background:#FFFBEB;border-radius:10px;padding:16px;margin-bottom:14px">
+                <div style="display:flex;align-items:center;gap:8px;font-weight:800;font-size:.95rem;color:#92400E;margin-bottom:6px"><span style="width:9px;height:9px;border-radius:50%;background:#F59E0B"></span>Aandacht vereist bij ZZP-inzet</div>
+                <p style="font-size:.87rem;color:#92400E">Deze opdracht bevat kenmerken die extra aandacht vragen bij de kwalificatie van de arbeidsrelatie: vaste werktijden en werk onder leiding van je uitvoerder. Doorloop de ZZP-check voordat je met een zelfstandige start.</p>
+                <button onClick="{{ goCompliance }}" style="margin-top:12px;padding:10px 18px;border-radius:9px;border:1.5px solid #92400E;background:none;color:#92400E;font-weight:700;font-size:.85rem;cursor:pointer">ZZP-check doorlopen</button>
+              </div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <button onClick="{{ publish }}" style="padding:13px 24px;border-radius:10px;border:none;background:#F26522;color:#fff;font-weight:700;font-size:.95rem;cursor:pointer">Publiceren en matchen</button>
+                <button onClick="{{ prevPost }}" style="padding:13px 20px;border-radius:10px;border:2px solid #E4E8EF;background:#fff;color:#1C2B4A;font-weight:700;font-size:.92rem;cursor:pointer">Terug</button>
+              </div>
+            </div>
+            </sc-if>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ isMatches }}">
+          <div data-screen-label="Smart Match" style="display:flex;flex-direction:column;gap:16px">
+            <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:18px">
+              <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#6B7280;margin-bottom:10px">Smart Match</div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+                <span style="flex:1;min-width:240px;background:#F5F6F8;border:2px solid #E4E8EF;border-radius:10px;padding:13px 15px;font-size:.94rem;color:#1C2B4A">{{ searchQuery }}</span>
+                <button style="padding:13px 24px;border-radius:10px;border:none;background:#F26522;color:#fff;font-weight:700;font-size:.93rem;cursor:pointer">Zoeken</button>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+                <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+                  <span style="{{ f.style }}">{{ f.label }}</span>
+                </sc-for>
+              </div>
+            </div>
+
+            <sc-if value="{{ showSwipe }}">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:20px">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+                  <span style="{{ swipeCard.avatar }}">{{ swipeCard.initials }}</span>
+                  <span style="flex:1;min-width:0">
+                    <span style="display:block;font-weight:800;font-size:1.05rem">{{ swipeCard.name }}</span>
+                    <span style="display:block;font-size:.85rem;color:#6B7280">{{ swipeCard.meta }}</span>
+                  </span>
+                  <span style="{{ swipeCard.scoreStyle }}">{{ swipeCard.score }}</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:16px">
+                  <sc-for list="{{ swipeCard.reasons }}" as="r" hint-placeholder-count="4">
+                    <span style="font-size:.88rem;color:#1C2B4A">{{ r }}</span>
+                  </sc-for>
+                </div>
+                <div style="display:flex;gap:10px">
+                  <button onClick="{{ swipeSkip }}" style="flex:1;padding:16px;border-radius:12px;border:2px solid #E4E8EF;background:#fff;color:#6B7280;font-weight:800;font-size:.95rem;cursor:pointer">Overslaan</button>
+                  <button onClick="{{ swipeLike }}" style="flex:1;padding:16px;border-radius:12px;border:none;background:#F26522;color:#fff;font-weight:800;font-size:.95rem;cursor:pointer">Interessant</button>
+                </div>
+              </div>
+              <div style="text-align:center;font-size:.84rem;color:#6B7280">{{ swipeProgress }}</div>
+            </div>
+            </sc-if>
+
+            <sc-if value="{{ showList }}">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ matchList }}" as="m" hint-placeholder-count="4">
+                <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:20px;display:flex;gap:20px;flex-wrap:wrap">
+                  <div style="flex:1;min-width:260px">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+                      <span style="{{ m.avatar }}">{{ m.initials }}</span>
+                      <span style="min-width:0">
+                        <span style="display:block;font-weight:800;font-size:1.05rem">{{ m.name }}</span>
+                        <span style="display:block;font-size:.85rem;color:#6B7280">{{ m.meta }}</span>
+                      </span>
+                    </div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+                      <sc-for list="{{ m.badges }}" as="b" hint-placeholder-count="3">
+                        <span style="background:#F5F6F8;border:1px solid #E4E8EF;color:#1C2B4A;padding:3px 10px;border-radius:50px;font-size:.76rem;font-weight:700">{{ b }}</span>
+                      </sc-for>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px">
+                      <sc-for list="{{ m.reasons }}" as="r" hint-placeholder-count="6">
+                        <span style="font-size:.85rem;color:#1C2B4A">{{ r }}</span>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="width:200px;min-width:170px;display:flex;flex-direction:column;gap:10px">
+                    <div style="background:#F5F6F8;border-radius:10px;padding:14px;text-align:center">
+                      <div style="font-size:1.7rem;font-weight:800;color:#D4531A;line-height:1.1">{{ m.score }}</div>
+                      <div style="font-size:.74rem;text-transform:uppercase;letter-spacing:.07em;color:#6B7280;font-weight:700">Match</div>
+                      <div style="height:6px;background:#E4E8EF;border-radius:50px;overflow:hidden;margin-top:8px"><div style="{{ m.barStyle }}"></div></div>
+                    </div>
+                    <div style="font-size:.86rem;font-weight:700;text-align:center">{{ m.rate }}</div>
+                    <button onClick="{{ m.interest }}" style="padding:12px;border-radius:10px;border:none;background:#F26522;color:#fff;font-weight:700;font-size:.9rem;cursor:pointer">{{ interestLabel }}</button>
+                    <button onClick="{{ m.openProfile }}" style="padding:11px;border-radius:10px;border:2px solid #E4E8EF;background:#fff;color:#1C2B4A;font-weight:700;font-size:.86rem;cursor:pointer">{{ m.secondary }}</button>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            </sc-if>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ isFunnel }}">
+          <div data-screen-label="Opdracht" style="display:flex;flex-direction:column;gap:16px">
+            <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:20px">
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <sc-for list="{{ funnelChips }}" as="c" hint-placeholder-count="6">
+                  <span style="{{ c.style }}">{{ c.label }}</span>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px">
+              <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:22px">
+                <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#6B7280;margin-bottom:8px">{{ stageTag }}</div>
+                <div style="font-size:1.2rem;font-weight:800;margin-bottom:8px">{{ stageTitle }}</div>
+                <p style="font-size:.92rem;color:#6B7280;margin-bottom:18px;text-wrap:pretty">{{ stageBody }}</p>
+                <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:20px">
+                  <sc-for list="{{ stagePoints }}" as="p" hint-placeholder-count="3">
+                    <div style="display:flex;justify-content:space-between;gap:12px;background:#F5F6F8;border-radius:9px;padding:11px 14px;font-size:.88rem">
+                      <span style="color:#6B7280;font-weight:600">{{ p.k }}</span>
+                      <span style="font-weight:700;text-align:right">{{ p.v }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap">
+                  <button onClick="{{ advance }}" style="padding:13px 24px;border-radius:10px;border:none;background:#F26522;color:#fff;font-weight:700;font-size:.95rem;cursor:pointer">{{ stageCta }}</button>
+                  <button onClick="{{ resetFunnel }}" style="padding:13px 20px;border-radius:10px;border:2px solid #E4E8EF;background:#fff;color:#1C2B4A;font-weight:700;font-size:.9rem;cursor:pointer">Opnieuw</button>
+                </div>
+              </div>
+
+              <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:22px">
+                <div style="font-weight:800;font-size:1.02rem;margin-bottom:14px">Gesprek bij dit project</div>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <sc-for list="{{ chat }}" as="c" hint-placeholder-count="3">
+                    <div style="{{ c.style }}">
+                      <span style="display:block;font-size:.74rem;font-weight:700;opacity:.7;margin-bottom:3px">{{ c.who }}</span>
+                      <span style="display:block;font-size:.89rem">{{ c.text }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:14px">
+                  <span style="flex:1;background:#F5F6F8;border:2px solid #E4E8EF;border-radius:10px;padding:11px 14px;font-size:.88rem;color:#6B7280">Bericht typen…</span>
+                  <button style="padding:11px 18px;border-radius:10px;border:none;background:#1C2B4A;color:#fff;font-weight:700;font-size:.87rem;cursor:pointer">Stuur</button>
+                </div>
+                <div style="margin-top:16px;background:#F5F6F8;border:1px solid #E4E8EF;border-radius:10px;padding:14px;font-size:.84rem;color:#6B7280">Alle afspraken, documenten en uren blijven gekoppeld aan dit project.</div>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ isCompliance }}">
+          <div data-screen-label="ZZP compliance check" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;align-items:start">
+            <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:22px">
+              <div style="font-size:1.15rem;font-weight:800;margin-bottom:6px">ZZP Compliance Check</div>
+              <p style="font-size:.9rem;color:#6B7280;margin-bottom:20px">Zes factoren uit de beoordeling van de arbeidsrelatie. Beantwoord ze zoals de samenwerking in de praktijk werkt.</p>
+              <div style="display:flex;flex-direction:column;gap:18px">
+                <sc-for list="{{ cfQuestions }}" as="q" hint-placeholder-count="6">
+                  <div>
+                    <div style="font-weight:700;font-size:.95rem;margin-bottom:3px">{{ q.label }}</div>
+                    <div style="font-size:.82rem;color:#6B7280;margin-bottom:9px">{{ q.help }}</div>
+                    <div style="display:flex;gap:7px;flex-wrap:wrap">
+                      <sc-for list="{{ q.options }}" as="o" hint-placeholder-count="3">
+                        <button onClick="{{ o.go }}" style="{{ o.style }}">{{ o.label }}</button>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="{{ riskCardStyle }}">
+                <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;opacity:.8;margin-bottom:8px">Risicoclassificatie</div>
+                <div style="font-size:1.6rem;font-weight:800;margin-bottom:6px">{{ riskLabel }}</div>
+                <div style="font-size:.9rem;margin-bottom:14px">{{ riskExplain }}</div>
+                <div style="height:8px;background:rgba(255,255,255,.35);border-radius:50px;overflow:hidden"><div style="{{ riskBarStyle }}"></div></div>
+              </div>
+
+              <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:20px">
+                <div style="font-weight:800;font-size:1rem;margin-bottom:12px">Signalen</div>
+                <div style="display:flex;flex-direction:column;gap:9px">
+                  <sc-for list="{{ signals }}" as="s" hint-placeholder-count="3">
+                    <div style="display:flex;gap:9px;align-items:flex-start">
+                      <span style="{{ s.dot }}"></span>
+                      <span style="font-size:.87rem;flex:1">{{ s.text }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="background:#F5F6F8;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:18px">
+                <div style="font-weight:800;font-size:.9rem;margin-bottom:6px">Geen juridisch advies</div>
+                <p style="font-size:.84rem;color:#6B7280">Timmerly signaleert risico's op basis van je antwoorden en actuele regels in een centraal rulesysteem. De juridische kwalificatie van de arbeidsrelatie blijft de verantwoordelijkheid van opdrachtgever en opdrachtnemer.</p>
+              </div>
+
+              <button onClick="{{ goFunnel }}" style="padding:13px 22px;border-radius:10px;border:none;background:#1C2B4A;color:#fff;font-weight:700;font-size:.93rem;cursor:pointer">Terug naar opdracht</button>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ isProfile }}">
+          <div data-screen-label="Profiel vakman" style="display:flex;flex-direction:column;gap:16px">
+            <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:24px;display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start">
+              <div style="width:88px;height:88px;border-radius:14px;background:#F26522;color:#fff;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800;flex-shrink:0">DV</div>
+              <div style="flex:1;min-width:240px">
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px">
+                  <span style="font-size:1.45rem;font-weight:800;letter-spacing:-.4px">Daan Verhoeven</span>
+                  <span style="display:inline-flex;align-items:center;gap:6px;background:#DCFCE7;color:#166534;padding:4px 12px;border-radius:50px;font-size:.76rem;font-weight:800"><span style="width:6px;height:6px;border-radius:50%;background:#166534"></span>Verifieerd profiel</span>
+                </div>
+                <div style="font-size:.95rem;color:#6B7280;margin-bottom:14px">Allround timmerman · Kampen · 8 jaar ervaring · reisafstand 40 km</div>
+                <div style="display:flex;gap:7px;flex-wrap:wrap">
+                  <sc-for list="{{ profileBadges }}" as="b" hint-placeholder-count="5">
+                    <span style="{{ b.style }}">{{ b.label }}</span>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;min-width:170px">
+                <button style="padding:12px 20px;border-radius:10px;border:none;background:#F26522;color:#fff;font-weight:700;font-size:.9rem;cursor:pointer">{{ profileCta }}</button>
+                <button style="padding:11px 20px;border-radius:10px;border:2px solid #E4E8EF;background:#fff;color:#1C2B4A;font-weight:700;font-size:.87rem;cursor:pointer">Toevoegen aan talentpool</button>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
+              <sc-for list="{{ profileStats }}" as="s" hint-placeholder-count="4">
+                <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:16px">
+                  <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:#8A93A3;font-weight:700;margin-bottom:6px">{{ s.label }}</div>
+                  <div style="font-size:1.45rem;font-weight:800;letter-spacing:-.3px">{{ s.value }}</div>
+                  <div style="font-size:.8rem;color:#6B7280">{{ s.hint }}</div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;align-items:start">
+              <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:20px">
+                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:#8A93A3;font-weight:700;margin-bottom:12px">Specialisaties</div>
+                <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:20px">
+                  <sc-for list="{{ specialisms }}" as="sp" hint-placeholder-count="5">
+                    <span style="background:rgba(242,101,34,.09);color:#D4531A;padding:5px 12px;border-radius:50px;font-size:.8rem;font-weight:700">{{ sp }}</span>
+                  </sc-for>
+                </div>
+                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:#8A93A3;font-weight:700;margin-bottom:12px">Certificaten</div>
+                <div style="display:flex;flex-direction:column;gap:9px">
+                  <sc-for list="{{ certs }}" as="c" hint-placeholder-count="4">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #F1F3F7;padding-bottom:9px">
+                      <span style="min-width:0">
+                        <span style="display:block;font-weight:700;font-size:.9rem">{{ c.name }}</span>
+                        <span style="display:block;font-size:.79rem;color:#8A93A3">{{ c.meta }}</span>
+                      </span>
+                      <span style="{{ c.pill }}">{{ c.status }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:20px">
+                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:#8A93A3;font-weight:700;margin-bottom:12px">Werkhistorie</div>
+                <div style="display:flex;flex-direction:column;gap:14px">
+                  <sc-for list="{{ history }}" as="h" hint-placeholder-count="3">
+                    <div style="border-left:2px solid #E4E8EF;padding-left:14px">
+                      <div style="font-weight:700;font-size:.94rem">{{ h.title }}</div>
+                      <div style="font-size:.82rem;color:#6B7280">{{ h.meta }}</div>
+                      <div style="font-size:.84rem;margin-top:4px">{{ h.work }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:20px">
+              <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:#8A93A3;font-weight:700;margin-bottom:14px">Beoordelingen van aannemers</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px">
+                <sc-for list="{{ reviews }}" as="r" hint-placeholder-count="2">
+                  <div style="background:#F7F8FA;border:1px solid #E4E8EF;border-radius:10px;padding:16px">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px">
+                      <span style="font-weight:700;font-size:.9rem">{{ r.who }}</span>
+                      <span style="font-weight:800;font-size:.9rem;color:#D4531A">{{ r.score }}</span>
+                    </div>
+                    <p style="font-size:.87rem;color:#4B5563;margin-bottom:10px">{{ r.text }}</p>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap">
+                      <sc-for list="{{ r.cats }}" as="cat" hint-placeholder-count="3">
+                        <span style="background:#fff;border:1px solid #E4E8EF;color:#6B7280;padding:3px 9px;border-radius:50px;font-size:.75rem;font-weight:700">{{ cat }}</span>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ isHours }}">
+          <div data-screen-label="Urenregistratie" style="display:flex;flex-direction:column;gap:16px;max-width:900px">
+            <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:20px">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px">
+                <div>
+                  <div style="font-weight:800;font-size:1.05rem">Week 37 · 7 t/m 13 september</div>
+                  <div style="font-size:.85rem;color:#6B7280">Aftimmering 84 woningen — Almere Poort</div>
+                </div>
+                <div style="display:flex;gap:8px;align-items:baseline">
+                  <span style="font-size:1.6rem;font-weight:800;letter-spacing:-.4px">{{ weekTotal }}</span>
+                  <span style="font-size:.82rem;color:#8A93A3;font-weight:700">uur totaal</span>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column">
+                <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1.1fr;gap:10px;padding:0 4px 8px;font-size:.71rem;text-transform:uppercase;letter-spacing:.07em;color:#8A93A3;font-weight:700;border-bottom:1px solid #E4E8EF">
+                  <span>Dag</span><span>Van – tot</span><span>Pauze</span><span>Uren</span><span>Status</span>
+                </div>
+                <sc-for list="{{ weekDays }}" as="d" hint-placeholder-count="5">
+                  <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1.1fr;gap:10px;align-items:center;padding:12px 4px;border-bottom:1px solid #F1F3F7;font-size:.88rem">
+                    <span style="font-weight:700">{{ d.day }}</span>
+                    <span style="color:#6B7280">{{ d.time }}</span>
+                    <span style="color:#6B7280">{{ d.pause }}</span>
+                    <span style="font-weight:800">{{ d.hours }}</span>
+                    <span style="{{ d.pill }}">{{ d.status }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
+                <button onClick="{{ submitWeek }}" style="padding:13px 22px;border-radius:10px;border:none;background:#F26522;color:#fff;font-weight:700;font-size:.93rem;cursor:pointer">{{ hoursCta }}</button>
+                <button style="padding:13px 20px;border-radius:10px;border:2px solid #E4E8EF;background:#fff;color:#1C2B4A;font-weight:700;font-size:.9rem;cursor:pointer">{{ hoursSecondary }}</button>
+                <button style="padding:13px 18px;border-radius:10px;border:none;background:none;color:#6B7280;font-weight:700;font-size:.9rem;cursor:pointer">Urenstaat exporteren</button>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
+              <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:18px">
+                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:#8A93A3;font-weight:700;margin-bottom:10px">Toelichting bij vrijdag</div>
+                <p style="font-size:.88rem;color:#4B5563">Werk stilgelegd om 14:00 door levering die niet compleet was. Foto van de bouwplaats toegevoegd.</p>
+                <div style="margin-top:12px;height:96px;border-radius:9px;border:1px dashed #D8DEE9;background:repeating-linear-gradient(135deg,#F7F8FA 0 8px,#EEF1F6 8px 16px);display:flex;align-items:center;justify-content:center;font-family:ui-monospace,Menlo,monospace;font-size:.74rem;color:#8A93A3">foto bouwplaats</div>
+              </div>
+              <div style="background:#fff;border:1px solid #E4E8EF;border-radius:12px;box-shadow:0 1px 2px rgba(28,43,74,.05);padding:18px">
+                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:#8A93A3;font-weight:700;margin-bottom:10px">Periode tot nu toe</div>
+                <div style="display:flex;flex-direction:column;gap:9px">
+                  <div style="display:flex;justify-content:space-between;font-size:.89rem"><span style="color:#6B7280">Goedgekeurd</span><span style="font-weight:800">312 uur</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:.89rem"><span style="color:#6B7280">Openstaand</span><span style="font-weight:800;color:#F59E0B">{{ openHours }}</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:.89rem"><span style="color:#6B7280">Tarief</span><span style="font-weight:800">€47,50 p/u</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:.89rem;border-top:1px solid #E4E8EF;padding-top:9px"><span style="color:#6B7280">Waarde goedgekeurd</span><span style="font-weight:800">€14.820</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+        </div>
+      </div>
+
+      <sc-if value="{{ isPhone }}">
+        <nav style="position:sticky;bottom:0;background:#fff;border-top:1px solid #E4E8EF;display:flex;padding:6px 4px 10px">
+          <sc-for list="{{ navItems }}" as="it" hint-placeholder-count="4">
+            <button onClick="{{ it.go }}" style="{{ it.tabStyle }}">{{ it.short }}</button>
+          </sc-for>
+        </nav>
+      </sc-if>
+    </main>
+  </div>
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;landing&quot;,&quot;dash&quot;,&quot;post&quot;,&quot;matches&quot;,&quot;funnel&quot;,&quot;hours&quot;,&quot;profile&quot;,&quot;compliance&quot;],&quot;default&quot;:&quot;landing&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Demo&quot;},&quot;showMatchReasons&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Demo&quot;},&quot;proName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Daan Verhoeven&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Demo&quot;}}">
+const NAVY='#1C2B4A', ORANGE='#F26522', DK='#D4531A', BG='#F5F6F8', MID='#E4E8EF', TXT='#6B7280', GREEN='#22C55E', AMBER='#F59E0B';
+
+const PROJECTS=[
+  {title:'Aftimmering 84 woningen — Almere Poort', meta:'Van Dijk Bouw · 23 km · start 21 sept · 12 weken', score:'96%', rate:'€47,50 p/u',
+   reasons:['8 jaar ervaring aftimmering','Beschikbaar vanaf 14 sept','23 km van project','VCA geldig t/m 2027','Ervaring woningbouw','Eigen vervoer'],
+   badges:['ZZP of loondienst','40 u/week','Woningbouw']},
+  {title:'Mutatieonderhoud 120 woningen — Zwolle', meta:'Beter Wonen Onderhoud · 31 km · start 28 sept · doorlopend', score:'91%', rate:'€44,00 p/u',
+   reasons:['Mutatiewerk in profiel','Binnen reisafstand 40 km','Doorlopende opdracht','VCA geldig','Eigen gereedschap','Vaste contactpersoon'],
+   badges:['ZZP','36 u/week','Onderhoud']},
+  {title:'Betonbouw parkeergarage — Utrecht', meta:'Kroon Bouw & Infra · 78 km · start 5 okt · 20 weken', score:'78%', rate:'€52,00 p/u',
+   reasons:['Betontimmerwerk: beperkte ervaring','Buiten voorkeursregio','Hoger tarief dan gevraagd','VCA VOL vereist','Huisvesting beschikbaar','Lange looptijd'],
+   badges:['ZZP','45 u/week','Utiliteit']}
+];
+
+const CANDIDATES=[
+  {name:'Daan Verhoeven', initials:'DV', meta:'Allround timmerman · Kampen · 8 jaar · 23 km', score:'96%', rate:'€47,50 p/u',
+   badges:['ZZP geverifieerd','VCA','4.9 (23)','Snel beschikbaar'],
+   reasons:['8 jaar ervaring aftimmering','Beschikbaar vanaf 14 sept','23 km van project','VCA gecertificeerd','Ervaring woningbouw','Eigen vervoer'], color:'#F26522'},
+  {name:'Youssef El Amrani', initials:'YE', meta:'Betontimmerman · Lelystad · 11 jaar · 34 km', score:'92%', rate:'€51,00 p/u',
+   badges:['ZZP geverifieerd','VCA VOL','4.8 (41)'],
+   reasons:['11 jaar betontimmerwerk','Beschikbaar vanaf 21 sept','34 km van project','Eigen gereedschap','3 projecten bij Van Dijk','Voorman-ervaring'], color:'#3A5298'},
+  {name:'Marijn de Wit', initials:'MW', meta:'Mutatietimmerman · Zwolle · 6 jaar · 41 km', score:'88%', rate:'€44,00 p/u',
+   badges:['Identiteit geverifieerd','VCA','4.7 (18)'],
+   reasons:['Mutatie- en aftimmerwerk','Beschikbaar per direct','41 km van project','Rijbewijs B','Loondienst mogelijk','Reageert binnen 2 uur'], color:'#7C3AED'},
+  {name:'Bram Sikkema', initials:'BS', meta:'Voorman timmerman · Emmeloord · 15 jaar · 52 km', score:'84%', rate:'€56,00 p/u',
+   badges:['ZZP geverifieerd','VCA VOL','BHV','4.9 (66)'],
+   reasons:['15 jaar ervaring, voorman','Beschikbaar vanaf 1 okt','52 km van project','Tarief boven indicatie','Ervaring 80+ woningen','Eigen busje'], color:'#059669'}
+];
+
+const FUNNEL=[
+  {label:'Match', tag:'Stap 1 van 6', title:'96% match gevonden', body:'Daan Verhoeven past op ervaring, beschikbaarheid, afstand en certificaten bij Aftimmering 84 woningen.', cta:'Interesse tonen',
+   points:[['Matchscore','96%'],['Reden','Ervaring, afstand, VCA'],['Beschikbaar','vanaf 14 sept']]},
+  {label:'Interesse', tag:'Stap 2 van 6', title:'Interesse verstuurd', body:'Beide partijen hebben interesse aangegeven. Het gesprek wordt geopend en aan dit project gekoppeld.', cta:'Contact openen',
+   points:[['Status','Wederzijdse interesse'],['Reactietijd aannemer','gem. 3 uur'],['Project','Almere Poort']]},
+  {label:'Contact', tag:'Stap 3 van 6', title:'Gesprek geopend', body:'Werkzaamheden, werktijden en start zijn besproken in de chat. Stel nu een voorstel op met tarief en looptijd.', cta:'Voorstel opstellen',
+   points:[['Startdatum','21 september'],['Werktijden','07:00 – 16:00'],['Werk','Aftimmering, kozijnen']]},
+  {label:'Voorstel', tag:'Stap 4 van 6', title:'Voorstel klaar om te versturen', body:'Het voorstel bevat tarief, looptijd, uren en contractvorm. Bij ZZP hoort de compliance-check erbij.', cta:'Voorstel versturen',
+   points:[['Tarief','€47,50 p/u'],['Looptijd','12 weken, 40 u/week'],['Contractvorm','ZZP · check vereist']]},
+  {label:'Akkoord', tag:'Stap 5 van 6', title:'Beide partijen akkoord', body:'Opdrachtbevestiging is ondertekend en staat in het documentencentrum. De opdracht start op 21 september.', cta:'Opdracht starten',
+   points:[['Ondertekend','7 sept, 14:12'],['Documenten','Opdrachtbevestiging, VCA'],['ZZP-check','Laag risico']]},
+  {label:'Opdracht', tag:'Stap 6 van 6', title:'Opdracht loopt', body:'Uren worden per week ingediend en goedgekeurd. Na afronding beoordelen beide partijen elkaar.', cta:'Week indienen',
+   points:[['Deze week','38,5 uur'],['Goedgekeurd','32 uur'],['Volgende stap','Review na afronding']]}
+];
+
+const CF=[
+  {id:'gezag', label:'Gezagsverhouding', help:'Wie bepaalt hoe het werk wordt uitgevoerd?',
+   options:[['Opdrachtgever stuurt dagelijks aan',0],['Overleg over hoofdlijnen',1],['Vakman bepaalt zelf',2]]},
+  {id:'gereedschap', label:'Gereedschap en materiaal', help:'Wie levert het gereedschap en de materialen?',
+   options:[['Opdrachtgever levert alles',0],['Deels eigen gereedschap',1],['Eigen gereedschap en bus',2]]},
+  {id:'risico', label:'Ondernemersrisico', help:'Wie draagt het risico bij fouten of stilstand?',
+   options:[['Geen risico voor vakman',0],['Beperkt risico',1],['Aansprakelijk en verzekerd',2]]},
+  {id:'opdrachtgevers', label:'Meerdere opdrachtgevers', help:'Werkt de vakman ook voor anderen?',
+   options:[['Alleen deze opdrachtgever',0],['Enkele anderen per jaar',1],['Meerdere gelijktijdig',2]]},
+  {id:'inbedding', label:'Inbedding in de organisatie', help:'Doet de vakman hetzelfde werk als vaste medewerkers?',
+   options:[['Identiek aan eigen personeel',0],['Deels vergelijkbaar',1],['Afgebakende eigen opdracht',2]]},
+  {id:'vervanging', label:'Vervanging', help:'Mag de vakman zich laten vervangen?',
+   options:[['Nee, persoonlijk verplicht',0],['Alleen met toestemming',1],['Ja, vrije vervanging',2]]}
+];
+
+class Component extends DCLogic {
+  state = {
+    screen: null, role: 'con', device: 'desktop',
+    postStep: 1, brief: '', parsed: false,
+    stage: 0, swipe: 0, liked: 0, approved: false,
+    cf: {gezag:1, gereedschap:2, risico:1, opdrachtgevers:1, inbedding:1, vervanging:0},
+    avail: 'Beschikbaar'
+  };
+
+  get screen() { return this.state.screen || (this.props.startScreen ?? 'landing'); }
+  nav(s) { return () => this.setState({screen:s}); }
+  pill(active) {
+    return 'padding:6px 13px;border-radius:50px;font-size:.79rem;font-weight:700;cursor:pointer;border:1px solid ' +
+      (active ? 'transparent;background:#F26522;color:#fff' : 'rgba(255,255,255,.22);background:none;color:rgba(255,255,255,.75)');
+  }
+
+  renderVals() {
+    const s = this.state, screen = this.screen, pro = s.role === 'pro', phone = s.device === 'phone';
+    const showReasons = this.props.showMatchReasons ?? true;
+
+    const navDefs = pro
+      ? [['dash','Dashboard','Home'],['matches','Werk vinden','Werk'],['funnel','Mijn opdracht','Opdracht'],['hours','Uren','Uren'],['profile','Mijn profiel','Profiel'],['compliance','ZZP-check','ZZP']]
+      : [['dash','Dashboard','Home'],['post','Project plaatsen','Plaatsen'],['matches','Kandidaten','Match'],['funnel','Opdracht','Opdracht'],['hours','Uren','Uren'],['compliance','ZZP-check','ZZP']];
+    const badges = {matches: pro ? '3' : '11', funnel: '', dash: '', post: '', compliance: ''};
+
+    const navItems = navDefs.map(([id, label, short]) => {
+      const on = screen === id;
+      return {
+        id, label, short, go: this.nav(id), badge: badges[id] || '',
+        style: 'display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:left;padding:11px 13px;border:none;border-radius:9px;cursor:pointer;font-size:.92rem;font-weight:' +
+          (on ? '700;background:rgba(242,101,34,.16);color:#fff' : '600;background:none;color:rgba(255,255,255,.68)'),
+        badgeStyle: (badges[id] ? 'background:#F26522;color:#fff;border-radius:50px;padding:1px 8px;font-size:.72rem;font-weight:800' : 'display:none'),
+        tabStyle: 'flex:1;padding:8px 2px;border:none;background:none;cursor:pointer;font-size:.72rem;font-weight:' + (on ? '800;color:#D4531A' : '600;color:#6B7280')
+      };
+    });
+
+    const titles = {
+      dash: pro ? ['Dashboard', 'Vakman · Daan Verhoeven'] : ['Dashboard', 'Aannemer · Janssen Bouw B.V.'],
+      post: ['Project plaatsen', 'Nieuwe aanvraag in 3 stappen'],
+      matches: pro ? ['Werk vinden', 'Projecten die bij je passen'] : ['Kandidaten', 'Aftimmering 84 woningen — Almere Poort'],
+      funnel: ['Opdracht', 'Aftimmering 84 woningen · Daan Verhoeven'],
+      hours: pro ? ['Urenregistratie', 'Week 37 · Almere Poort'] : ['Uren goedkeuren', 'Week 37 · Daan Verhoeven'],
+      profile: pro ? ['Mijn profiel', 'Zo zien aannemers je profiel'] : ['Profiel vakman', 'Daan Verhoeven · 96% match'],
+      compliance: ['ZZP Compliance Check', 'Risicosignalering, geen juridisch advies']
+    };
+    const [pageTitle, pageSub] = titles[screen] || ['', ''];
+
+    // ── Smart match lists
+    const list = (pro ? PROJECTS : CANDIDATES).map((m, i) => ({
+      name: m.title || m.name,
+      initials: m.initials || '',
+      meta: m.meta,
+      score: m.score,
+      rate: m.rate,
+      badges: m.badges,
+      reasons: showReasons ? m.reasons : [],
+      avatar: pro ? 'display:none' : 'width:44px;height:44px;border-radius:50%;background:' + (m.color || NAVY) +
+        ';color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem;flex-shrink:0',
+      barStyle: 'width:' + m.score + ';height:100%;background:#F26522',
+      interest: () => this.setState({screen: 'funnel', stage: 1}),
+      secondary: pro ? 'Bewaren' : 'Profiel bekijken',
+      openProfile: () => this.setState({screen: pro ? 'matches' : 'profile'})
+    }));
+
+    const sw = CANDIDATES[Math.min(s.swipe, CANDIDATES.length - 1)];
+
+    // ── Compliance
+    const total = CF.reduce((sum, q) => sum + q.options[s.cf[q.id]][1], 0);
+    const pct = Math.round((total / 12) * 100);
+    const risk = total >= 9
+      ? {label: 'Laag risico', bg: '#166534', explain: 'De samenwerking heeft overwegend kenmerken van zelfstandig ondernemerschap.'}
+      : total >= 5
+        ? {label: 'Aandacht vereist', bg: '#92400E', explain: 'Enkele kenmerken wijzen richting een arbeidsovereenkomst. Leg de afspraken scherper vast.'}
+        : {label: 'Hoog risico', bg: '#991B1B', explain: 'Deze inzet lijkt sterk op werken in dienstverband. Bespreek een andere contractvorm.'};
+
+    const signals = CF.map(q => {
+      const v = q.options[s.cf[q.id]][1];
+      return {
+        text: v === 2 ? q.label + ': wijst op zelfstandigheid' : v === 1 ? q.label + ': aandachtspunt, leg vast in de overeenkomst' : q.label + ': risicofactor, ' + q.options[0][0].toLowerCase(),
+        dot: 'width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:6px;background:' + (v === 2 ? GREEN : v === 1 ? AMBER : '#EF4444')
+      };
+    });
+
+    const stage = FUNNEL[s.stage];
+    const fields = [
+      ['Projectnaam', s.parsed ? 'Aftimmering 84 woningen' : ''],
+      ['Locatie', s.parsed ? 'Almere Poort' : ''],
+      ['Aantal personen', s.parsed ? '4' : ''],
+      ['Functie', s.parsed ? 'Allround timmerman' : ''],
+      ['Startdatum', s.parsed ? '21 september 2026' : ''],
+      ['Verwachte einddatum', s.parsed ? '12 december 2026' : ''],
+      ['Uren per week', s.parsed ? '40' : ''],
+      ['Werktijden', s.parsed ? '07:00 – 16:00' : ''],
+      ['Vereiste ervaring', s.parsed ? 'Minimaal 3 jaar' : ''],
+      ['Contractvorm', s.parsed ? 'ZZP of loondienst' : ''],
+      ['Uurtarief indicatie', s.parsed ? '€45 – €50' : ''],
+      ['Eigen vervoer vereist', s.parsed ? 'Ja' : '']
+    ];
+
+    return {
+      isLanding: screen === 'landing',
+      inApp: screen !== 'landing',
+      isDesktop: !phone, isPhone: phone,
+      isDashPro: screen === 'dash' && pro,
+      isDashCon: screen === 'dash' && !pro,
+      isPost: screen === 'post',
+      isMatches: screen === 'matches',
+      isFunnel: screen === 'funnel',
+      isCompliance: screen === 'compliance',
+      isProfile: screen === 'profile',
+      isHours: screen === 'hours',
+      profileCta: pro ? 'Profiel aanvullen' : 'Interesse tonen',
+      profileBadges: [
+        ['Identiteit geverifieerd', 1], ['ZZP geverifieerd', 1], ['VCA geverifieerd', 1],
+        ['Top vakman', 0], ['Snel beschikbaar', 0], ['4.9 gemiddeld', 0]
+      ].map(([label, v]) => ({
+        label,
+        style: 'padding:5px 12px;border-radius:50px;font-size:.78rem;font-weight:700;' +
+          (v ? 'background:#DCFCE7;color:#166534' : 'background:#F1F3F7;color:#48546B')
+      })),
+      profileStats: [
+        {label: 'Trust Score', value: 'Hoog', hint: 'verificaties, opkomst, reviews'},
+        {label: 'Beoordeling', value: '4.9', hint: '23 reviews van aannemers'},
+        {label: 'Afgerond', value: '17', hint: 'projecten via Timmerly'},
+        {label: 'Reactietijd', value: '< 2 u', hint: 'gemiddeld op werkdagen'}
+      ],
+      specialisms: ['Aftimmering', 'Kozijnen en deuren', 'Woningbouw', 'Renovatie', 'Mutatiewerk'],
+      certs: [
+        {name: 'VCA Basis', meta: 'Geldig t/m 7 oktober 2026', status: 'Verloopt in 30 dagen', pill: 'padding:4px 11px;border-radius:50px;font-size:.75rem;font-weight:800;white-space:nowrap;background:#FEF3C7;color:#92400E'},
+        {name: 'BHV', meta: 'Geldig t/m maart 2028', status: 'Geverifieerd', pill: 'padding:4px 11px;border-radius:50px;font-size:.75rem;font-weight:800;white-space:nowrap;background:#DCFCE7;color:#166534'},
+        {name: 'Hoogwerker', meta: 'Ingediend 5 september', status: 'In behandeling', pill: 'padding:4px 11px;border-radius:50px;font-size:.75rem;font-weight:800;white-space:nowrap;background:#F1F3F7;color:#48546B'},
+        {name: 'Steigerbouw basis', meta: 'Niet aangeleverd', status: 'Niet geverifieerd', pill: 'padding:4px 11px;border-radius:50px;font-size:.75rem;font-weight:800;white-space:nowrap;background:#fff;border:1px solid #E4E8EF;color:#8A93A3'}
+      ],
+      history: [
+        {title: 'Nieuwbouw 120 woningen', meta: 'Bouwgroep Nagel · Zwolle · 8 maanden', work: 'Ruwbouw en aftimmering, team van 6'},
+        {title: 'Aftimmering 46 appartementen', meta: 'Bouwgroep Nagel · Deventer · loopt sinds juni', work: 'Kozijnen, binnendeuren, plinten'},
+        {title: 'Mutatieonderhoud 80 woningen', meta: 'Beter Wonen Onderhoud · Kampen · 5 maanden', work: 'Mutatiewerk en kleine renovaties'}
+      ],
+      reviews: [
+        {who: 'Bouwgroep Nagel', score: '5,0', text: 'Draait zelfstandig mee, komt afspraken na en werkt veilig. Bij ons altijd welkom.', cats: ['Vakmanschap 5,0', 'Op tijd 5,0', 'Zelfstandig 5,0']},
+        {who: 'Beter Wonen Onderhoud', score: '4,8', text: 'Nette oplevering en goede communicatie met de bewoners. Meldt problemen vroeg.', cats: ['Kwaliteit 5,0', 'Communicatie 4,5', 'Veilig werken 5,0']}
+      ],
+      weekTotal: '38,5',
+      openHours: s.approved ? '0 uur' : '38,5 uur',
+      weekDays: [
+        ['Ma 7 sept', '07:00 – 16:00', '0,5 u', '8,0', 1],
+        ['Di 8 sept', '07:00 – 16:30', '0,5 u', '8,5', 1],
+        ['Wo 9 sept', '07:00 – 16:00', '0,5 u', '8,0', 1],
+        ['Do 10 sept', '07:00 – 15:30', '0,5 u', '7,5', 1],
+        ['Vr 11 sept', '07:00 – 14:00', '0,5 u', '6,5', 0]
+      ].map(([day, time, pause, hours, ok]) => ({
+        day, time, pause, hours,
+        status: s.approved ? 'Goedgekeurd' : (ok ? 'Ingediend' : 'Concept'),
+        pill: 'padding:4px 10px;border-radius:50px;font-size:.74rem;font-weight:800;text-align:center;' +
+          (s.approved ? 'background:#DCFCE7;color:#166534' : ok ? 'background:#E8EDF7;color:#2C3E6B' : 'background:#FEF3C7;color:#92400E')
+      })),
+      hoursCta: pro ? (s.approved ? 'Week is goedgekeurd' : 'Week indienen') : (s.approved ? 'Goedgekeurd' : 'Uren goedkeuren'),
+      hoursSecondary: pro ? 'Dag toevoegen' : 'Afwijzen met reden',
+      submitWeek: () => this.setState({approved: true}),
+      shellStyle: phone
+        ? 'max-width:420px;margin:24px auto;border:10px solid #1C2B4A;border-radius:34px;overflow:hidden;min-height:760px;background:#F5F6F8;box-shadow:0 24px 70px rgba(28,43,74,.28)'
+        : 'min-height:100vh;background:#F5F6F8',
+
+      goLanding: this.nav('landing'),
+      goPro: () => this.setState({role: 'pro', screen: 'dash'}),
+      goCon: () => this.setState({role: 'con', screen: 'dash'}),
+      setPro: () => this.setState({role: 'pro', screen: 'dash'}),
+      setCon: () => this.setState({role: 'con', screen: 'dash'}),
+      rolePillPro: this.pill(pro), rolePillCon: this.pill(!pro),
+      toggleDevice: () => this.setState({device: phone ? 'desktop' : 'phone'}),
+      goMatches: this.nav('matches'), goPost: this.nav('post'),
+      goCompliance: this.nav('compliance'), goFunnel: this.nav('funnel'),
+
+      navItems, pageTitle, pageSub,
+      userName: pro ? (this.props.proName ?? 'Daan Verhoeven') : 'Janssen Bouw',
+      initials: pro ? 'DV' : 'JB',
+      avatarStyle: 'width:28px;height:28px;border-radius:50%;background:' + (pro ? ORANGE : NAVY) + ';color:#fff;display:flex;align-items:center;justify-content:center;font-size:.74rem;font-weight:800',
+
+      trustPoints: ['Identiteit geverifieerd','KvK-controle bij ZZP','Certificaten met status','Tweezijdige reviews','AVG: privacy by design'],
+      funnelStages: FUNNEL.map((f, i) => ({n: i + 1, label: f.label, hint: f.points[0][0] + ': ' + f.points[0][1]})),
+
+      availOptions: ['Beschikbaar', 'Beperkt', 'Niet beschikbaar'].map(a => ({
+        label: a, go: () => this.setState({avail: a}),
+        style: 'padding:7px 13px;border-radius:8px;font-size:.8rem;font-weight:700;cursor:pointer;border:1px solid ' +
+          (s.avail === a ? 'transparent;background:#22C55E;color:#0B3D22' : 'rgba(255,255,255,.22);background:none;color:rgba(255,255,255,.8)')
+      })),
+
+      projects: PROJECTS.map(p => ({
+        title: p.title, meta: p.meta, score: p.score, rate: p.rate,
+        scoreStyle: 'width:56px;flex-shrink:0;text-align:center;font-weight:800;font-size:1.05rem;color:' + DK,
+        open: () => this.setState({screen: 'matches'})
+      })),
+
+      conStats: [
+        {label: 'Openstaande projecten', value: '4', hint: '2 met tekort aan mensen'},
+        {label: 'Nieuwe kandidaten', value: '11', hint: 'gem. score 89%'},
+        {label: 'Reactiesnelheid', value: '3 u', hint: 'sneller dan 78% van bedrijven'},
+        {label: 'Afgeronde opdrachten', value: '126', hint: 'beoordeling 4.8'}
+      ],
+      openProjects: [
+        {title: 'Aftimmering 84 woningen — Almere Poort', meta: '4 personen · start 21 sept · 11 kandidaten', pill: '11 matches', pillStyle: 'background:rgba(242,101,34,.12);color:#D4531A;padding:4px 11px;border-radius:50px;font-size:.76rem;font-weight:800;white-space:nowrap'},
+        {title: 'Mutatieonderhoud — Zwolle Zuid', meta: '2 personen · doorlopend · 3 kandidaten', pill: '3 matches', pillStyle: 'background:rgba(242,101,34,.12);color:#D4531A;padding:4px 11px;border-radius:50px;font-size:.76rem;font-weight:800;white-space:nowrap'},
+        {title: 'Betonbouw parkeergarage — Utrecht', meta: '6 personen · start 5 okt · 0 kandidaten', pill: 'Tekort', pillStyle: 'background:#FEE2E2;color:#991B1B;padding:4px 11px;border-radius:50px;font-size:.76rem;font-weight:800;white-space:nowrap'},
+        {title: 'Kozijnen renovatie — Deventer', meta: '1 persoon · start 14 sept · vervuld', pill: 'Vervuld', pillStyle: 'background:#DCFCE7;color:#166534;padding:4px 11px;border-radius:50px;font-size:.76rem;font-weight:800;white-space:nowrap'}
+      ],
+      hours: [
+        {name: 'Daan Verhoeven', meta: 'Week 36 · Almere Poort', total: '38,5 u', stateLabel: s.approved ? 'Goedgekeurd' : 'Open', state: 'padding:4px 10px;border-radius:50px;font-size:.75rem;font-weight:800;white-space:nowrap;' + (s.approved ? 'background:#DCFCE7;color:#166534' : 'background:#FEF3C7;color:#92400E')},
+        {name: 'Youssef El Amrani', meta: 'Week 36 · Almere Poort', total: '40 u', stateLabel: s.approved ? 'Goedgekeurd' : 'Open', state: 'padding:4px 10px;border-radius:50px;font-size:.75rem;font-weight:800;white-space:nowrap;' + (s.approved ? 'background:#DCFCE7;color:#166534' : 'background:#FEF3C7;color:#92400E')},
+        {name: 'Marijn de Wit', meta: 'Week 35 · Zwolle Zuid', total: '32 u', stateLabel: 'Goedgekeurd', state: 'padding:4px 10px;border-radius:50px;font-size:.75rem;font-weight:800;white-space:nowrap;background:#DCFCE7;color:#166534'}
+      ],
+      approveAll: () => this.setState({approved: true}),
+      pool: CANDIDATES.map(c => ({
+        name: c.name, initials: c.initials, status: c.name === 'Bram Sikkema' ? 'Niet beschikbaar' : 'Beschikbaar',
+        avatar: 'width:36px;height:36px;border-radius:50%;background:' + c.color + ';color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;flex-shrink:0'
+      })),
+
+      postSteps: ['1. Beschrijving', '2. Gegevens', '3. Publiceren'].map((l, i) => ({
+        label: l,
+        style: 'padding:8px 15px;border-radius:50px;font-size:.83rem;font-weight:700;' +
+          (s.postStep === i + 1 ? 'background:#1C2B4A;color:#fff' : s.postStep > i + 1 ? 'background:#DCFCE7;color:#166534' : 'background:#fff;border:1px solid #E4E8EF;color:#6B7280')
+      })),
+      postStep1: s.postStep === 1, postStep2: s.postStep === 2, postStep3: s.postStep === 3,
+      briefValue: s.brief,
+      setBrief: e => this.setState({brief: e.target.value}),
+      useExample: () => this.setState({brief: 'Ik zoek 4 timmermannen in Almere voor 12 weken, minimaal 3 jaar ervaring, start 21 september.'}),
+      parseBrief: () => this.setState({parsed: true, postStep: 2}),
+      nextPost: () => this.setState({postStep: Math.min(3, s.postStep + 1)}),
+      prevPost: () => this.setState({postStep: Math.max(1, s.postStep - 1)}),
+      publish: () => this.setState({screen: 'matches'}),
+      parsedPill: s.parsed ? 'Automatisch ingevuld uit je beschrijving' : 'Handmatig invullen',
+      parsedPillStyle: 'padding:4px 12px;border-radius:50px;font-size:.76rem;font-weight:800;' + (s.parsed ? 'background:#DCFCE7;color:#166534' : 'background:#F5F6F8;color:#6B7280'),
+      postFields: fields.map(([label, value]) => ({
+        label, value: value || 'Nog invullen',
+        boxStyle: 'padding:12px 14px;border:2px solid ' + MID + ';border-radius:10px;font-size:.92rem;background:' + (value ? '#fff' : BG) + ';color:' + (value ? NAVY : TXT) + ';font-weight:' + (value ? '600' : '400')
+      })),
+
+      searchQuery: pro
+        ? 'Werk binnen 40 km van Kampen, beschikbaar vanaf 14 september'
+        : '4 timmermannen in Almere, min. 3 jaar ervaring, start volgende week',
+      filters: (pro
+        ? ['Binnen 40 km', 'Vanaf 14 sept', 'Aftimmering', 'ZZP', '€45+ p/u']
+        : ['Allround timmerman', 'Almere · 50 km', 'VCA vereist', 'Min. 3 jaar', 'ZZP of loondienst']
+      ).map((f, i) => ({
+        label: f,
+        style: 'padding:6px 13px;border-radius:50px;font-size:.8rem;font-weight:700;' +
+          (i === 0 ? 'background:rgba(242,101,34,.12);color:#D4531A' : 'background:#F5F6F8;border:1px solid #E4E8EF;color:#6B7280')
+      })),
+      showSwipe: phone && !pro,
+      showList: !(phone && !pro),
+      matchList: list,
+      interestLabel: pro ? 'Reageren op project' : 'Interesse tonen',
+      swipeCard: {
+        name: sw.name, initials: sw.initials, meta: sw.meta, score: sw.score, reasons: sw.reasons,
+        avatar: 'width:48px;height:48px;border-radius:50%;background:' + sw.color + ';color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;flex-shrink:0',
+        scoreStyle: 'font-weight:800;font-size:1.25rem;color:' + DK
+      },
+      swipeProgress: 'Kandidaat ' + (Math.min(s.swipe, CANDIDATES.length - 1) + 1) + ' van ' + CANDIDATES.length + ' · ' + s.liked + ' bewaard',
+      swipeSkip: () => this.setState({swipe: (s.swipe + 1) % CANDIDATES.length}),
+      swipeLike: () => this.setState({swipe: (s.swipe + 1) % CANDIDATES.length, liked: s.liked + 1, screen: 'funnel', stage: 1}),
+
+      funnelChips: FUNNEL.map((f, i) => ({
+        label: f.label,
+        style: 'padding:7px 15px;border-radius:50px;font-size:.83rem;font-weight:700;' +
+          (i === s.stage ? 'background:#F26522;color:#fff' : i < s.stage ? 'background:#DCFCE7;color:#166534' : 'background:#F5F6F8;border:1px solid #E4E8EF;color:#6B7280')
+      })),
+      stageTag: stage.tag, stageTitle: stage.title, stageBody: stage.body, stageCta: stage.cta,
+      stagePoints: stage.points.map(([k, v]) => ({k, v})),
+      advance: () => this.setState({stage: Math.min(FUNNEL.length - 1, s.stage + 1)}),
+      resetFunnel: () => this.setState({stage: 0}),
+      chat: [
+        {who: 'Janssen Bouw', text: 'Hoi Daan, we starten 21 september met de aftimmering. Ben je dan vrij?', side: 0},
+        {who: 'Daan Verhoeven', text: 'Ja, vanaf 14 september ben ik beschikbaar. Werktijden 07:00–16:00?', side: 1},
+        {who: 'Janssen Bouw', text: 'Klopt. Voorstel volgt met tarief €47,50 en 40 uur per week.', side: 0}
+      ].map(c => ({
+        who: c.who, text: c.text,
+        style: 'max-width:88%;padding:12px 14px;border-radius:12px;' + (c.side ? 'align-self:flex-end;background:#1C2B4A;color:#fff' : 'align-self:flex-start;background:#F5F6F8;border:1px solid #E4E8EF;color:#1C2B4A')
+      })),
+
+      cfQuestions: CF.map(q => ({
+        label: q.label, help: q.help,
+        options: q.options.map((o, i) => ({
+          label: o[0], go: () => this.setState({cf: Object.assign({}, s.cf, {[q.id]: i})}),
+          style: 'padding:9px 14px;border-radius:9px;font-size:.85rem;font-weight:700;cursor:pointer;border:2px solid ' +
+            (s.cf[q.id] === i ? '#F26522;background:rgba(242,101,34,.08);color:#D4531A' : '#E4E8EF;background:#fff;color:#6B7280')
+        }))
+      })),
+      riskLabel: risk.label, riskExplain: risk.explain,
+      riskCardStyle: 'border-radius:12px;padding:22px;color:#fff;background:' + risk.bg,
+      riskBarStyle: 'width:' + pct + '%;height:100%;background:#fff',
+      signals
+    };
+  }
+}
+</script>
+</body>
+</html>
