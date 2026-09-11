@@ -20,7 +20,7 @@ export default async function CompanyPage({ searchParams }: { searchParams: Prom
     <AppShell user={user} title={company ? 'Bedrijfsprofiel' : 'Welkom bij Timmerly'} subtitle={company ? company.name : 'Vul je bedrijfsgegevens in om projecten te kunnen plaatsen'}>
       <div className="grid gap-5 lg:grid-cols-[1fr_320px]">
         <div className="flex flex-col gap-5">
-          {nieuw && !company && <Alert tone="info">Je bedrijfsgegevens worden geverifieerd op KvK, meestal binnen twee werkdagen. Zodra dat is gecontroleerd, kun je meteen projecten plaatsen.</Alert>}
+          {nieuw && !company && <Alert tone="info">Vul hieronder je bedrijfsgegevens in. Na het opslaan controleren we je KvK-nummer, meestal binnen twee werkdagen — daarna kun je meteen projecten plaatsen.</Alert>}
           <Card title="Gegevens"><CompanyProfileForm company={company} next={next ?? (company ? undefined : '/dashboard')} /></Card>
         </div>
         <div className="flex flex-col gap-5">
