@@ -37,31 +37,15 @@ export default async function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/85 to-navy/45" />
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-navy/60 to-transparent" />
-        <div className="container-x relative grid items-center gap-12 lg:grid-cols-[1.2fr_1fr]">
-          <div>
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-bold text-[#FCD34D] backdrop-blur"><span className="h-1.5 w-1.5 rounded-full bg-[#FCD34D]" />Voor zzp-timmermannen en aannemers in Nederland</div>
-            <h1 className="text-xl font-semibold leading-[1.25] tracking-tight [text-shadow:0_2px_24px_rgba(0,0,0,.35)] sm:text-3xl sm:leading-[1.15] md:text-4xl xl:text-5xl">Goede bouwprojecten,<br /><span className="text-orange">zonder eindeloos zoeken.</span></h1>
-            <p className="mt-5 max-w-xl text-lg text-white/85 [text-shadow:0_1px_12px_rgba(0,0,0,.35)]">Maak één keer je profiel. Timmerly toont projecten die passen bij je vak, regio en beschikbaarheid, screent beide kanten en regelt de match en de afhandeling.</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/projecten" className="btn-primary px-7 py-3.5 text-base">Bekijk projecten</Link>
-              <Link href="/registreren?rol=professional" className="btn border border-white/40 bg-white/10 px-7 py-3.5 text-base text-white backdrop-blur hover:bg-white/20 hover:text-white">Word Timmerly-vakman</Link>
-            </div>
-            <p className="mt-6 text-sm text-white/65">Gratis voor vakmensen · Aanmelden in 10 minuten · Persoonlijk aanspreekpunt</p>
+        <div className="container-x relative mx-auto max-w-2xl text-center">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-bold text-[#FCD34D] backdrop-blur"><span className="h-1.5 w-1.5 rounded-full bg-[#FCD34D]" />Voor zzp-timmermannen en aannemers in Nederland</div>
+          <h1 className="text-xl font-semibold leading-[1.25] tracking-tight [text-shadow:0_2px_24px_rgba(0,0,0,.35)] sm:text-3xl sm:leading-[1.15] md:text-4xl xl:text-5xl">Goede bouwprojecten,<br /><span className="text-orange">zonder eindeloos zoeken.</span></h1>
+          <p className="mx-auto mt-5 max-w-xl text-lg text-white/85 [text-shadow:0_1px_12px_rgba(0,0,0,.35)]">Maak één keer je profiel. Timmerly toont projecten die passen bij je vak, regio en beschikbaarheid, screent beide kanten en regelt de match en de afhandeling.</p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link href="/projecten" className="btn-primary px-7 py-3.5 text-base">Bekijk projecten</Link>
+            <Link href="/registreren?rol=professional" className="btn border border-white/40 bg-white/10 px-7 py-3.5 text-base text-white backdrop-blur hover:bg-white/20 hover:text-white">Word Timmerly-vakman</Link>
           </div>
-          <div className="rounded-card border border-white/40 bg-white p-6 text-navy shadow-float">
-            <div className="mb-3 flex items-center justify-between"><span className="eyebrow">Zo werkt een match</span><span className="pill bg-ok-100 text-ok-800">Live voorbeeld</span></div>
-            <div className="mb-1 text-lg font-bold">Timmerman nieuwbouw – 84 woningen</div>
-            <div className="mb-4 text-sm text-muted">Almere Poort · start 21 september · 12 weken</div>
-            <div className="mb-4 flex items-center gap-5 rounded-control border border-line-soft bg-ground p-4">
-              <div className="text-center"><div className="text-3xl font-bold text-ok-800">96%</div><div className="text-[10px] font-bold uppercase tracking-wider text-faint">match</div></div>
-              <ul className="grid flex-1 gap-1.5 text-sm">
-                {['8 jaar ervaring aftimmering', '50 km van het project', 'VCA Basis geverifieerd', 'Beschikbaar vanaf 14 september'].map((r) => (
-                  <li key={r} className="flex items-center gap-2"><span className="inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-ok-100 text-[10px] font-bold text-ok-800">✓</span>{r}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="text-sm text-muted">Elke score is uitgelegd. Je ziet altijd waarom je past — en wat je nog mist.</div>
-          </div>
+          <p className="mt-6 text-sm text-white/65">Gratis voor vakmensen · Aanmelden in 10 minuten · Persoonlijk aanspreekpunt</p>
         </div>
       </section>
 
@@ -74,17 +58,33 @@ export default async function Home() {
       </section>
 
       <section className="section bg-white">
-        <div className="container-x">
-          <div className="eyebrow mb-3 text-orange-700">Hoe werkt Timmerly</div>
-          <h2 className="h1 mb-10 max-w-2xl">Vier stappen van profiel naar project</h2>
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {STEPS.map(([title, body], i) => (
-              <div key={title} className="card card-hover">
-                <div className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-orange text-sm font-bold text-white shadow-button">{i + 1}</div>
-                <div className="mb-1.5 font-bold">{title}</div>
-                <p className="text-sm leading-relaxed text-muted">{body}</p>
-              </div>
-            ))}
+        <div className="container-x grid gap-10 lg:grid-cols-[1fr_360px]">
+          <div>
+            <div className="eyebrow mb-3 text-orange-700">Hoe werkt Timmerly</div>
+            <h2 className="h1 mb-10 max-w-2xl">Vier stappen van profiel naar project</h2>
+            <div className="grid gap-5 sm:grid-cols-2">
+              {STEPS.map(([title, body], i) => (
+                <div key={title} className="card card-hover">
+                  <div className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-orange text-sm font-bold text-white shadow-button">{i + 1}</div>
+                  <div className="mb-1.5 font-bold">{title}</div>
+                  <p className="text-sm leading-relaxed text-muted">{body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="h-fit self-center rounded-card border border-line-soft bg-white p-6 shadow-float">
+            <div className="mb-3 flex items-center justify-between"><span className="eyebrow">Zo werkt een match</span><span className="pill bg-ok-100 text-ok-800">Live voorbeeld</span></div>
+            <div className="mb-1 text-lg font-bold">Timmerman nieuwbouw – 84 woningen</div>
+            <div className="mb-4 text-sm text-muted">Almere Poort · start 21 september · 12 weken</div>
+            <div className="mb-4 flex items-center gap-5 rounded-control border border-line-soft bg-ground p-4">
+              <div className="text-center"><div className="text-3xl font-bold text-ok-800">96%</div><div className="text-[10px] font-bold uppercase tracking-wider text-faint">match</div></div>
+              <ul className="grid flex-1 gap-1.5 text-sm">
+                {['8 jaar ervaring aftimmering', '50 km van het project', 'VCA Basis geverifieerd', 'Beschikbaar vanaf 14 september'].map((r) => (
+                  <li key={r} className="flex items-center gap-2"><span className="inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-ok-100 text-[10px] font-bold text-ok-800">✓</span>{r}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="text-sm text-muted">Elke score is uitgelegd. Je ziet altijd waarom je past — en wat je nog mist.</div>
           </div>
         </div>
       </section>
