@@ -84,3 +84,11 @@ update users set role = 'admin' where email = 'jouw@adres.nl';
   (Railway/Fly, klein en goedkoop) tegen dezelfde `DATABASE_URL`.
 - **Custom domein**: Vercel → project → Settings → Domains; werk daarna
   `APP_URL` bij en redeploy.
+- **Automatische KvK-controle**: `/admin/verificaties` toont bedrijfsverificaties
+  nu altijd volledig handmatig — de admin beoordeelt zelf. Vraag een API-key aan
+  op [developers.kvk.nl](https://developers.kvk.nl) voor de "Zoeken API" en zet
+  `KVK_API_KEY` (en tijdens het testen `KVK_API_BASE=https://api.kvk.nl/test/api`
+  met een testsleutel) in Vercel; dan zet Timmerly de officiële bedrijfsnaam en
+  het vestigingsadres van de KvK naast wat het bedrijf zelf opgaf, inclusief een
+  duidelijke waarschuwing bij een naam die niet overeenkomt. De beoordeling zelf
+  blijft altijd bij een mens — er wordt nooit automatisch goed- of afgekeurd.

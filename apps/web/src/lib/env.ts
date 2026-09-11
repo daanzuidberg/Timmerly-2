@@ -26,5 +26,10 @@ export const env = {
   APP_URL: process.env.APP_URL ?? 'http://localhost:3000',
   MAIL_TRANSPORT: process.env.MAIL_TRANSPORT ?? 'console',
   ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY ?? '',
+  // Optioneel: zonder key valt de KvK-check terug op puur handmatige beoordeling
+  // (huidig gedrag). Aanvragen via developers.kvk.nl; test-sleutels werken
+  // alleen tegen KVK_API_BASE=https://api.kvk.nl/test.
+  KVK_API_KEY: process.env.KVK_API_KEY ?? '',
+  KVK_API_BASE: process.env.KVK_API_BASE ?? 'https://api.kvk.nl/api',
   isProd: process.env.NODE_ENV === 'production'
 };

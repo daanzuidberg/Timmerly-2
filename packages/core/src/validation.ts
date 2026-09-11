@@ -14,15 +14,19 @@ export const passwordSchema = z
   .refine((v) => /[a-z]/i.test(v) && /\d/.test(v), 'Combineer letters en cijfers');
 
 /**
- * Nederlands mobiel, vast of servicenummer (06, 088, 0900, 038, ...), ruim
- * genomen. Mensen typen scheidingstekens op allerlei manieren (spatie,
- * streepje, haakjes) — die tellen niet mee voor de geldigheid, alleen de
- * cijfers en het land-/kengetal doen dat.
+ * Nederlands mobiel, vast of servicenummer, ruim genomen. Mensen typen
+ * scheidingstekens op allerlei manieren (spatie, streepje, haakjes) — die
+ * tellen niet mee voor de geldigheid, alleen de cijfers en het
+ * land-/kengetal doen dat. 06, 088 en gewone kengetallen (020, 038, ...)
+ * hebben altijd 10 cijfers; 0800/0900-servicenummers hebben een
+ * abonneenummer van wisselende lengte (4 t/m 7 cijfers, dus 8 t/m 11
+ * cijfers totaal).
  */
+const NL_PHONE = /^(?:\+31|0)[1-9]\d{8}$|^0(?:800|90[0-9])\d{4,7}$/;
 export const phoneSchema = z
   .string()
   .trim()
-  .refine((v) => /^(\+31|0)[1-9]\d{8}$/.test(v.replace(/[\s\-().]/g, '')), 'Vul een Nederlands telefoonnummer in');
+  .refine((v) => NL_PHONE.test(v.replace(/[\s\-().]/g, '')), 'Vul een geldig Nederlands telefoonnummer in');
 
 /** Selects sturen '' voor "geen keuze"; dat is hetzelfde als niet ingevuld. */
 const provinceField = z.preprocess((v) => (v === '' || v === null ? undefined : v), z.enum(PROVINCES).optional());
