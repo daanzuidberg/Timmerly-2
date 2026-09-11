@@ -7,7 +7,7 @@ import { Alert, Field } from '@/components/ui';
 import { ChipGroup } from '@/components/ui/ChipGroup';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 
-type Company = { name: string; kvkNumber: string; website: string | null; phone: string | null; city: string; province: string | null; companyType: string; description: string; specialisms: string[]; employeeCount: number | null; workAreaKm: number } | null;
+type Company = { name: string; kvkNumber: string; website: string | null; phone: string | null; city: string; province: string | null; companyType: string; description: string; specialisms: string[]; employeeCount: number | null; workAreaKm: number; verifiedAt?: Date | null } | null;
 
 export function CompanyProfileForm({ company, next }: { company: Company; next?: string }) {
   const [state, action] = useActionState(saveCompanyProfile, null);
@@ -18,7 +18,7 @@ export function CompanyProfileForm({ company, next }: { company: Company; next?:
       {state?.ok && <Alert tone="ok">Opgeslagen.</Alert>}
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Bedrijfsnaam" name="name" error={e.name}><input id="name" name="name" className="input" required defaultValue={company?.name ?? ''} /></Field>
-        <Field label="KvK-nummer" name="kvkNumber" error={e.kvkNumber} help="Wordt geverifieerd; daarna publiceren projecten direct."><input id="kvkNumber" name="kvkNumber" className="input" required inputMode="numeric" defaultValue={company?.kvkNumber ?? ''} /></Field>
+        <Field label="KvK-nummer" name="kvkNumber" error={e.kvkNumber} help={company?.verifiedAt ? 'Geverifieerd. Wijzig je het nummer, dan gaat dat opnieuw in controle.' : 'Wordt gecontroleerd bij de KvK; daarna kun je projecten plaatsen.'}><input id="kvkNumber" name="kvkNumber" className="input" required inputMode="numeric" defaultValue={company?.kvkNumber ?? ''} /></Field>
         <Field label="Telefoon" name="phone" error={e.phone}><input id="phone" name="phone" className="input" required defaultValue={company?.phone ?? ''} /></Field>
         <Field label="Website" name="website" error={e.website}><input id="website" name="website" className="input" placeholder="https://" defaultValue={company?.website ?? ''} /></Field>
         <Field label="Vestigingsplaats" name="city" error={e.city}><input id="city" name="city" className="input" required defaultValue={company?.city ?? ''} /></Field>
