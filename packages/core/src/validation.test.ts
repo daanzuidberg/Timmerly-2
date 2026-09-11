@@ -9,7 +9,9 @@ describe('validatie', () => {
   });
 
   it('accepteert Nederlandse telefoonnummers in gangbare notaties', () => {
-    for (const ok of ['06 12345678', '0612345678', '+31612345678', '038 1234567']) expect(phoneSchema.safeParse(ok).success, ok).toBe(true);
+    for (const ok of ['06 12345678', '0612345678', '+31612345678', '038 1234567', '088-1234567', '088 1234567', '+31 88 1234567', '(088) 123 45 67']) {
+      expect(phoneSchema.safeParse(ok).success, ok).toBe(true);
+    }
     for (const bad of ['12345', '+49 170 1234567', '06-1234']) expect(phoneSchema.safeParse(bad).success, bad).toBe(false);
   });
 
