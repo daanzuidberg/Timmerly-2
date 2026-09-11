@@ -13,11 +13,16 @@ export const passwordSchema = z
   .max(200)
   .refine((v) => /[a-z]/i.test(v) && /\d/.test(v), 'Combineer letters en cijfers');
 
-/** Nederlands mobiel of vast nummer, ruim genomen; normalisatie gebeurt apart. */
+/**
+ * Nederlands mobiel, vast of servicenummer (06, 088, 0900, 038, ...), ruim
+ * genomen. Mensen typen scheidingstekens op allerlei manieren (spatie,
+ * streepje, haakjes) — die tellen niet mee voor de geldigheid, alleen de
+ * cijfers en het land-/kengetal doen dat.
+ */
 export const phoneSchema = z
   .string()
   .trim()
-  .regex(/^(\+31|0)[1-9](\s?\d){8}$/, 'Vul een Nederlands telefoonnummer in');
+  .refine((v) => /^(\+31|0)[1-9]\d{8}$/.test(v.replace(/[\s\-().]/g, '')), 'Vul een Nederlands telefoonnummer in');
 
 /** Selects sturen '' voor "geen keuze"; dat is hetzelfde als niet ingevuld. */
 const provinceField = z.preprocess((v) => (v === '' || v === null ? undefined : v), z.enum(PROVINCES).optional());
