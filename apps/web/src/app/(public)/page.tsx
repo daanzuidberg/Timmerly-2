@@ -41,9 +41,16 @@ export default async function Home() {
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-bold text-[#FCD34D] backdrop-blur"><span className="h-1.5 w-1.5 rounded-full bg-[#FCD34D]" />Voor zzp-timmermannen en aannemers in Nederland</div>
           <h1 className="text-xl font-semibold leading-[1.25] tracking-tight [text-shadow:0_2px_24px_rgba(0,0,0,.35)] sm:text-3xl sm:leading-[1.15] md:text-4xl xl:text-5xl">Goede bouwprojecten,<br /><span className="text-orange">zonder eindeloos zoeken.</span></h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-white/85 [text-shadow:0_1px_12px_rgba(0,0,0,.35)]">Maak één keer je profiel. Timmerly toont projecten die passen bij je vak, regio en beschikbaarheid, screent beide kanten en regelt de match en de afhandeling.</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link href="/projecten" className="btn-primary px-7 py-3.5 text-base">Bekijk projecten</Link>
-            <Link href="/registreren?rol=professional" className="btn border border-white/40 bg-white/10 px-7 py-3.5 text-base text-white backdrop-blur hover:bg-white/20 hover:text-white">Word Timmerly-vakman</Link>
+          {/* Twee gelijkwaardige paden i.p.v. één primaire knop: Timmerly is voor beide kanten van de markt, dus de eerste keuze op de pagina is ook letterlijk die keuze. Reageren op een project of vakman blijft achter de login — dit is alleen de ingang. */}
+          <div className="mx-auto mt-8 grid max-w-xl gap-3 sm:grid-cols-2">
+            <Link href="/projecten" className="group rounded-card border border-white/30 bg-white/10 p-5 text-left no-underline backdrop-blur transition hover:border-white/50 hover:bg-white/20">
+              <div className="text-xs font-bold uppercase tracking-wider text-white/60">Voor vakmensen</div>
+              <div className="mt-1 flex items-center justify-between gap-2 text-lg font-bold text-white">Ik zoek een project<span className="transition group-hover:translate-x-0.5">→</span></div>
+            </Link>
+            <Link href="/registreren?rol=company" className="group rounded-card bg-orange p-5 text-left text-white no-underline shadow-button transition hover:bg-orange-700 hover:text-white">
+              <div className="text-xs font-bold uppercase tracking-wider text-white/75">Voor opdrachtgevers</div>
+              <div className="mt-1 flex items-center justify-between gap-2 text-lg font-bold">Ik zoek een vakman<span className="transition group-hover:translate-x-0.5">→</span></div>
+            </Link>
           </div>
           <p className="mt-6 text-sm text-white/65">Gratis voor vakmensen · Aanmelden in 10 minuten · Persoonlijk aanspreekpunt</p>
         </div>
