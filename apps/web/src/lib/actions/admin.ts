@@ -35,7 +35,7 @@ export async function decideVerification(verificationId: string, status: Extract
   if (v.kind === 'company') await d.update(schema.companyProfiles).set({ verifiedAt: status === 'verified' ? new Date() : null }).where(eq(schema.companyProfiles.userId, v.userId));
   await audit({ actorId: staff.id, actorRole: staff.role, action: `verification.${v.kind}.${status}`, objectType: 'verification', objectId: verificationId, before: { status: v.status }, after: { status, note } });
   const labels: Record<string, string> = { identity: 'identiteit', company: 'bedrijf', zzp: 'ZZP-status', phone: 'telefoonnummer', email: 'e-mailadres', certificate: 'certificaat' };
-  await notify(v.userId, { type: 'verification_result', title: status === 'verified' ? `Je ${labels[v.kind]} is geverifieerd` : `Verificatie van je ${labels[v.kind]} is afgekeurd`, body: note || '', href: '/profiel' });
+  await notify(v.userId, { type: 'verification_result', title: status === 'verified' ? `Je ${labels[v.kind]} is geverifieerd` : `Verificatie van je ${labels[v.kind]} is afgekeurd`, body: note || '', href: v.kind === 'company' ? '/bedrijf' : '/profiel' });
   const profile = await d.query.professionalProfiles.findFirst({ where: eq(schema.professionalProfiles.userId, v.userId) });
   if (profile) { await computeCompleteness(profile.id); await refreshTrustScore(profile.id); }
   revalidatePath('/admin/verificaties');

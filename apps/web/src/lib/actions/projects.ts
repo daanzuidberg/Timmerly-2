@@ -38,6 +38,8 @@ export async function createProject(_prev: ActionState, form: FormData): Promise
   const user = await requireRole('company');
   const company = await getCompanyProfile(user.id);
   if (!company) redirect('/bedrijf?next=/projecten/nieuw');
+  // Ook hier bewaken, niet alleen op de pagina: een geverifieerd bedrijf is de voorwaarde om te kunnen plaatsen.
+  if (!company.verifiedAt) redirect('/projecten/nieuw');
   const { raw, parsed } = parseProject(form);
   if (!parsed.success) return { fieldErrors: fieldErrors(parsed.error) };
   const v = parsed.data;
@@ -69,8 +71,11 @@ export async function updateProject(projectId: string, _prev: ActionState, form:
 }
 
 /**
- * Indienen ter publicatie. Geverifieerde bedrijven publiceren direct; een
- * ongeverifieerd bedrijf gaat door de beoordeling van het platform.
+ * Indienen ter publicatie. Een bedrijf kan pas een project aanmaken na
+ * verificatie (zie createProject), dus dit publiceert vrijwel altijd direct.
+ * De in_review-tak blijft bestaan als vangnet: verlies je je verificatie
+ * later (bv. na een KvK-wijziging) dan gaat een nog openstaand concept
+ * alsnog eerst langs het Timmerly-team in plaats van direct live.
  */
 export async function submitProject(projectId: string): Promise<void> {
   const { user, company, project } = await ownedProject(projectId);
