@@ -8,7 +8,20 @@ import { db } from '../db';
 import { audit } from '../audit';
 import { requireRole, requireUser } from '../auth/session';
 import { getCompanyProfile, getProfessionalProfile } from '../auth/profiles';
+import { lookupKvk, namesRoughlyMatch } from '../kvk';
 import { fieldErrors, formToObject, type ActionState } from './types';
+
+/**
+ * Zet wat het bedrijf zelf opgaf naast wat de KvK-Zoeken-API (indien
+ * geconfigureerd) teruggeeft. Dit is alleen input voor de admin-beoordeling
+ * op /admin/verificaties, geen automatische goed- of afkeuring — zie
+ * lib/kvk.ts voor waarom.
+ */
+async function buildKvkEvidence(kvkNumber: string, name: string): Promise<Record<string, unknown>> {
+  const match = await lookupKvk(kvkNumber);
+  if (!match) return { kvkNumber, name };
+  return { kvkNumber, name, kvkNaam: match.naam, kvkNaamKomtOvereen: namesRoughlyMatch(name, match.naam), kvkAdres: [match.straatnaam, match.huisnummer, match.postcode, match.plaats].filter(Boolean).join(' ') || undefined };
+}
 
 /** Profielvolledigheid: wat een aannemer nodig heeft om te kunnen kiezen. */
 export async function computeCompleteness(profileId: string): Promise<number> {
@@ -178,16 +191,17 @@ export async function saveCompanyProfile(_prev: ActionState, form: FormData): Pr
   const d = db();
   const existing = await getCompanyProfile(user.id);
   const values = { name: v.name, kvkNumber: v.kvkNumber, website: v.website || null, phone: v.phone, city: v.city, province: v.province ?? geo?.province ?? null, lat: geo?.lat ?? null, lng: geo?.lng ?? null, companyType: v.companyType, description: v.description, specialisms: v.specialisms, employeeCount: v.employeeCount ?? null, workAreaKm: v.workAreaKm };
+  const kvkEvidence = await buildKvkEvidence(v.kvkNumber, v.name);
   if (existing) {
     await d.update(schema.companyProfiles).set(values).where(eq(schema.companyProfiles.id, existing.id));
     if (existing.kvkNumber !== v.kvkNumber) {
       // KvK gewijzigd: verificatie vervalt en gaat opnieuw de wachtrij in.
       await d.update(schema.companyProfiles).set({ verifiedAt: null }).where(eq(schema.companyProfiles.id, existing.id));
-      await d.update(schema.verifications).set({ status: 'pending', evidence: { kvkNumber: v.kvkNumber, name: v.name }, reviewedAt: null }).where(and(eq(schema.verifications.userId, user.id), eq(schema.verifications.kind, 'company')));
+      await d.update(schema.verifications).set({ status: 'pending', evidence: kvkEvidence, reviewedAt: null }).where(and(eq(schema.verifications.userId, user.id), eq(schema.verifications.kind, 'company')));
     }
   } else {
     await d.insert(schema.companyProfiles).values({ userId: user.id, ...values, onboardingCompletedAt: new Date() });
-    await d.insert(schema.verifications).values({ userId: user.id, kind: 'company', status: 'pending', provider: 'kvk', evidence: { kvkNumber: v.kvkNumber, name: v.name } });
+    await d.insert(schema.verifications).values({ userId: user.id, kind: 'company', status: 'pending', provider: 'kvk', evidence: kvkEvidence });
     await d.update(schema.users).set({ phone: v.phone }).where(eq(schema.users.id, user.id));
     await audit({ actorId: user.id, actorRole: 'company', action: 'company.created', objectType: 'company_profile', objectId: user.id, after: { kvkNumber: v.kvkNumber } });
   }
