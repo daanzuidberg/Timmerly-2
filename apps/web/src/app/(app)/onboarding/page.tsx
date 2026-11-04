@@ -24,12 +24,24 @@ export default async function OnboardingPage({ searchParams }: { searchParams: P
   const url = (s: number) => `/onboarding?stap=${s}${next ? `&next=${encodeURIComponent(next)}` : ''}`;
   const certs = profile ? await db().query.certificates.findMany({ where: eq(schema.certificates.profileId, profile.id) }) : [];
 
+  /**
+   * De zzp-tussenstap ("Je onderneming", stap=25) voegt een extra scherm toe
+   * tussen stap 2 en 3 — zonder herrekening telt die als "stap 2" terwijl de
+   * echte stap 2 ook al zo heet, wat verwarrend is voor een gebruiker. Alleen
+   * bekend zodra het profiel (en dus workArrangement) bestaat; anders houden
+   * we de oorspronkelijke telling aan.
+   */
+  const isZzpPath = !profile || profile.workArrangement !== 'employment';
+  const totalSteps = profile && isZzpPath ? 6 : 5;
+  const stepNumber = (s: number) => (s === 25 ? 3 : isZzpPath && profile && s >= 3 ? s + 1 : s);
+  const stepLabel = (s: number) => (s === 25 ? 'Onderneming' : STEPS[s - 1]);
+
   return (
     <div className="min-h-screen bg-ground px-4 py-8">
       <div className="mx-auto max-w-2xl">
         <div className="mb-6 flex items-center justify-between"><Logo /><Link href="/dashboard" className="text-sm">Later afmaken</Link></div>
-        <div className="mb-2 flex justify-between text-sm font-bold"><span>Stap {step === 25 ? 2 : step} van 5 · {step === 25 ? "Onderneming" : STEPS[step - 1]}</span><span className="text-muted">{Math.round(((step === 25 ? 2.5 : step) / 5) * 100)}%</span></div>
-        <Progress value={((step === 25 ? 2.5 : step) / 5) * 100} />
+        <div className="mb-2 flex justify-between text-sm font-bold"><span>Stap {stepNumber(step)} van {totalSteps} · {stepLabel(step)}</span><span className="text-muted">{Math.round((stepNumber(step) / totalSteps) * 100)}%</span></div>
+        <Progress value={(stepNumber(step) / totalSteps) * 100} />
         <div className="card mt-6">
           {step === 1 && (<><h1 className="h2 mb-1">Wat voor werk doe je?</h1><p className="mb-5 text-muted">Hoe preciezer, hoe beter de matches. Je kunt dit altijd aanpassen.</p><ProfessionalProfileForm profile={profile} section="work" next={url(2)} submitLabel="Volgende" /></>)}
           {step === 2 && profile && (<><h1 className="h2 mb-1">Waar werk je en hoe reis je?</h1><p className="mb-5 text-muted">We gebruiken je woonplaats alleen om afstanden te berekenen. Je adres wordt nooit getoond.</p><ProfessionalProfileForm profile={profile} phone={null} section="person" next={url(profile.workArrangement === 'employment' ? 3 : 25)} submitLabel="Volgende" /></>)}

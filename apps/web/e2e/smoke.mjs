@@ -78,7 +78,7 @@ const email = `e2e-${Date.now()}@test.timmerly.nl`;
   // Stap 1 vak
   await p.selectOption('#trade', 'allround_timmerman');
   await p.getByRole('button', { name: 'Aftimmering', exact: true }).click(); await p.getByRole('button', { name: 'Renovatie', exact: true }).click();
-  await p.selectOption('#experienceBand', '6-10'); await p.fill('#yearsExperience', '7'); await p.selectOption('#workArrangement', 'zzp'); await p.fill('#hourlyRateMin', '46');
+  await p.fill('#yearsExperience', '7'); await p.selectOption('#workArrangement', 'zzp'); await p.fill('#hourlyRateMin', '46');
   await p.fill('#bio', 'Allround timmerman met zeven jaar ervaring in renovatie en aftimmering. Werk netjes en zelfstandig.');
   await p.click('button[type=submit]'); await p.waitForURL(/stap=2/);
   // Stap 2 persoonlijk

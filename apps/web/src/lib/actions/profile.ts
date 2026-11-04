@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { and, eq, schema } from '@timmerly/db';
-import { certificateSchema, companyProfileSchema, geocode, professionalProfileSchema, zzpDetailsSchema, type AvailabilityStatus, type ProfessionalProfileInput } from '@timmerly/core';
+import { certificateSchema, companyProfileSchema, EXPERIENCE_BANDS, geocode, professionalProfileSchema, zzpDetailsSchema, type AvailabilityStatus, type ExperienceBand, type ProfessionalProfileInput } from '@timmerly/core';
 import { db } from '../db';
 import { audit } from '../audit';
 import { requireRole, requireUser } from '../auth/session';
@@ -37,6 +37,14 @@ export async function computeCompleteness(profileId: string): Promise<number> {
   return pct;
 }
 
+/** Ervaringsband is alleen nog intern (matching gebruikt yearsExperience zelf niet); afleiden i.p.v. apart laten invullen. */
+function deriveExperienceBand(years: number): ExperienceBand {
+  if (years <= 2) return EXPERIENCE_BANDS[0];
+  if (years <= 5) return EXPERIENCE_BANDS[1];
+  if (years <= 10) return EXPERIENCE_BANDS[2];
+  return EXPERIENCE_BANDS[3];
+}
+
 /** Velden per onboardingsectie; 'all' valideert het volledige schema. */
 const SECTION_MASKS = {
   work: { trade: true, specialisms: true, experienceBand: true, yearsExperience: true, bio: true, workArrangement: true, hourlyRateMin: true },
@@ -47,6 +55,7 @@ const SECTION_MASKS = {
 export async function saveProfessionalProfile(_prev: ActionState, form: FormData): Promise<ActionState> {
   const user = await requireRole('professional');
   const raw = formToObject(form);
+  if (raw.yearsExperience !== undefined && raw.yearsExperience !== '') raw.experienceBand = deriveExperienceBand(Number(raw.yearsExperience));
   const section = String(raw.section ?? 'all') as keyof typeof SECTION_MASKS | 'all';
   const schema_ = section === 'work' ? professionalProfileSchema.pick(SECTION_MASKS.work) : section === 'person' ? professionalProfileSchema.pick(SECTION_MASKS.person) : section === 'availability' ? professionalProfileSchema.pick(SECTION_MASKS.availability) : professionalProfileSchema;
   const parsed = schema_.safeParse({
