@@ -7,5 +7,5 @@
   "types": "./src/index.ts",
   "exports": { ".": "./src/index.ts" },
   "scripts": { "build": "tsc --noEmit", "typecheck": "tsc --noEmit", "lint": "eslint src", "test": "vitest run" },
-  "devDependencies": { "@timmerly/eslint-config": "workspace:*", "@types/node": "^22.20.1" }
+  "devDependencies": { "@timmerly/eslint-config": "workspace:*", "@types/node": "^22.20.1", "eslint": "^9.39.0" }
 }
