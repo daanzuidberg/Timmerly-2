@@ -3,18 +3,26 @@
 import { useActionState } from 'react';
 import { PROVINCES, SPECIALISMS, SPECIALISM_LABELS } from '@timmerly/core';
 import { saveCompanyProfile } from '@/lib/actions/profile';
+import type { ActionState } from '@/lib/actions/types';
 import { Alert, Field } from '@/components/ui';
 import { ChipGroup } from '@/components/ui/ChipGroup';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 
 type Company = { name: string; kvkNumber: string; website: string | null; phone: string | null; city: string; province: string | null; companyType: string; description: string; specialisms: string[]; employeeCount: number | null; workAreaKm: number; verifiedAt?: Date | null } | null;
 
-export function CompanyProfileForm({ company, next }: { company: Company; next?: string }) {
-  const [state, action] = useActionState(saveCompanyProfile, null);
+/**
+ * Ook gebruikt door de admin-editpagina: `formAction` en `extraFields` laten
+ * toe om tegen een andere server action (met een ander account als target)
+ * te posten, zonder het formulier te hoeven dupliceren.
+ */
+export function CompanyProfileForm({ company, next, formAction, extraFields, submitLabel }: { company: Company; next?: string; formAction?: (prev: ActionState, form: FormData) => Promise<ActionState>; extraFields?: Record<string, string>; submitLabel?: string }) {
+  const [state, action] = useActionState(formAction ?? saveCompanyProfile, null);
   const e = state?.fieldErrors ?? {};
   return (
     <form action={action} className="flex flex-col gap-4">
       {next && <input type="hidden" name="next" value={next} />}
+      {extraFields && Object.entries(extraFields).map(([k, v]) => <input key={k} type="hidden" name={k} value={v} />)}
+      {state?.error && <Alert tone="bad">{state.error}</Alert>}
       {state?.ok && <Alert tone="ok">Opgeslagen.</Alert>}
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Bedrijfsnaam" name="name" error={e.name}><input id="name" name="name" className="input" required defaultValue={company?.name ?? ''} /></Field>
@@ -29,7 +37,7 @@ export function CompanyProfileForm({ company, next }: { company: Company; next?:
       </div>
       <Field label="Specialisaties" error={e.specialisms}><ChipGroup name="specialisms" options={SPECIALISMS.map((s) => ({ value: s, label: SPECIALISM_LABELS[s] }))} defaultValue={company?.specialisms ?? []} max={10} /></Field>
       <Field label="Over het bedrijf" name="description" help="Vakmensen lezen dit voordat ze reageren."><textarea id="description" name="description" rows={4} className="input" defaultValue={company?.description ?? ''} /></Field>
-      <div><SubmitButton>{next ? 'Opslaan en verder' : 'Opslaan'}</SubmitButton></div>
+      <div><SubmitButton>{submitLabel ?? (next ? 'Opslaan en verder' : 'Opslaan')}</SubmitButton></div>
     </form>
   );
 }

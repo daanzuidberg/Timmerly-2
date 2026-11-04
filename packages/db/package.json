@@ -29,6 +29,7 @@
     "@timmerly/eslint-config": "workspace:*",
     "@types/pg": "^8.15.0",
     "drizzle-kit": "^0.31.0",
+    "eslint": "^9.39.0",
     "tsx": "^4.20.0"
   }
 }

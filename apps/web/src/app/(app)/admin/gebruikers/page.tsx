@@ -81,13 +81,13 @@ export default async function AdminUsers({ searchParams }: { searchParams: Promi
                   const n = p ? (appCountByProfile[p.id] ?? 0) : 0;
                   return (
                     <tr key={u.id}>
-                      <td className="py-2.5 pr-3"><div className="font-semibold text-navy">{u.firstName} {u.lastName}</div><div className="text-xs text-muted">{u.email}</div></td>
+                      <td className="py-2.5 pr-3"><Link href={`/admin/gebruikers/${u.id}`} className="font-semibold text-navy hover:text-orange-700">{u.firstName} {u.lastName}</Link><div className="text-xs text-muted">{u.email}</div></td>
                       <td className="py-2.5 pr-3">{p ? (TRADE_LABELS[p.trade as Trade] ?? p.trade) : <span className="text-faint">geen profiel</span>}</td>
                       <td className="py-2.5 pr-3">{p?.city || '—'}</td>
                       <td className="py-2.5 pr-3"><StatusPill status={identity} /></td>
                       <td className="tabular py-2.5 pr-3 text-right">{n}</td>
                       <td className="py-2.5 pr-3"><AccountStatusPill status={u.status} /></td>
-                      <td className="py-2.5 text-right">{u.status !== 'deleted' && <UserStatusButton id={u.id} status={u.status} />}</td>
+                      <td className="py-2.5 text-right"><div className="flex items-center justify-end gap-2"><Link href={`/admin/gebruikers/${u.id}`} className="btn-ghost btn-sm">Bewerken</Link>{u.status !== 'deleted' && <UserStatusButton id={u.id} status={u.status} />}</div></td>
                     </tr>
                   );
                 })}
@@ -109,13 +109,13 @@ export default async function AdminUsers({ searchParams }: { searchParams: Promi
                   const n = c ? (projectCountByCompany[c.id] ?? 0) : 0;
                   return (
                     <tr key={u.id}>
-                      <td className="py-2.5 pr-3"><div className="font-semibold text-navy">{c?.name ?? <span className="text-faint">geen bedrijfsprofiel</span>}</div>{c?.kvkNumber && <div className="text-xs text-muted">KvK {c.kvkNumber}</div>}</td>
+                      <td className="py-2.5 pr-3"><Link href={`/admin/gebruikers/${u.id}`} className="font-semibold text-navy hover:text-orange-700">{c?.name ?? 'geen bedrijfsprofiel'}</Link>{c?.kvkNumber && <div className="text-xs text-muted">KvK {c.kvkNumber}</div>}</td>
                       <td className="py-2.5 pr-3"><div>{u.firstName} {u.lastName}</div><div className="text-xs text-muted">{u.email}</div></td>
                       <td className="py-2.5 pr-3">{c?.city || '—'}</td>
                       <td className="py-2.5 pr-3"><StatusPill status={kvk} /></td>
                       <td className="tabular py-2.5 pr-3 text-right">{n}</td>
                       <td className="py-2.5 pr-3"><AccountStatusPill status={u.status} /></td>
-                      <td className="py-2.5 text-right">{u.status !== 'deleted' && <UserStatusButton id={u.id} status={u.status} />}</td>
+                      <td className="py-2.5 text-right"><div className="flex items-center justify-end gap-2"><Link href={`/admin/gebruikers/${u.id}`} className="btn-ghost btn-sm">Bewerken</Link>{u.status !== 'deleted' && <UserStatusButton id={u.id} status={u.status} />}</div></td>
                     </tr>
                   );
                 })}
