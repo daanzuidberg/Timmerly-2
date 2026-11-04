@@ -3,6 +3,7 @@
 import { useActionState, useState } from 'react';
 import { ACTIVE_TRADES, PROVINCES, SPECIALISMS, SPECIALISM_LABELS, TRADE_LABELS, WORK_ARRANGEMENTS, CONTRACT_TYPE_LABELS } from '@timmerly/core';
 import { saveProfessionalProfile } from '@/lib/actions/profile';
+import type { ActionState } from '@/lib/actions/types';
 import { Alert, Field } from '@/components/ui';
 import { ChipGroup } from '@/components/ui/ChipGroup';
 import { SubmitButton } from '@/components/ui/SubmitButton';
@@ -12,9 +13,14 @@ type Profile = {
   hasDriversLicense: boolean; hasOwnTransport: boolean; hasOwnTools: boolean; workArrangement: string; hourlyRateMin: number | null; hoursPerWeek: number; availableFrom: string | null;
 } | null;
 
-/** Eén formulier voor onboarding (in delen) en voor later bewerken (alles). `section` bepaalt welke velden zichtbaar zijn. */
-export function ProfessionalProfileForm({ profile, phone, section = 'all', next, submitLabel = 'Opslaan' }: { profile: Profile; phone?: string | null; section?: 'person' | 'work' | 'availability' | 'all'; next?: string; submitLabel?: string }) {
-  const [state, action] = useActionState(saveProfessionalProfile, null);
+/**
+ * Eén formulier voor onboarding (in delen) en voor later bewerken (alles).
+ * `section` bepaalt welke velden zichtbaar zijn. `formAction`/`extraFields`
+ * laten de admin-editpagina toe hetzelfde formulier te posten naar een
+ * andere server action (met een ander account als target).
+ */
+export function ProfessionalProfileForm({ profile, phone, section = 'all', next, submitLabel = 'Opslaan', formAction, extraFields }: { profile: Profile; phone?: string | null; section?: 'person' | 'work' | 'availability' | 'all'; next?: string; submitLabel?: string; formAction?: (prev: ActionState, form: FormData) => Promise<ActionState>; extraFields?: Record<string, string> }) {
+  const [state, action] = useActionState(formAction ?? saveProfessionalProfile, null);
   const show = (s: string) => section === 'all' || section === s;
   const e = state?.fieldErrors ?? {};
   const p = profile;
@@ -23,6 +29,7 @@ export function ProfessionalProfileForm({ profile, phone, section = 'all', next,
   return (
     <form action={action} className="flex flex-col gap-5">
       {next && <input type="hidden" name="next" value={next} />}
+      {extraFields && Object.entries(extraFields).map(([k, v]) => <input key={k} type="hidden" name={k} value={v} />)}
       {state?.error && <Alert tone="bad">{state.error}</Alert>}
       {state?.ok && !next && <Alert tone="ok">Opgeslagen.</Alert>}
 
