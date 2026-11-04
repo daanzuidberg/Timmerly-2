@@ -1,16 +1,17 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { and, desc, eq, inArray, isNull, schema, count, lte, gte } from '@timmerly/db';
-import { addDays, formatDateNl, todayIso, CERTIFICATE_LABELS, type CertificateType } from '@timmerly/core';
+import { addDays, formatDateNl, todayIso, CERTIFICATE_LABELS, TRADE_LABELS, projectSearchSchema, type CertificateType, type Trade } from '@timmerly/core';
 import { db } from '@/lib/db';
 import { requireUser } from '@/lib/auth/session';
 import { getCompanyProfile, getProfessionalProfile } from '@/lib/auth/profiles';
 import { searchProjects } from '@/lib/search/projects';
+import { candidatesForProject } from '@/lib/matching';
 import { AppShell } from '@/components/AppShell';
 import { ProjectCard } from '@/components/ProjectCard';
 import { AvailabilityToggle } from '@/components/AvailabilityControls';
-import { Alert, Card, Empty, Progress, Stat, StatusPill } from '@/components/ui';
-import { projectSearchSchema } from '@timmerly/core';
+import { InviteButton } from '@/components/CandidateActions';
+import { Alert, Card, Empty, Progress, Score, Stat, StatusPill } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 
@@ -87,9 +88,17 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
   const startingSoon = projects.filter((p) => p.status === 'published' && p.startDate <= addDays(todayIso(), 14) && p.startDate >= todayIso() && p.filledCount < p.headcount);
   void lte; void gte; void isNull;
 
+  // Smart Match is het meest onderscheidende onderdeel van Timmerly, maar stond tot nu toe verstopt op de
+  // projectpagina zelf. Eén project met het grootste tekort krijgt hier een voorproefje op het dashboard.
+  const smartMatchProject = startingSoon[0] ?? openProjects[0] ?? null;
+  const smartMatchSuggestions = smartMatchProject ? (await candidatesForProject(smartMatchProject, 3)) : [];
+  const smartMatchApplied = smartMatchProject
+    ? new Set((await d.query.applications.findMany({ where: eq(schema.applications.projectId, smartMatchProject.id), columns: { profileId: true } })).map((a) => a.profileId))
+    : new Set<string>();
+
   return (
     <AppShell user={user} title={`${greeting}!`} subtitle={company.name} actions={<Link href="/projecten/nieuw" className="btn-primary btn-sm">Project plaatsen</Link>}>
-      {!company.verifiedAt && <div className="mb-6"><Alert tone="warn"><strong>Bedrijfsverificatie loopt.</strong> Tot je KvK-gegevens zijn gecontroleerd gaan nieuwe projecten eerst langs het Timmerly-team.</Alert></div>}
+      {!company.verifiedAt && <div className="mb-6"><Alert tone="warn"><strong>Bedrijfsverificatie loopt.</strong> Je kunt pas een project plaatsen zodra je KvK-gegevens zijn gecontroleerd, meestal binnen twee werkdagen.</Alert></div>}
       <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Openstaande projecten" value={openProjects.length} hint={startingSoon.length ? `${startingSoon.length} start binnen 2 weken met tekort` : 'geen tekorten'} />
         <Stat label="Nieuwe kandidaten" value={newInterest} hint="wachten op reactie" />
@@ -103,6 +112,24 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
           ); })}</ul>
         ) : <Empty>Nog geen projecten. <Link href="/projecten/nieuw">Plaats je eerste project</Link> — het kost drie minuten.</Empty>}
       </Card>
+      {smartMatchProject && (
+        <Card
+          title="Smart Match · aanbevolen kandidaten"
+          action={<Link href={`/mijn-projecten/${smartMatchProject.id}`} className="text-sm font-bold">Alle suggesties</Link>}
+          className="mt-5"
+        >
+          <p className="mb-3 text-sm text-muted">Voor <strong className="text-navy">{smartMatchProject.title}</strong>, gerangschikt op profiel, afstand, certificaten en beschikbaarheid.</p>
+          {smartMatchSuggestions.length ? (
+            <ul className="grid gap-3 sm:grid-cols-3">{smartMatchSuggestions.map((s) => (
+              <li key={s.profile.id} className="rounded-card border border-line p-3">
+                <div className="flex items-center justify-between gap-2"><Link href={`/vakmensen/${s.profile.id}`} className="truncate font-bold text-navy">{TRADE_LABELS[s.profile.trade as Trade]} · {s.profile.city}</Link><Score value={s.match.score} size="sm" /></div>
+                <div className="mt-1 text-sm text-muted">{s.match.reasons.filter((r) => r.positive).slice(0, 2).map((r) => r.label).join(' · ')}</div>
+                <div className="mt-2"><InviteButton projectId={smartMatchProject.id} profileId={s.profile.id} invited={smartMatchApplied.has(s.profile.id)} /></div>
+              </li>
+            ))}</ul>
+          ) : <Empty>Geen geschikte kandidaten gevonden voor dit project.</Empty>}
+        </Card>
+      )}
     </AppShell>
   );
 }
