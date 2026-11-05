@@ -46,7 +46,7 @@ export default async function ProjectManage({ params, searchParams }: { params: 
             <ul className="flex flex-col gap-4">{apps.map((a) => (
               <li key={a.id} className="rounded-card border border-line p-4">
                 <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-center gap-3"><Avatar name={`${a.profile.user.firstName} ${a.profile.user.lastName}`} /><div><Link href={`/vakmensen/${a.profile.id}`} className="font-bold text-navy">{a.profile.user.firstName} {a.profile.user.lastName}</Link><div className="text-sm text-muted">{TRADE_LABELS[a.profile.trade as Trade]} · {a.profile.city} · {a.profile.yearsExperience} jaar</div></div></div>
+                  <div className="flex items-center gap-3"><Avatar name={`${a.profile.user.firstName} ${a.profile.user.lastName}`} /><div><Link href={`/vakmensen/${a.profile.id}`} className="font-bold text-navy">{a.profile.user.firstName} {a.profile.user.lastName}</Link><div className="text-sm text-muted">{TRADE_LABELS[a.profile.trade as Trade]} · {a.profile.city} · {a.profile.yearsExperience} jaar{a.requestedRate != null ? ` · vraagt €${a.requestedRate}/u` : ''}</div></div></div>
                   <div className="flex items-center gap-3">{a.matchScore != null && <Score value={a.matchScore} size="sm" />}<StatusPill status={a.stage} /></div>
                 </div>
                 {a.matchReasons.length > 0 && <div className="mt-3"><Reasons reasons={a.matchReasons} max={4} /></div>}
@@ -57,7 +57,7 @@ export default async function ProjectManage({ params, searchParams }: { params: 
                   {['completed', 'reviewed'].includes(a.stage) && <Link href={`/beoordelen/${a.id}`} className="btn-secondary btn-sm">Beoordelen</Link>}
                   <StageActions applicationId={a.id} stage={a.stage} role="company" />
                 </div>
-                {a.stage === 'contact' && <details className="mt-3"><summary className="cursor-pointer text-sm font-bold text-orange-700">Voorstel opstellen</summary><div className="mt-3"><ProposalForm applicationId={a.id} defaults={{ hourlyRate: a.profile.hourlyRateMin ?? project.rateMax, hoursPerWeek: project.hoursPerWeek, startDate: project.startDate, endDate: project.endDate, contractType: project.contractType }} /></div></details>}
+                {a.stage === 'contact' && <details className="mt-3"><summary className="cursor-pointer text-sm font-bold text-orange-700">Voorstel opstellen</summary><div className="mt-3"><ProposalForm applicationId={a.id} defaults={{ hourlyRate: a.requestedRate ?? a.profile.hourlyRateMin ?? project.rateMax, hoursPerWeek: project.hoursPerWeek, startDate: project.startDate, endDate: project.endDate, contractType: project.contractType }} /></div></details>}
               </li>
             ))}</ul>
           ) : <Empty>Nog geen kandidaten. {project.status === 'draft' ? 'Publiceer het project om interesse te ontvangen.' : 'Benader vakmensen uit de suggesties hiernaast.'}</Empty>}

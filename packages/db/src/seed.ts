@@ -126,13 +126,13 @@ async function main() {
   // ── Projecten ────────────────────────────────────────────────────────────
   const projectDefs = [
     { company: 'Van Dijk Bouw B.V.', title: 'Timmerman nieuwbouw – 84 woningen Almere Poort', trade: 'timmerman', specialisms: ['aftimmering', 'kozijnen_en_deuren', 'woningbouw'], city: 'Almere', start: '2026-09-21', end: '2026-12-12', headcount: 4, hours: 40, minYears: 3, certs: ['vca_basis'], transport: true, tools: false, contract: 'either', rateMin: 45, rateMax: 50, status: 'published',
-      description: 'Aftimmering van 84 grondgebonden woningen in Almere Poort. Je werkt in ploegen van vier onder een voorman. Kozijnen, binnendeuren, plinten en aftimmering. Werktijden 07:00 – 16:00, 40 uur per week. Opdrachtbevestiging vóór de start, wekelijkse urenregistratie via Timmerly, betaling binnen 14 dagen na goedkeuring.' },
+      description: 'Aftimmering van 84 grondgebonden woningen in Almere Poort. Je werkt in ploegen van vier onder een voorman. Kozijnen, binnendeuren, plinten en aftimmering, 40 uur per week. Opdrachtbevestiging vóór de start, wekelijkse urenregistratie via Timmerly, betaling binnen 14 dagen na goedkeuring.' },
     { company: 'Beter Wonen Onderhoud', title: 'Mutatietimmerman – doorlopend onderhoud Zwolle', trade: 'mutatietimmerman', specialisms: ['mutatiewerk', 'onderhoud'], city: 'Zwolle', start: '2026-09-10', end: null, headcount: 1, hours: 36, minYears: 2, certs: ['vca_basis'], transport: true, tools: true, contract: 'zzp', rateMin: 42, rateMax: 46, status: 'published',
       description: 'Doorlopend mutatieonderhoud voor een woningcorporatie in Zwolle. Zelfstandig werken met een eigen planning per week. Eigen bus en gereedschap vereist. Urenregistratie per adres.' },
     { company: 'Kroon Bouw & Infra', title: 'Betontimmerman – parkeergarage Utrecht', trade: 'betontimmerman', specialisms: ['betontimmerwerk', 'ruwbouw'], city: 'Utrecht', start: '2026-10-05', end: '2027-02-26', headcount: 6, hours: 45, minYears: 5, certs: ['vca_vol'], transport: false, tools: false, contract: 'zzp', rateMin: 50, rateMax: 54, status: 'published',
-      description: 'Ruwbouw van een ondergrondse parkeergarage met 400 plaatsen. Bekisting, stelwerk en wapening plaatsen. Huisvesting in de buurt beschikbaar. Werktijden 06:30 – 16:00.' },
+      description: 'Ruwbouw van een ondergrondse parkeergarage met 400 plaatsen. Bekisting, stelwerk en wapening plaatsen. Huisvesting in de buurt beschikbaar.' },
     { company: 'Van Dijk Bouw B.V.', title: 'Steltimmerman – 36 woningen Dronten', trade: 'timmerman', specialisms: ['stelwerk', 'nieuwbouw', 'houtskeletbouw'], city: 'Dronten', start: '2026-11-02', end: '2026-12-11', headcount: 3, hours: 40, minYears: 4, certs: ['vca_basis'], transport: true, tools: true, contract: 'either', rateMin: 46, rateMax: 50, status: 'published',
-      description: 'Stelwerk voor 36 woningen in een nieuwbouwwijk. Ervaring met prefab houtskeletbouw is een pré. Werktijden 07:00 – 16:30.' },
+      description: 'Stelwerk voor 36 woningen in een nieuwbouwwijk. Ervaring met prefab houtskeletbouw is een pré.' },
     { company: 'Janssen Bouw', title: 'Kozijnen renovatie 12 woningen Deventer', trade: 'timmerman', specialisms: ['renovatie', 'kozijnen_en_deuren'], city: 'Deventer', start: '2026-09-28', end: '2026-11-06', headcount: 1, hours: 32, minYears: 3, certs: [], transport: true, tools: true, contract: 'zzp', rateMin: 44, rateMax: 48, status: 'in_review',
       description: 'Vervangen van houten kozijnen bij twaalf jaren-30-woningen. Onder leiding van onze uitvoerder.' },
     { company: 'Kroon Bouw & Infra', title: 'Afbouwtimmerman – kantoorpand Eindhoven', trade: 'timmerman', specialisms: ['afbouw', 'wanden_en_plafonds'], city: 'Eindhoven', start: '2026-09-14', end: '2026-11-06', headcount: 2, hours: 40, minYears: 3, certs: ['vca_basis'], transport: false, tools: false, contract: 'either', rateMin: 44, rateMax: 48, status: 'published',
@@ -146,8 +146,8 @@ async function main() {
     const geo = geocode(p.city);
     const [row] = await db.insert(s.projects).values({
       companyId: companyIds[p.company]!, title: p.title, description: p.description, trade: p.trade, specialisms: [...p.specialisms], city: p.city, province: geo?.province,
-      lat: geo?.lat, lng: geo?.lng, startDate: p.start, endDate: p.end, headcount: p.headcount, hoursPerWeek: p.hours, workingHours: '07:00 – 16:00', minYearsExperience: p.minYears,
-      requiredCertificates: [...p.certs], requiresOwnTransport: p.transport, requiresOwnTools: p.tools, contractType: p.contract, rateMin: p.rateMin, rateMax: p.rateMax,
+      lat: geo?.lat, lng: geo?.lng, startDate: p.start, endDate: p.end, headcount: p.headcount, hoursPerWeek: p.hours, minYearsExperience: p.minYears,
+      requiredCertificates: [...p.certs], requiredPbm: ['helm', 'veiligheidsschoenen'], requiresOwnTransport: p.transport, requiresOwnTools: p.tools, contractType: p.contract, rateMin: p.rateMin, rateMax: p.rateMax,
       housingAvailable: p.city === 'Utrecht', status: p.status, publishedAt: p.status === 'published' ? now : null
     }).returning();
     projectIds.push(row!.id);
@@ -159,7 +159,7 @@ async function main() {
   const existingApp = await db.query.applications.findFirst({ where: eq(s.applications.projectId, almere) });
   if (!existingApp) {
     const [app] = await db.insert(s.applications).values({
-      projectId: almere, profileId: daan.profileId, stage: 'active', initiatedBy: 'professional', matchScore: 96,
+      projectId: almere, profileId: daan.profileId, stage: 'active', initiatedBy: 'professional', requestedRate: 47, matchScore: 96,
       matchReasons: [{ key: 'experience', label: '8 jaar ervaring (minimaal 3 gevraagd)', positive: true }, { key: 'distance', label: '50 km van het project', positive: true }, { key: 'certificates', label: 'VCA Basis geverifieerd', positive: true }],
       proposal: { hourlyRate: 47.5, contractType: 'zzp', startDate: '2026-09-21', endDate: '2026-12-12', hoursPerWeek: 40 }, agreedAt: now
     }).returning();
@@ -167,7 +167,7 @@ async function main() {
     const vanDijkUser = (await db.query.users.findFirst({ where: eq(s.users.email, 'planning@vandijkbouw.nl') }))!;
     for (const m of [
       { sender: vanDijkUser.id, body: 'Hoi Daan, we starten 21 september met de aftimmering. Ben je dan vrij?' },
-      { sender: daan.userId, body: 'Ja, vanaf 14 september ben ik beschikbaar. Werktijden 07:00–16:00?' },
+      { sender: daan.userId, body: 'Ja, vanaf 14 september ben ik beschikbaar. 40 uur per week kan prima.' },
       { sender: vanDijkUser.id, body: 'Klopt. Voorstel volgt met tarief €47,50 en 40 uur per week.' }
     ]) await db.insert(s.messages).values({ conversationId: conv!.id, senderId: m.sender, body: m.body, readAt: now });
 

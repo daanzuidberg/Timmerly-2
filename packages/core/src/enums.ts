@@ -85,6 +85,16 @@ export const CERTIFICATE_LABELS: Record<CertificateType, string> = {
   steigerbouw: 'Steigerbouw', veilig_hijsen: 'Veilig hijsen', ehbo: 'EHBO', asbest_herkenning: 'Asbestherkenning', other: 'Overig'
 };
 
+/** Persoonlijke beschermingsmiddelen die een opdracht kan vereisen. */
+export const PBM_TYPES = [
+  'helm', 'veiligheidsschoenen', 'veiligheidsbril', 'gehoorbescherming', 'werkhandschoenen', 'reflecterende_kleding', 'valbeveiliging', 'stofmasker'
+] as const;
+export type PbmType = (typeof PBM_TYPES)[number];
+export const PBM_LABELS: Record<PbmType, string> = {
+  helm: 'Helm', veiligheidsschoenen: 'Veiligheidsschoenen (S3)', veiligheidsbril: 'Veiligheidsbril', gehoorbescherming: 'Gehoorbescherming',
+  werkhandschoenen: 'Werkhandschoenen', reflecterende_kleding: 'Reflecterende kleding', valbeveiliging: 'Valbeveiliging (harnas)', stofmasker: 'Stofmasker (FFP2)'
+};
+
 export const VERIFICATION_STATUSES = ['unverified', 'pending', 'verified', 'rejected', 'expired'] as const;
 export type VerificationStatus = (typeof VERIFICATION_STATUSES)[number];
 export const VERIFICATION_STATUS_LABELS: Record<VerificationStatus, string> = {
