@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { and, eq, isNull, ne, schema } from '@timmerly/db';
-import { messageSchema, reviewSchema, REVIEW_CATEGORIES, timesheetEntrySchema, isoWeek, type ApplicationStage } from '@timmerly/core';
+import { interestSchema, messageSchema, reviewSchema, REVIEW_CATEGORIES, timesheetEntrySchema, isoWeek, type ApplicationStage } from '@timmerly/core';
 import { db } from '../db';
 import { audit } from '../audit';
 import { notify } from '../notify';
@@ -26,12 +26,18 @@ export async function loadApplication(applicationId: string, user: SessionUser) 
   return { app, isPro, isCompany, isStaff };
 }
 
-/** Interesse tonen als vakman. Vereist bevestigd e-mailadres en afgeronde onboarding. */
-export async function showInterest(projectId: string): Promise<{ error?: string }> {
+/**
+ * "Count me in": interesse tonen als vakman, altijd met een eigen tarief —
+ * dat tarief is het startpunt van het gesprek, niet pas het tegenvoorstel
+ * van het bedrijf. Vereist bevestigd e-mailadres en afgeronde onboarding.
+ */
+export async function showInterest(projectId: string, requestedRate: number): Promise<{ error?: string }> {
   const session = await getSession();
   if (!session) redirect(`/registreren?rol=professional&next=/projecten/${projectId}`);
   if (session.role !== 'professional') return { error: 'Alleen vakmensen kunnen interesse tonen in een project.' };
   if (!session.emailVerified) return { error: 'Bevestig eerst je e-mailadres. We hebben je een link gestuurd.' };
+  const parsed = interestSchema.safeParse({ requestedRate });
+  if (!parsed.success) return { error: parsed.error.issues[0]!.message };
   const profile = await getProfessionalProfile(session.id);
   if (!profile?.onboardingCompletedAt) redirect(`/onboarding?next=/projecten/${projectId}`);
   const d = db();
@@ -41,11 +47,12 @@ export async function showInterest(projectId: string): Promise<{ error?: string 
   if (existing) return {};
   const match = await scoreFor(profile, project);
   const [app] = await d.insert(schema.applications).values({
-    projectId, profileId: profile.id, stage: 'interest', initiatedBy: 'professional', matchScore: match.score, matchReasons: match.reasons.map((r) => ({ key: r.key, label: r.label, positive: r.positive }))
+    projectId, profileId: profile.id, stage: 'interest', initiatedBy: 'professional', requestedRate: parsed.data.requestedRate,
+    matchScore: match.score, matchReasons: match.reasons.map((r) => ({ key: r.key, label: r.label, positive: r.positive }))
   }).returning();
   await d.insert(schema.conversations).values({ applicationId: app!.id });
-  await notify(project.company.userId, { type: 'interest_received', title: `${session.firstName} ${session.lastName} heeft interesse in je project`, body: `${project.title} · ${match.score}% match`, href: `/mijn-projecten/${projectId}` });
-  await audit({ actorId: session.id, actorRole: 'professional', action: 'application.interest', objectType: 'application', objectId: app!.id, after: { projectId, score: match.score } });
+  await notify(project.company.userId, { type: 'interest_received', title: `${session.firstName} ${session.lastName} heeft interesse in je project`, body: `${project.title} · ${match.score}% match · €${parsed.data.requestedRate}/u`, href: `/mijn-projecten/${projectId}` });
+  await audit({ actorId: session.id, actorRole: 'professional', action: 'application.interest', objectType: 'application', objectId: app!.id, after: { projectId, score: match.score, requestedRate: parsed.data.requestedRate } });
   revalidatePath(`/projecten/${projectId}`); revalidatePath('/aanmeldingen');
   return {};
 }
@@ -231,7 +238,10 @@ export async function submitReview(applicationId: string, _prev: ActionState, fo
 
 /**
  * Trustscore (intern): verificaties, reviews, afgeronde projecten, meldingen.
- * Alleen een grove versie ("Hoog") is zichtbaar voor anderen.
+ * Alleen een grove versie ("Hoog") is zichtbaar voor anderen, en de score
+ * weegt mee in de matchranking (packages/matching). Omdat reviews dus
+ * indirect de volgorde van kandidaten beïnvloeden, wordt elke herberekening
+ * met de gebruikte input en het resultaat gelogd — nooit stilletjes toegepast.
  */
 export async function refreshTrustScore(profileId: string): Promise<void> {
   const d = db();
@@ -248,5 +258,14 @@ export async function refreshTrustScore(profileId: string): Promise<void> {
   score += avg ? Math.round(((avg - 3) / 2) * 15) : 0;
   score += Math.min(10, completed.length * 2);
   score -= reports.length * 15;
-  await d.update(schema.professionalProfiles).set({ trustScore: Math.max(0, Math.min(100, score)) }).where(eq(schema.professionalProfiles.id, profileId));
+  const next = Math.max(0, Math.min(100, score));
+  await d.update(schema.professionalProfiles).set({ trustScore: next }).where(eq(schema.professionalProfiles.id, profileId));
+  await audit({
+    actorId: null, actorRole: 'system', action: 'trust_score.recomputed', objectType: 'professional_profile', objectId: profileId,
+    before: { trustScore: p.trustScore },
+    after: {
+      trustScore: next,
+      inputs: { verifiedKinds: ver, hasVerifiedCertificate: p.certificates.some((c) => c.status === 'verified'), reviewAverage: avg, reviewCount: reviews.length, completedProjects: completed.length, resolvedReports: reports.length }
+    }
+  });
 }

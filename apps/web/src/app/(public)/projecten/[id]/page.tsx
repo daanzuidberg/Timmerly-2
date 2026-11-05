@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { and, eq, schema } from '@timmerly/db';
-import { CERTIFICATE_LABELS, CONTRACT_TYPE_LABELS, SPECIALISM_LABELS, TRADE_LABELS, formatDateNl, type CertificateType, type ContractType, type Specialism, type Trade } from '@timmerly/core';
+import { CERTIFICATE_LABELS, CONTRACT_TYPE_LABELS, PBM_LABELS, SPECIALISM_LABELS, TRADE_LABELS, formatDateNl, type CertificateType, type ContractType, type PbmType, type Specialism, type Trade } from '@timmerly/core';
 import { db } from '@/lib/db';
 import { getSession } from '@/lib/auth/session';
 import { getProfessionalProfile } from '@/lib/auth/profiles';
@@ -30,8 +30,9 @@ export default async function ProjectDetail({ params }: { params: Promise<{ id: 
 
   const facts = [
     ['Locatie', `${project.city}${project.province ? `, ${project.province}` : ''}`], ['Start', formatDateNl(project.startDate)], ['Duur', project.endDate ? `tot ${formatDateNl(project.endDate)}` : 'Doorlopend'],
-    ['Vakgebied', TRADE_LABELS[project.trade as Trade] ?? project.trade], ['Uren', `${project.hoursPerWeek} u/week${project.workingHours ? ` · ${project.workingHours}` : ''}`], ['Contract', CONTRACT_TYPE_LABELS[project.contractType as ContractType]],
+    ['Vakgebied', TRADE_LABELS[project.trade as Trade] ?? project.trade], ['Uren', `${project.hoursPerWeek} u/week`], ['Contract', CONTRACT_TYPE_LABELS[project.contractType as ContractType]],
     ['Ervaring', project.minYearsExperience ? `Minimaal ${project.minYearsExperience} jaar` : 'Geen minimum'], ['Certificaten', project.requiredCertificates.length ? project.requiredCertificates.map((c) => CERTIFICATE_LABELS[c as CertificateType]).join(', ') : 'Niet vereist'],
+    ['PBM’s', project.requiredPbm.length ? project.requiredPbm.map((v) => PBM_LABELS[v as PbmType]).join(', ') : 'Niet vereist'],
     ['Vervoer', project.requiresOwnTransport ? 'Eigen vervoer vereist' : 'Niet vereist'], ['Gereedschap', project.requiresOwnTools ? 'Eigen gereedschap' : 'Door opdrachtgever'],
     ['Huisvesting', project.housingAvailable ? 'Beschikbaar' : 'Niet van toepassing'], ['Reiskosten', project.travelAllowance || 'In overleg']
   ];

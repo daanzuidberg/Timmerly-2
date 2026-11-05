@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import {
-  CERTIFICATE_TYPES, CONTRACT_TYPES, EXPERIENCE_BANDS, PROVINCES, REPORT_REASONS, SPECIALISMS, TRADES, WORK_ARRANGEMENTS
+  CERTIFICATE_TYPES, CONTRACT_TYPES, EXPERIENCE_BANDS, PBM_TYPES, PROVINCES, REPORT_REASONS, SPECIALISMS, TRADES, WORK_ARRANGEMENTS
 } from './enums';
 
 /** Nederlandse invoerregels op één plek; server en client gebruiken dezelfde schema's. */
@@ -114,9 +114,9 @@ export const projectSchema = z.object({
   endDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional().nullable(),
   headcount: z.coerce.number().int().min(1).max(200),
   hoursPerWeek: z.coerce.number().int().min(4).max(60),
-  workingHours: z.string().trim().max(60).optional().default('07:00 – 16:00'),
   minYearsExperience: z.coerce.number().int().min(0).max(40).default(0),
   requiredCertificates: z.array(z.enum(CERTIFICATE_TYPES)).max(6).default([]),
+  requiredPbm: z.array(z.enum(PBM_TYPES)).max(8).default([]),
   requiresOwnTransport: z.coerce.boolean().default(false),
   requiresOwnTools: z.coerce.boolean().default(false),
   contractType: z.enum(CONTRACT_TYPES),
@@ -143,6 +143,11 @@ export const projectSearchSchema = z.object({
 
 export const messageSchema = z.object({
   body: z.string().trim().min(1, 'Typ een bericht').max(4000)
+});
+
+/** "Count me in": de vakman noemt zelf een tarief op het moment dat hij reageert. */
+export const interestSchema = z.object({
+  requestedRate: z.coerce.number().int().min(0, 'Vul je tarief in').max(500)
 });
 
 export const reviewSchema = z.object({

@@ -22,7 +22,7 @@ export default async function ApplicationsPage() {
       {apps.length ? <div className="flex flex-col gap-4">{apps.map((a) => { const idx = STEPS.indexOf(a.stage); return (
         <Card key={a.id}>
           <div className="flex flex-wrap items-start justify-between gap-3">
-            <div><Link href={`/projecten/${a.projectId}`} className="text-lg font-bold text-navy">{a.project.title}</Link><div className="text-sm text-muted">{a.project.company.name}{a.project.company.verifiedAt ? ' ✓' : ''} · {a.project.city} · start {formatDateNl(a.proposal?.startDate ?? a.project.startDate)}</div></div>
+            <div><Link href={`/projecten/${a.projectId}`} className="text-lg font-bold text-navy">{a.project.title}</Link><div className="text-sm text-muted">{a.project.company.name}{a.project.company.verifiedAt ? ' ✓' : ''} · {a.project.city} · start {formatDateNl(a.proposal?.startDate ?? a.project.startDate)}{a.requestedRate != null ? ` · jouw tarief €${a.requestedRate}/u` : ''}</div></div>
             <div className="flex items-center gap-3">{a.matchScore != null && <Score value={a.matchScore} size="sm" />}<StatusPill status={a.stage} /></div>
           </div>
           {idx >= 0 && <ol className="mt-4 flex flex-wrap gap-1.5">{STEPS.slice(0, 6).map((s, i) => <li key={s} className={`rounded-md px-2.5 py-1 text-xs font-bold ${i < idx ? 'bg-ok-100 text-ok-800' : i === idx ? 'bg-orange text-white' : 'bg-ground text-faint'}`}>{['Interesse', 'Contact', 'Voorstel', 'Akkoord', 'Opdracht', 'Afgerond'][i]}</li>)}</ol>}

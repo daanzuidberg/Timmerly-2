@@ -22,9 +22,11 @@ export const projects = pgTable(
     headcount: integer('headcount').notNull().default(1),
     filledCount: integer('filled_count').notNull().default(0),
     hoursPerWeek: integer('hours_per_week').notNull().default(40),
-    workingHours: text('working_hours').notNull().default(''),
     minYearsExperience: integer('min_years_experience').notNull().default(0),
     requiredCertificates: text('required_certificates').array().notNull().default([]),
+    // Persoonlijke beschermingsmiddelen die de opdracht vereist. Bewust geen start-/eindtijd van de werkdag op een
+    // opdracht: dat kan gelden als een gezagssignaal (vast rooster) in de DBA-beoordeling.
+    requiredPbm: text('required_pbm').array().notNull().default([]),
     requiresOwnTransport: boolean('requires_own_transport').notNull().default(false),
     requiresOwnTools: boolean('requires_own_tools').notNull().default(false),
     contractType: contractType('contract_type').notNull().default('either'),
@@ -64,6 +66,8 @@ export const applications = pgTable(
     profileId: uuid('profile_id').notNull().references(() => professionalProfiles.id, { onDelete: 'cascade' }),
     stage: applicationStage('stage').notNull().default('interest'),
     initiatedBy: text('initiated_by').notNull(), // 'professional' | 'company' | 'platform'
+    // Eigen tarief van de vakman bij "Count me in" — los van het (latere, eventueel afwijkende) voorstel van het bedrijf.
+    requestedRate: integer('requested_rate'),
     // Matchscore op het moment van interesse, met uitleg — voor de gebruiker én voor evaluatie van het algoritme.
     matchScore: integer('match_score'),
     matchReasons: jsonb('match_reasons').$type<Array<{ key: string; label: string; positive: boolean }>>().notNull().default([]),

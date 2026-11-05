@@ -39,7 +39,7 @@ async function login(p, email) { await p.goto(BASE + '/inloggen'); await p.fill(
   await p.click('a[href^="/projecten/"]:has-text("Bekijk project")');
   await p.waitForURL(/\/projecten\/[0-9a-f-]+/);
   const d = await text(p);
-  check('projectdetail zonder login: eisen, geen score, CTA aanwezig', d.includes('Eisen en voorwaarden') && !d.includes('% match') && d.includes('Interesse in dit project'));
+  check('projectdetail zonder login: eisen, geen score, CTA aanwezig', d.includes('Eisen en voorwaarden') && !d.includes('% match') && d.includes('Count me in'));
   await p.goto(BASE + '/timmerman-gezocht/zwolle');
   check('SEO-plaatspagina met projecten binnen 40 km', (await text(p)).includes('Timmerman gezocht in Zwolle') && (await text(p)).includes('Mutatietimmerman'));
   await p.goto(BASE + '/zzp-check');
@@ -117,7 +117,8 @@ const email = `e2e-${Date.now()}@test.timmerly.nl`;
   await p.click('a[href^="/projecten/"]:has-text("Bekijk project")'); await p.waitForURL(/\/projecten\/[0-9a-f-]+/);
   const detail = await text(p);
   check('projectdetail toont uitleg bij score', detail.includes('Waarom dit project bij je past') && detail.includes('jaar ervaring'));
-  await p.getByRole('button', { name: 'Interesse in dit project' }).click();
+  await p.fill('#requestedRate', '46');
+  await p.getByRole('button', { name: 'Count me in' }).click();
   await p.waitForSelector('text=Interesse geregistreerd');
   check('interesse geregistreerd', true);
   await p.goto(BASE + '/aanmeldingen');
