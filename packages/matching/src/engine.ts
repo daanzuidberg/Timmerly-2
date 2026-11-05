@@ -3,8 +3,8 @@ import { DEFAULT_WEIGHTS, type MatchReason, type MatchResult, type MatchWeights,
 
 /**
  * Matching in twee lagen:
- *  1. Harde criteria (poortwachters): verkeerd vak, buiten reisafstand of geen
- *     overlap in contractvorm → niet geschikt, score 0, met reden.
+ *  1. Harde criteria (poortwachters): verkeerd vak of buiten reisafstand →
+ *     niet geschikt, score 0, met reden.
  *  2. Zachte criteria: elk criterium levert 0..1 op, vermenigvuldigd met zijn
  *     gewicht. Elke bijdrage krijgt een leesbare reden zodat "96% match" altijd
  *     uitlegbaar is — voor de gebruiker én voor evaluatie van het algoritme.
@@ -26,7 +26,6 @@ export function scoreMatch(
   const hard: string[] = [];
   if (pro.trade !== project.trade && !relatedTrade(pro.trade, project.trade)) hard.push('Ander vakgebied');
   if (distance !== null && distance > pro.maxTravelKm) hard.push(`${distance} km, buiten je reisafstand van ${pro.maxTravelKm} km`);
-  if (!contractOverlap(pro.workArrangement, project.contractType)) hard.push('Contractvorm past niet');
   if (pro.availability === 'unavailable') hard.push('Niet beschikbaar');
   if (hard.length) {
     return {
@@ -136,10 +135,6 @@ export function rankProjects(pro: ProfessionalFacts, projects: readonly ProjectF
 }
 
 // ── Hulpfuncties ───────────────────────────────────────────────────────────
-function contractOverlap(pro: string, project: string): boolean {
-  return pro === 'either' || project === 'either' || pro === project;
-}
-
 /** Een allround timmerman kan timmermanswerk doen en andersom; specialistische varianten niet automatisch. */
 const TRADE_FAMILY: Record<string, readonly string[]> = {
   timmerman: ['allround_timmerman', 'voorman_timmerman'],

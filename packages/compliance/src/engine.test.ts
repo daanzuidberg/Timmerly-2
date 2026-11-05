@@ -44,13 +44,13 @@ describe('compliancecheck', () => {
 
 describe('projectscreening', () => {
   it('signaleert doorlopende fulltime zzp-inzet en vacaturetaal', () => {
-    const hints = screenProject({ contractType: 'zzp', hoursPerWeek: 40, startDate: '2026-09-01', endDate: null, requiresOwnTools: false, description: 'Je werkt onder leiding van onze uitvoerder, uitzicht op vast.' });
+    const hints = screenProject({ hoursPerWeek: 40, startDate: '2026-09-01', endDate: null, requiresOwnTools: false, description: 'Je werkt onder leiding van onze uitvoerder, uitzicht op vast.' });
     expect(hints.length).toBeGreaterThanOrEqual(3);
     expect(hints.join(' ')).toMatch(/einddatum/);
     expect(hints.join(' ')).toMatch(/loondienst/);
   });
 
-  it('zwijgt bij loondienst', () => {
-    expect(screenProject({ contractType: 'employment', hoursPerWeek: 40, startDate: '2026-09-01', endDate: null, requiresOwnTools: false, description: '' })).toEqual([]);
+  it('geeft geen signalen bij een duidelijk afgebakende opdracht met eigen gereedschap', () => {
+    expect(screenProject({ hoursPerWeek: 20, startDate: '2026-09-01', endDate: '2026-10-01', requiresOwnTools: true, description: 'Zelfstandige klus, eigen planning.' })).toEqual([]);
   });
 });

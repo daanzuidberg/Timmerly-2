@@ -1,4 +1,4 @@
-import type { AvailabilityStatus, CertificateType, ContractType, WorkArrangement } from '@timmerly/core';
+import type { AvailabilityStatus, CertificateType } from '@timmerly/core';
 
 /** Wat de matcher van een vakman moet weten. Bewust een plat object: de engine kent geen database. */
 export interface ProfessionalFacts {
@@ -13,7 +13,6 @@ export interface ProfessionalFacts {
   hasDriversLicense: boolean;
   hasOwnTransport: boolean;
   hasOwnTools: boolean;
-  workArrangement: WorkArrangement;
   hourlyRateMin: number | null;
   availability: AvailabilityStatus;
   availableFrom: string | null; // ISO-datum
@@ -37,7 +36,6 @@ export interface ProjectFacts {
   requiredCertificates: readonly CertificateType[];
   requiresOwnTransport: boolean;
   requiresOwnTools: boolean;
-  contractType: ContractType;
   rateMin: number | null;
   rateMax: number | null;
   hoursPerWeek: number;
@@ -54,7 +52,7 @@ export interface MatchReason {
 export interface MatchResult {
   score: number; // 0–100
   reasons: MatchReason[];
-  /** Harde uitsluiting: verkeerd vak, buiten reisafstand, geen contractvorm-overlap. */
+  /** Harde uitsluiting: verkeerd vak of buiten reisafstand. */
   eligible: boolean;
   distanceKm: number | null;
 }

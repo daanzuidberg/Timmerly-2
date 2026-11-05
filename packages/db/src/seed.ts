@@ -81,23 +81,23 @@ async function main() {
 
   // ── Vakmensen ────────────────────────────────────────────────────────────
   const pros = [
-    { email: 'daan@verhoeventimmerwerken.nl', firstName: 'Daan', lastName: 'Verhoeven', trade: 'allround_timmerman', specialisms: ['aftimmering', 'kozijnen_en_deuren', 'woningbouw', 'renovatie'], years: 8, band: '6-10', city: 'Kampen', km: 60, rate: 47, arrangement: 'zzp', from: '2026-09-14', trust: 88,
+    { email: 'daan@verhoeventimmerwerken.nl', firstName: 'Daan', lastName: 'Verhoeven', trade: 'allround_timmerman', specialisms: ['aftimmering', 'kozijnen_en_deuren', 'woningbouw', 'renovatie'], years: 8, band: '6-10', city: 'Kampen', km: 60, rate: 47, from: '2026-09-14', trust: 88,
       zzp: { companyName: 'Verhoeven Timmerwerken', kvkNumber: '76543210', btwNumber: 'NL001234567B01', seat: 'Kampen', hasLiabilityInsurance: true },
       certs: [{ type: 'vca_basis', status: 'verified', expiresAt: '2026-10-07' }, { type: 'bhv', status: 'verified', expiresAt: '2028-03-01' }, { type: 'hoogwerker', status: 'pending', expiresAt: '2029-01-01' }],
       bio: 'Allround timmerman met acht jaar ervaring in woningbouw en renovatie. Zelfstandig, netjes en op tijd. Eigen bus en gereedschap.',
       history: [{ title: 'Nieuwbouw 120 woningen', role: 'Allround timmerman', client: 'Bouwgroep Nagel', city: 'Zwolle', start: '2025-01-06', end: '2025-08-29', desc: 'Ruwbouw en aftimmering in een team van zes.' }, { title: 'Mutatieonderhoud 80 woningen', role: 'Mutatietimmerman', client: 'Beter Wonen Onderhoud', city: 'Kampen', start: '2024-06-03', end: '2024-11-01', desc: 'Mutatiewerk en kleine renovaties.' }] },
-    { email: 'youssef@elamrani-bouw.nl', firstName: 'Youssef', lastName: 'El Amrani', trade: 'betontimmerman', specialisms: ['betontimmerwerk', 'ruwbouw', 'utiliteitsbouw'], years: 11, band: '10+', city: 'Lelystad', km: 80, rate: 51, arrangement: 'zzp', from: '2026-09-21', trust: 85,
+    { email: 'youssef@elamrani-bouw.nl', firstName: 'Youssef', lastName: 'El Amrani', trade: 'betontimmerman', specialisms: ['betontimmerwerk', 'ruwbouw', 'utiliteitsbouw'], years: 11, band: '10+', city: 'Lelystad', km: 80, rate: 51, from: '2026-09-21', trust: 85,
       zzp: { companyName: 'El Amrani Bouw', kvkNumber: '65432109', seat: 'Lelystad', hasLiabilityInsurance: true },
       certs: [{ type: 'vca_vol', status: 'verified', expiresAt: '2027-05-01' }], bio: 'Betontimmerman, elf jaar ervaring met bekisting en stelwerk op grote utiliteitsprojecten. Voorman-ervaring.', history: [] },
-    { email: 'marijn@dewit.nl', firstName: 'Marijn', lastName: 'de Wit', trade: 'mutatietimmerman', specialisms: ['mutatiewerk', 'onderhoud', 'aftimmering'], years: 6, band: '6-10', city: 'Zwolle', km: 50, rate: 44, arrangement: 'either', from: null, trust: 78,
-      zzp: null, certs: [{ type: 'vca_basis', status: 'verified', expiresAt: '2027-02-01' }], bio: 'Mutatie- en aftimmerwerk, per direct beschikbaar. Loondienst of zzp bespreekbaar.', history: [] },
-    { email: 'bram@sikkema-timmerwerk.nl', firstName: 'Bram', lastName: 'Sikkema', trade: 'voorman_timmerman', specialisms: ['woningbouw', 'nieuwbouw', 'stelwerk', 'aftimmering'], years: 15, band: '10+', city: 'Emmeloord', km: 75, rate: 56, arrangement: 'zzp', from: '2026-10-01', trust: 92,
+    { email: 'marijn@dewit.nl', firstName: 'Marijn', lastName: 'de Wit', trade: 'mutatietimmerman', specialisms: ['mutatiewerk', 'onderhoud', 'aftimmering'], years: 6, band: '6-10', city: 'Zwolle', km: 50, rate: 44, from: null, trust: 78,
+      zzp: { companyName: 'De Wit Mutatiewerk', kvkNumber: '55443322', seat: 'Zwolle', hasLiabilityInsurance: true }, certs: [{ type: 'vca_basis', status: 'verified', expiresAt: '2027-02-01' }], bio: 'Mutatie- en aftimmerwerk, per direct beschikbaar.', history: [] },
+    { email: 'bram@sikkema-timmerwerk.nl', firstName: 'Bram', lastName: 'Sikkema', trade: 'voorman_timmerman', specialisms: ['woningbouw', 'nieuwbouw', 'stelwerk', 'aftimmering'], years: 15, band: '10+', city: 'Emmeloord', km: 75, rate: 56, from: '2026-10-01', trust: 92,
       zzp: { companyName: 'Sikkema Timmerwerk', kvkNumber: '87654321', seat: 'Emmeloord', hasLiabilityInsurance: true },
       certs: [{ type: 'vca_vol', status: 'verified', expiresAt: '2028-01-01' }, { type: 'bhv', status: 'verified', expiresAt: '2027-06-01' }], bio: 'Voorman timmerman, vijftien jaar ervaring, ploegen van 4–8 man aangestuurd op projecten van 80+ woningen.', history: [] },
-    { email: 'kevin.bakker@outlook.com', firstName: 'Kevin', lastName: 'Bakker', trade: 'timmerman', specialisms: ['afbouw', 'wanden_en_plafonds'], years: 4, band: '3-5', city: 'Apeldoorn', km: 40, rate: null, arrangement: 'employment', from: null, trust: 55,
-      zzp: null, certs: [{ type: 'vca_basis', status: 'pending', expiresAt: '2027-09-01' }], bio: 'Afbouwtimmerman, zoek werk in loondienst in de regio Apeldoorn.', history: [] },
-    { email: 'sanne.vos@gmail.com', firstName: 'Sanne', lastName: 'Vos', trade: 'timmerman', specialisms: ['renovatie', 'kozijnen_en_deuren'], years: 2, band: '0-2', city: 'Haarlem', km: 40, rate: 38, arrangement: 'zzp', from: null, trust: 45,
-      zzp: { companyName: 'Vos Timmerwerk', kvkNumber: '99887766', seat: 'Haarlem', hasLiabilityInsurance: false }, certs: [], bio: 'Net gestart als zzp’er na twee jaar in loondienst bij een renovatiebedrijf.', history: [] }
+    { email: 'kevin.bakker@outlook.com', firstName: 'Kevin', lastName: 'Bakker', trade: 'timmerman', specialisms: ['afbouw', 'wanden_en_plafonds'], years: 4, band: '3-5', city: 'Apeldoorn', km: 40, rate: 40, from: null, trust: 55,
+      zzp: { companyName: 'Bakker Afbouw', kvkNumber: '44556677', seat: 'Apeldoorn', hasLiabilityInsurance: false }, certs: [{ type: 'vca_basis', status: 'pending', expiresAt: '2027-09-01' }], bio: 'Afbouwtimmerman, zoekt opdrachten in de regio Apeldoorn.', history: [] },
+    { email: 'sanne.vos@gmail.com', firstName: 'Sanne', lastName: 'Vos', trade: 'timmerman', specialisms: ['renovatie', 'kozijnen_en_deuren'], years: 2, band: '0-2', city: 'Haarlem', km: 40, rate: 38, from: null, trust: 45,
+      zzp: { companyName: 'Vos Timmerwerk', kvkNumber: '99887766', seat: 'Haarlem', hasLiabilityInsurance: false }, certs: [], bio: 'Net gestart als zzp’er na een paar jaar als werknemer bij een renovatiebedrijf.', history: [] }
   ] as const;
 
   const proIds: Record<string, { profileId: string; userId: string }> = {};
@@ -108,8 +108,8 @@ async function main() {
     const geo = geocode(p.city);
     const [row] = await db.insert(s.professionalProfiles).values({
       userId: u.id, trade: p.trade, specialisms: [...p.specialisms], experienceBand: p.band, yearsExperience: p.years, bio: p.bio, city: p.city, province: geo?.province,
-      lat: geo?.lat, lng: geo?.lng, maxTravelKm: p.km, hasDriversLicense: true, hasOwnTransport: p.arrangement !== 'employment', hasOwnTools: p.arrangement !== 'employment',
-      workArrangement: p.arrangement, hourlyRateMin: p.rate, availableFrom: p.from, zzp: p.zzp, profileCompleteness: p.certs.length ? 82 : 55, trustScore: p.trust,
+      lat: geo?.lat, lng: geo?.lng, maxTravelKm: p.km, hasDriversLicense: true, hasOwnTransport: true, hasOwnTools: true,
+      hourlyRateMin: p.rate, availableFrom: p.from, zzp: p.zzp, profileCompleteness: p.certs.length ? 82 : 55, trustScore: p.trust,
       onboardingStep: 6, onboardingCompletedAt: now
     }).returning();
     proIds[p.email] = { profileId: row!.id, userId: u.id };
@@ -125,17 +125,17 @@ async function main() {
 
   // ── Projecten ────────────────────────────────────────────────────────────
   const projectDefs = [
-    { company: 'Van Dijk Bouw B.V.', title: 'Timmerman nieuwbouw – 84 woningen Almere Poort', trade: 'timmerman', specialisms: ['aftimmering', 'kozijnen_en_deuren', 'woningbouw'], city: 'Almere', start: '2026-09-21', end: '2026-12-12', headcount: 4, hours: 40, minYears: 3, certs: ['vca_basis'], transport: true, tools: false, contract: 'either', rateMin: 45, rateMax: 50, status: 'published',
+    { company: 'Van Dijk Bouw B.V.', title: 'Timmerman nieuwbouw – 84 woningen Almere Poort', trade: 'timmerman', specialisms: ['aftimmering', 'kozijnen_en_deuren', 'woningbouw'], city: 'Almere', start: '2026-09-21', end: '2026-12-12', headcount: 4, hours: 40, minYears: 3, certs: ['vca_basis'], transport: true, tools: false, rateMin: 45, rateMax: 50, status: 'published',
       description: 'Aftimmering van 84 grondgebonden woningen in Almere Poort. Je werkt in ploegen van vier onder een voorman. Kozijnen, binnendeuren, plinten en aftimmering, 40 uur per week. Opdrachtbevestiging vóór de start, wekelijkse urenregistratie via Timmerly, betaling binnen 14 dagen na goedkeuring.' },
-    { company: 'Beter Wonen Onderhoud', title: 'Mutatietimmerman – doorlopend onderhoud Zwolle', trade: 'mutatietimmerman', specialisms: ['mutatiewerk', 'onderhoud'], city: 'Zwolle', start: '2026-09-10', end: null, headcount: 1, hours: 36, minYears: 2, certs: ['vca_basis'], transport: true, tools: true, contract: 'zzp', rateMin: 42, rateMax: 46, status: 'published',
+    { company: 'Beter Wonen Onderhoud', title: 'Mutatietimmerman – doorlopend onderhoud Zwolle', trade: 'mutatietimmerman', specialisms: ['mutatiewerk', 'onderhoud'], city: 'Zwolle', start: '2026-09-10', end: null, headcount: 1, hours: 36, minYears: 2, certs: ['vca_basis'], transport: true, tools: true, rateMin: 42, rateMax: 46, status: 'published',
       description: 'Doorlopend mutatieonderhoud voor een woningcorporatie in Zwolle. Zelfstandig werken met een eigen planning per week. Eigen bus en gereedschap vereist. Urenregistratie per adres.' },
-    { company: 'Kroon Bouw & Infra', title: 'Betontimmerman – parkeergarage Utrecht', trade: 'betontimmerman', specialisms: ['betontimmerwerk', 'ruwbouw'], city: 'Utrecht', start: '2026-10-05', end: '2027-02-26', headcount: 6, hours: 45, minYears: 5, certs: ['vca_vol'], transport: false, tools: false, contract: 'zzp', rateMin: 50, rateMax: 54, status: 'published',
+    { company: 'Kroon Bouw & Infra', title: 'Betontimmerman – parkeergarage Utrecht', trade: 'betontimmerman', specialisms: ['betontimmerwerk', 'ruwbouw'], city: 'Utrecht', start: '2026-10-05', end: '2027-02-26', headcount: 6, hours: 45, minYears: 5, certs: ['vca_vol'], transport: false, tools: false, rateMin: 50, rateMax: 54, status: 'published',
       description: 'Ruwbouw van een ondergrondse parkeergarage met 400 plaatsen. Bekisting, stelwerk en wapening plaatsen. Huisvesting in de buurt beschikbaar.' },
-    { company: 'Van Dijk Bouw B.V.', title: 'Steltimmerman – 36 woningen Dronten', trade: 'timmerman', specialisms: ['stelwerk', 'nieuwbouw', 'houtskeletbouw'], city: 'Dronten', start: '2026-11-02', end: '2026-12-11', headcount: 3, hours: 40, minYears: 4, certs: ['vca_basis'], transport: true, tools: true, contract: 'either', rateMin: 46, rateMax: 50, status: 'published',
+    { company: 'Van Dijk Bouw B.V.', title: 'Steltimmerman – 36 woningen Dronten', trade: 'timmerman', specialisms: ['stelwerk', 'nieuwbouw', 'houtskeletbouw'], city: 'Dronten', start: '2026-11-02', end: '2026-12-11', headcount: 3, hours: 40, minYears: 4, certs: ['vca_basis'], transport: true, tools: true, rateMin: 46, rateMax: 50, status: 'published',
       description: 'Stelwerk voor 36 woningen in een nieuwbouwwijk. Ervaring met prefab houtskeletbouw is een pré.' },
-    { company: 'Janssen Bouw', title: 'Kozijnen renovatie 12 woningen Deventer', trade: 'timmerman', specialisms: ['renovatie', 'kozijnen_en_deuren'], city: 'Deventer', start: '2026-09-28', end: '2026-11-06', headcount: 1, hours: 32, minYears: 3, certs: [], transport: true, tools: true, contract: 'zzp', rateMin: 44, rateMax: 48, status: 'in_review',
+    { company: 'Janssen Bouw', title: 'Kozijnen renovatie 12 woningen Deventer', trade: 'timmerman', specialisms: ['renovatie', 'kozijnen_en_deuren'], city: 'Deventer', start: '2026-09-28', end: '2026-11-06', headcount: 1, hours: 32, minYears: 3, certs: [], transport: true, tools: true, rateMin: 44, rateMax: 48, status: 'in_review',
       description: 'Vervangen van houten kozijnen bij twaalf jaren-30-woningen. Onder leiding van onze uitvoerder.' },
-    { company: 'Kroon Bouw & Infra', title: 'Afbouwtimmerman – kantoorpand Eindhoven', trade: 'timmerman', specialisms: ['afbouw', 'wanden_en_plafonds'], city: 'Eindhoven', start: '2026-09-14', end: '2026-11-06', headcount: 2, hours: 40, minYears: 3, certs: ['vca_basis'], transport: false, tools: false, contract: 'either', rateMin: 44, rateMax: 48, status: 'published',
+    { company: 'Kroon Bouw & Infra', title: 'Afbouwtimmerman – kantoorpand Eindhoven', trade: 'timmerman', specialisms: ['afbouw', 'wanden_en_plafonds'], city: 'Eindhoven', start: '2026-09-14', end: '2026-11-06', headcount: 2, hours: 40, minYears: 3, certs: ['vca_basis'], transport: false, tools: false, rateMin: 44, rateMax: 48, status: 'published',
       description: 'Afbouw van drie verdiepingen kantoorruimte: systeemwanden, plafonds en aftimmering. Strakke planning met oplevering eind november.' }
   ] as const;
 
@@ -147,8 +147,8 @@ async function main() {
     const [row] = await db.insert(s.projects).values({
       companyId: companyIds[p.company]!, title: p.title, description: p.description, trade: p.trade, specialisms: [...p.specialisms], city: p.city, province: geo?.province,
       lat: geo?.lat, lng: geo?.lng, startDate: p.start, endDate: p.end, headcount: p.headcount, hoursPerWeek: p.hours, minYearsExperience: p.minYears,
-      requiredCertificates: [...p.certs], requiredPbm: ['helm', 'veiligheidsschoenen'], requiresOwnTransport: p.transport, requiresOwnTools: p.tools, contractType: p.contract, rateMin: p.rateMin, rateMax: p.rateMax,
-      housingAvailable: p.city === 'Utrecht', status: p.status, publishedAt: p.status === 'published' ? now : null
+      requiredCertificates: [...p.certs], requiredPbm: ['helm', 'veiligheidsschoenen'], requiresOwnTransport: p.transport, requiresOwnTools: p.tools, rateMin: p.rateMin, rateMax: p.rateMax,
+      status: p.status, publishedAt: p.status === 'published' ? now : null
     }).returning();
     projectIds.push(row!.id);
   }
@@ -161,7 +161,7 @@ async function main() {
     const [app] = await db.insert(s.applications).values({
       projectId: almere, profileId: daan.profileId, stage: 'active', initiatedBy: 'professional', requestedRate: 47, matchScore: 96,
       matchReasons: [{ key: 'experience', label: '8 jaar ervaring (minimaal 3 gevraagd)', positive: true }, { key: 'distance', label: '50 km van het project', positive: true }, { key: 'certificates', label: 'VCA Basis geverifieerd', positive: true }],
-      proposal: { hourlyRate: 47.5, contractType: 'zzp', startDate: '2026-09-21', endDate: '2026-12-12', hoursPerWeek: 40 }, agreedAt: now
+      proposal: { hourlyRate: 47.5, startDate: '2026-09-21', endDate: '2026-12-12', hoursPerWeek: 40 }, agreedAt: now
     }).returning();
     const [conv] = await db.insert(s.conversations).values({ applicationId: app!.id, lastMessageAt: now }).returning();
     const vanDijkUser = (await db.query.users.findFirst({ where: eq(s.users.email, 'planning@vandijkbouw.nl') }))!;
@@ -180,7 +180,7 @@ async function main() {
 
     // Een afgeronde opdracht uit het verleden met reviews, voor het profiel van Daan.
     const [oldProject] = await db.insert(s.projects).values({
-      companyId: companyIds['Beter Wonen Onderhoud']!, title: 'Mutatieonderhoud 80 woningen Kampen (afgerond)', description: 'Mutatiewerk en kleine renovaties, afgerond in 2024.', trade: 'mutatietimmerman', specialisms: ['mutatiewerk'], city: 'Kampen', startDate: '2024-06-03', endDate: '2024-11-01', headcount: 1, contractType: 'zzp', status: 'completed'
+      companyId: companyIds['Beter Wonen Onderhoud']!, title: 'Mutatieonderhoud 80 woningen Kampen (afgerond)', description: 'Mutatiewerk en kleine renovaties, afgerond in 2024.', trade: 'mutatietimmerman', specialisms: ['mutatiewerk'], city: 'Kampen', startDate: '2024-06-03', endDate: '2024-11-01', headcount: 1, status: 'completed'
     }).returning();
     const [oldApp] = await db.insert(s.applications).values({ projectId: oldProject!.id, profileId: daan.profileId, stage: 'reviewed', initiatedBy: 'company', matchScore: 90, completedAt: new Date('2024-11-01') }).returning();
     const bwUser = (await db.query.users.findFirst({ where: eq(s.users.email, 'werk@beterwonenonderhoud.nl') }))!;

@@ -153,7 +153,7 @@ export async function adminUpdateProfessionalProfile(_prev: ActionState, form: F
   const after = {
     trade: v.trade, specialisms: v.specialisms, experienceBand: v.experienceBand, yearsExperience: v.yearsExperience, bio: v.bio,
     city: v.city, province: v.province ?? geo?.province ?? null, lat: geo?.lat ?? null, lng: geo?.lng ?? null, maxTravelKm: v.maxTravelKm,
-    hasDriversLicense: v.hasDriversLicense, hasOwnTransport: v.hasOwnTransport, hasOwnTools: v.hasOwnTools, workArrangement: v.workArrangement,
+    hasDriversLicense: v.hasDriversLicense, hasOwnTransport: v.hasOwnTransport, hasOwnTools: v.hasOwnTools,
     hourlyRateMin: v.hourlyRateMin ?? null, hoursPerWeek: v.hoursPerWeek, availableFrom: v.availableFrom ?? null
   };
   await d.update(schema.professionalProfiles).set(after).where(eq(schema.professionalProfiles.id, profile.id));

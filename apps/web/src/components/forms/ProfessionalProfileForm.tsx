@@ -1,7 +1,7 @@
 'use client';
 
-import { useActionState, useState } from 'react';
-import { ACTIVE_TRADES, PROVINCES, SPECIALISMS, SPECIALISM_LABELS, TRADE_LABELS, WORK_ARRANGEMENTS, CONTRACT_TYPE_LABELS } from '@timmerly/core';
+import { useActionState } from 'react';
+import { ACTIVE_TRADES, PROVINCES, SPECIALISMS, SPECIALISM_LABELS, TRADE_LABELS } from '@timmerly/core';
 import { saveProfessionalProfile } from '@/lib/actions/profile';
 import type { ActionState } from '@/lib/actions/types';
 import { Alert, Field } from '@/components/ui';
@@ -10,7 +10,7 @@ import { SubmitButton } from '@/components/ui/SubmitButton';
 
 type Profile = {
   trade: string; specialisms: string[]; experienceBand: string; yearsExperience: number; bio: string; city: string; province: string | null; maxTravelKm: number;
-  hasDriversLicense: boolean; hasOwnTransport: boolean; hasOwnTools: boolean; workArrangement: string; hourlyRateMin: number | null; hoursPerWeek: number; availableFrom: string | null;
+  hasDriversLicense: boolean; hasOwnTransport: boolean; hasOwnTools: boolean; hourlyRateMin: number | null; hoursPerWeek: number; availableFrom: string | null;
 } | null;
 
 /**
@@ -24,8 +24,6 @@ export function ProfessionalProfileForm({ profile, phone, section = 'all', next,
   const show = (s: string) => section === 'all' || section === s;
   const e = state?.fieldErrors ?? {};
   const p = profile;
-  const [workArrangement, setWorkArrangement] = useState(p?.workArrangement ?? 'either');
-  const showHourlyRate = workArrangement !== 'employment';
   return (
     <form action={action} className="flex flex-col gap-5">
       {next && <input type="hidden" name="next" value={next} />}
@@ -57,8 +55,7 @@ export function ProfessionalProfileForm({ profile, phone, section = 'all', next,
           <Field label="Specialisaties" error={e.specialisms} help="Kies alles wat op jou van toepassing is (max. 8)."><ChipGroup name="specialisms" options={SPECIALISMS.map((s) => ({ value: s, label: SPECIALISM_LABELS[s] }))} defaultValue={p?.specialisms ?? []} max={8} /></Field>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Aantal jaren ervaring" name="yearsExperience" error={e.yearsExperience}><input id="yearsExperience" name="yearsExperience" type="number" min={0} max={60} className="input" required defaultValue={p?.yearsExperience ?? 0} /></Field>
-            <Field label="Contractvorm" name="workArrangement"><select id="workArrangement" name="workArrangement" className="input" defaultValue={workArrangement} onChange={(ev) => setWorkArrangement(ev.target.value)}>{WORK_ARRANGEMENTS.map((w) => <option key={w} value={w}>{CONTRACT_TYPE_LABELS[w]}</option>)}</select></Field>
-            {showHourlyRate && <Field label="Minimaal uurtarief (€, zzp)" name="hourlyRateMin" error={e.hourlyRateMin} help="Alleen zichtbaar als je dat toestaat."><input id="hourlyRateMin" name="hourlyRateMin" type="number" min={0} max={500} className="input" defaultValue={p?.hourlyRateMin ?? ''} /></Field>}
+            <Field label="Minimaal uurtarief (€)" name="hourlyRateMin" error={e.hourlyRateMin} help="Alleen zichtbaar als je dat toestaat."><input id="hourlyRateMin" name="hourlyRateMin" type="number" min={0} max={500} className="input" defaultValue={p?.hourlyRateMin ?? ''} /></Field>
           </div>
           <Field label="Over jou" name="bio" error={e.bio} help="Wat voor werk doe je het liefst, waar ben je goed in? Aannemers lezen dit als eerste."><textarea id="bio" name="bio" rows={4} className="input" defaultValue={p?.bio ?? ''} /></Field>
         </>

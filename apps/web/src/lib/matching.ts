@@ -1,6 +1,6 @@
 import 'server-only';
 import { and, eq, inArray, isNull, schema, sql } from '@timmerly/db';
-import type { CertificateType, ContractType, WorkArrangement } from '@timmerly/core';
+import type { CertificateType } from '@timmerly/core';
 import { rankProfessionals, rankProjects, scoreMatch, type MatchWeights, type ProfessionalFacts, type ProjectFacts } from '@timmerly/matching';
 import { db } from './db';
 
@@ -30,7 +30,7 @@ export async function professionalFacts(profiles: ProfileRow[]): Promise<Profess
       id: p.id, trade: p.trade, specialisms: p.specialisms, yearsExperience: p.yearsExperience,
       location: p.lat != null && p.lng != null ? { lat: p.lat, lng: p.lng } : null, maxTravelKm: p.maxTravelKm,
       certificates: certs.filter((c) => c.profileId === p.id).map((c) => ({ type: c.type as CertificateType, verified: c.status === 'verified', expiresAt: c.expiresAt })),
-      hasDriversLicense: p.hasDriversLicense, hasOwnTransport: p.hasOwnTransport, hasOwnTools: p.hasOwnTools, workArrangement: p.workArrangement as WorkArrangement,
+      hasDriversLicense: p.hasDriversLicense, hasOwnTransport: p.hasOwnTransport, hasOwnTools: p.hasOwnTools,
       hourlyRateMin: p.hourlyRateMin, availability: p.availability, availableFrom: p.availableFrom, hoursPerWeek: p.hoursPerWeek,
       trustScore: p.trustScore, reviewAverage: rev ? Number(rev.avg) : null, completedProjects: done?.n ?? 0, workedForCompanyIds: done?.companies ?? []
     };
@@ -41,7 +41,7 @@ export function projectFacts(p: ProjectRow): ProjectFacts {
   return {
     id: p.id, companyId: p.companyId, trade: p.trade, specialisms: p.specialisms, location: p.lat != null && p.lng != null ? { lat: p.lat, lng: p.lng } : null,
     startDate: p.startDate, minYearsExperience: p.minYearsExperience, requiredCertificates: p.requiredCertificates as CertificateType[],
-    requiresOwnTransport: p.requiresOwnTransport, requiresOwnTools: p.requiresOwnTools, contractType: p.contractType as ContractType,
+    requiresOwnTransport: p.requiresOwnTransport, requiresOwnTools: p.requiresOwnTools,
     rateMin: p.rateMin, rateMax: p.rateMax, hoursPerWeek: p.hoursPerWeek
   };
 }

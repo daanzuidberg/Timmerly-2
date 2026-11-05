@@ -1,6 +1,6 @@
 import { boolean, date, doublePrecision, index, integer, jsonb, pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core';
 import { id, timestamps } from './_shared';
-import { availabilityStatus, certificateType, experienceBand, verificationKind, verificationStatus, workArrangement } from './enums';
+import { availabilityStatus, certificateType, experienceBand, verificationKind, verificationStatus } from './enums';
 import { users } from './auth';
 
 /** Beroepen als data, niet als code: nieuwe vakgebieden zijn een rij. */
@@ -30,7 +30,6 @@ export const professionalProfiles = pgTable(
     hasDriversLicense: boolean('has_drivers_license').notNull().default(false),
     hasOwnTransport: boolean('has_own_transport').notNull().default(false),
     hasOwnTools: boolean('has_own_tools').notNull().default(false),
-    workArrangement: workArrangement('work_arrangement').notNull().default('either'),
     hourlyRateMin: integer('hourly_rate_min'),
     hoursPerWeek: integer('hours_per_week').notNull().default(40),
     availableFrom: date('available_from'),

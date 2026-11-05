@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import {
-  CERTIFICATE_TYPES, CONTRACT_TYPES, EXPERIENCE_BANDS, PBM_TYPES, PROVINCES, REPORT_REASONS, SPECIALISMS, TRADES, WORK_ARRANGEMENTS
+  CERTIFICATE_TYPES, EXPERIENCE_BANDS, PBM_TYPES, PROVINCES, REPORT_REASONS, SPECIALISMS, TRADES
 } from './enums';
 
 /** Nederlandse invoerregels op één plek; server en client gebruiken dezelfde schema's. */
@@ -64,7 +64,6 @@ export const professionalProfileSchema = z.object({
   hasDriversLicense: z.coerce.boolean(),
   hasOwnTransport: z.coerce.boolean(),
   hasOwnTools: z.coerce.boolean(),
-  workArrangement: z.enum(WORK_ARRANGEMENTS),
   hourlyRateMin: z.coerce.number().int().min(0).max(500).optional().nullable(),
   hoursPerWeek: z.coerce.number().int().min(4).max(60).default(40),
   availableFrom: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional().nullable(),
@@ -119,10 +118,8 @@ export const projectSchema = z.object({
   requiredPbm: z.array(z.enum(PBM_TYPES)).max(8).default([]),
   requiresOwnTransport: z.coerce.boolean().default(false),
   requiresOwnTools: z.coerce.boolean().default(false),
-  contractType: z.enum(CONTRACT_TYPES),
   rateMin: z.coerce.number().int().min(0).max(500).optional().nullable(),
   rateMax: z.coerce.number().int().min(0).max(500).optional().nullable(),
-  housingAvailable: z.coerce.boolean().default(false),
   travelAllowance: z.string().trim().max(120).optional().default(''),
   notes: z.string().trim().max(2000).optional().default('')
 }).refine((p) => !p.rateMin || !p.rateMax || p.rateMin <= p.rateMax, { message: 'Minimumtarief is hoger dan maximum', path: ['rateMax'] })
@@ -134,7 +131,6 @@ export const projectSearchSchema = z.object({
   trade: z.enum(TRADES).optional(),
   specialism: z.enum(SPECIALISMS).optional(),
   province: z.enum(PROVINCES).optional(),
-  contractType: z.enum(CONTRACT_TYPES).optional(),
   maxKm: z.coerce.number().int().min(5).max(300).optional(),
   startWithinDays: z.coerce.number().int().min(0).max(365).optional(),
   minRate: z.coerce.number().int().min(0).max(500).optional(),

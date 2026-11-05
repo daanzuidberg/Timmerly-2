@@ -36,7 +36,7 @@ export default async function ProjectManage({ params, searchParams }: { params: 
         <ProjectStatusActions projectId={id} status={project.status} verified={!!company.verifiedAt} />
         {project.reviewNote && <span className="text-sm text-muted">Opmerking beoordelaar: {project.reviewNote}</span>}
       </div>
-      {hints.length > 0 && project.contractType !== 'employment' && (
+      {hints.length > 0 && (
         <div className="mb-5"><Alert tone="warn"><strong>ZZP-signalering.</strong> Deze opdracht bevat kenmerken die extra aandacht vragen bij de kwalificatie van de arbeidsrelatie:<ul className="mt-1 list-disc pl-5">{hints.map((h) => <li key={h}>{h}</li>)}</ul><Link href="/zzp-check" className="mt-1 inline-block font-bold">Doe de ZZP-check</Link> — geen juridisch advies.</Alert></div>
       )}
 
@@ -50,14 +50,14 @@ export default async function ProjectManage({ params, searchParams }: { params: 
                   <div className="flex items-center gap-3">{a.matchScore != null && <Score value={a.matchScore} size="sm" />}<StatusPill status={a.stage} /></div>
                 </div>
                 {a.matchReasons.length > 0 && <div className="mt-3"><Reasons reasons={a.matchReasons} max={4} /></div>}
-                {a.proposal && <div className="mt-3 rounded-card bg-ground p-3 text-sm"><strong>Voorstel:</strong> €{a.proposal.hourlyRate}/u · {a.proposal.hoursPerWeek} u/week · {a.proposal.contractType === 'zzp' ? 'ZZP' : 'loondienst'} · start {formatDateNl(a.proposal.startDate)}{a.agreedAt ? ' · akkoord' : ''}</div>}
+                {a.proposal && <div className="mt-3 rounded-card bg-ground p-3 text-sm"><strong>Voorstel:</strong> €{a.proposal.hourlyRate}/u · {a.proposal.hoursPerWeek} u/week · start {formatDateNl(a.proposal.startDate)}{a.agreedAt ? ' · akkoord' : ''}</div>}
                 <div className="mt-3 flex flex-wrap items-center gap-3">
                   <Link href={`/berichten/${a.id}`} className="btn-secondary btn-sm">Gesprek</Link>
                   {a.stage === 'active' && <Link href={`/uren/${a.id}`} className="btn-secondary btn-sm">Uren</Link>}
                   {['completed', 'reviewed'].includes(a.stage) && <Link href={`/beoordelen/${a.id}`} className="btn-secondary btn-sm">Beoordelen</Link>}
                   <StageActions applicationId={a.id} stage={a.stage} role="company" />
                 </div>
-                {a.stage === 'contact' && <details className="mt-3"><summary className="cursor-pointer text-sm font-bold text-orange-700">Voorstel opstellen</summary><div className="mt-3"><ProposalForm applicationId={a.id} defaults={{ hourlyRate: a.requestedRate ?? a.profile.hourlyRateMin ?? project.rateMax, hoursPerWeek: project.hoursPerWeek, startDate: project.startDate, endDate: project.endDate, contractType: project.contractType }} /></div></details>}
+                {a.stage === 'contact' && <details className="mt-3"><summary className="cursor-pointer text-sm font-bold text-orange-700">Voorstel opstellen</summary><div className="mt-3"><ProposalForm applicationId={a.id} defaults={{ hourlyRate: a.requestedRate ?? a.profile.hourlyRateMin ?? project.rateMax, hoursPerWeek: project.hoursPerWeek, startDate: project.startDate, endDate: project.endDate }} /></div></details>}
               </li>
             ))}</ul>
           ) : <Empty>Nog geen kandidaten. {project.status === 'draft' ? 'Publiceer het project om interesse te ontvangen.' : 'Benader vakmensen uit de suggesties hiernaast.'}</Empty>}

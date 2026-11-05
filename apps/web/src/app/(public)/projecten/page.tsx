@@ -7,7 +7,7 @@ import { ProjectCard } from '@/components/ProjectCard';
 import { ProjectFilters } from '@/components/ProjectFilters';
 import { Empty } from '@/components/ui';
 
-export const metadata = { title: 'Projecten voor timmermannen', description: 'Actuele bouwprojecten voor zzp-timmermannen en timmermannen in loondienst, door heel Nederland. Filter op regio, soort werk, startdatum en tarief.' };
+export const metadata = { title: 'Projecten voor timmermannen', description: 'Actuele bouwprojecten voor zzp-timmermannen, door heel Nederland. Filter op regio, soort werk, startdatum en tarief.' };
 export const dynamic = 'force-dynamic';
 
 export default async function ProjectsPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {

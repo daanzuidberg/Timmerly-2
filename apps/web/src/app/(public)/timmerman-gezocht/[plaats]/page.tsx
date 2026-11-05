@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ plaats: s
   const p = place((await params).plaats);
   if (!p) return { title: 'Timmerman gezocht' };
   const n = (await nearby(p)).length;
-  return { title: `Timmerman gezocht in ${p.name} — ${n} projecten`, description: `Actuele projecten voor zzp-timmermannen en timmermannen in loondienst in en rond ${p.name}. Geverifieerde aannemers, uitgelegde matchscores.`, robots: n === 0 ? { index: false } : undefined };
+  return { title: `Timmerman gezocht in ${p.name} — ${n} projecten`, description: `Actuele projecten voor zzp-timmermannen in en rond ${p.name}. Geverifieerde aannemers, uitgelegde matchscores.`, robots: n === 0 ? { index: false } : undefined };
 }
 
 async function nearby(p: { lat: number; lng: number }) {

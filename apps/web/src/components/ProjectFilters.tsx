@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CONTRACT_TYPE_LABELS, CONTRACT_TYPES, PROVINCES, SPECIALISMS, SPECIALISM_LABELS, ACTIVE_TRADES, TRADE_LABELS } from '@timmerly/core';
+import { PROVINCES, SPECIALISMS, SPECIALISM_LABELS, ACTIVE_TRADES, TRADE_LABELS } from '@timmerly/core';
 
 /** Filters als gewoon GET-formulier: deelbaar, werkt zonder JS, en cachebaar per URL. */
 export function ProjectFilters({ values, hasViewer }: { values: Record<string, string | undefined>; hasViewer: boolean }) {
@@ -19,7 +19,6 @@ export function ProjectFilters({ values, hasViewer }: { values: Record<string, s
       {sel('trade', 'Vakgebied', ACTIVE_TRADES.map((t) => [t, TRADE_LABELS[t]]))}
       {sel('specialism', 'Soort werk', SPECIALISMS.map((s) => [s, SPECIALISM_LABELS[s]]))}
       {sel('province', 'Provincie', PROVINCES.map((p) => [p, p]))}
-      {sel('contractType', 'Contractvorm', CONTRACT_TYPES.map((c) => [c, CONTRACT_TYPE_LABELS[c]]))}
       {sel('startWithinDays', 'Startdatum', [['7', 'Binnen een week'], ['30', 'Binnen een maand'], ['90', 'Binnen drie maanden']], 'Alle')}
       {hasViewer && sel('maxKm', 'Reisafstand vanaf je woonplaats', [['25', 'Tot 25 km'], ['50', 'Tot 50 km'], ['100', 'Tot 100 km']], 'Onbeperkt')}
       <div><label className="label" htmlFor="minRate">Minimaal uurtarief</label><input id="minRate" name="minRate" type="number" min={0} className="input" placeholder="€" defaultValue={values.minRate ?? ''} /></div>

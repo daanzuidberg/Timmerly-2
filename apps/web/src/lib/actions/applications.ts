@@ -116,7 +116,7 @@ export async function sendProposal(applicationId: string, _prev: ActionState, fo
   const startDate = String(form.get('startDate') ?? '');
   if (!(rate > 0 && rate < 500)) return { fieldErrors: { hourlyRate: 'Vul een uurtarief in' } };
   if (!/^\d{4}-\d{2}-\d{2}$/.test(startDate)) return { fieldErrors: { startDate: 'Vul een startdatum in' } };
-  const proposal = { hourlyRate: rate, contractType: String(form.get('contractType') ?? loaded.app.project.contractType), startDate, endDate: String(form.get('endDate') ?? '') || undefined, hoursPerWeek: hours || loaded.app.project.hoursPerWeek, notes: String(form.get('notes') ?? '') };
+  const proposal = { hourlyRate: rate, startDate, endDate: String(form.get('endDate') ?? '') || undefined, hoursPerWeek: hours || loaded.app.project.hoursPerWeek, notes: String(form.get('notes') ?? '') };
   await db().update(schema.applications).set({ proposal }).where(eq(schema.applications.id, applicationId));
   const r = await advanceApplication(applicationId, 'proposal');
   if (r.error) return { error: r.error };

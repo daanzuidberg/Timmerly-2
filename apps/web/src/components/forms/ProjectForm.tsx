@@ -1,14 +1,14 @@
 'use client';
 
 import { useActionState, useState } from 'react';
-import { ACTIVE_TRADES, CERTIFICATE_LABELS, CERTIFICATE_TYPES, CONTRACT_TYPES, CONTRACT_TYPE_LABELS, PBM_LABELS, PBM_TYPES, PROVINCES, SPECIALISMS, SPECIALISM_LABELS, TRADE_LABELS } from '@timmerly/core';
+import { ACTIVE_TRADES, CERTIFICATE_LABELS, CERTIFICATE_TYPES, PBM_LABELS, PBM_TYPES, PROVINCES, SPECIALISMS, SPECIALISM_LABELS, TRADE_LABELS } from '@timmerly/core';
 import { parseBrief, type ParsedBrief } from '@/lib/brief';
 import { Alert, Field } from '@/components/ui';
 import { ChipGroup } from '@/components/ui/ChipGroup';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 import type { ActionState } from '@/lib/actions/types';
 
-type Project = Partial<{ title: string; description: string; trade: string; specialisms: string[]; city: string; province: string | null; startDate: string; endDate: string | null; headcount: number; hoursPerWeek: number; minYearsExperience: number; requiredCertificates: string[]; requiredPbm: string[]; requiresOwnTransport: boolean; requiresOwnTools: boolean; contractType: string; rateMin: number | null; rateMax: number | null; housingAvailable: boolean; travelAllowance: string; notes: string }>;
+type Project = Partial<{ title: string; description: string; trade: string; specialisms: string[]; city: string; province: string | null; startDate: string; endDate: string | null; headcount: number; hoursPerWeek: number; minYearsExperience: number; requiredCertificates: string[]; requiredPbm: string[]; requiresOwnTransport: boolean; requiresOwnTools: boolean; rateMin: number | null; rateMax: number | null; travelAllowance: string; notes: string }>;
 
 /** Project plaatsen in drie stappen: één zin → gegevens → controleren. De stappen zijn secties van één formulier, dus niets gaat verloren. */
 export function ProjectForm({ action, project, templates = [], submitLabel = 'Project opslaan' }: { action: (prev: ActionState, form: FormData) => Promise<ActionState>; project?: Project; templates?: Array<{ id: string; name: string; data: Project }>; submitLabel?: string }) {
@@ -57,16 +57,12 @@ export function ProjectForm({ action, project, templates = [], submitLabel = 'Pr
 
         <section className="card flex flex-col gap-4">
           <div className="font-bold">Eisen</div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Minimale ervaring (jaren)" name="minYearsExperience" error={e.minYearsExperience}><input id="minYearsExperience" name="minYearsExperience" type="number" min={0} max={40} className="input" defaultValue={p.minYearsExperience ?? 0} /></Field>
-            <Field label="Contractvorm" name="contractType" error={e.contractType}><select id="contractType" name="contractType" className="input" defaultValue={p.contractType ?? 'either'}>{CONTRACT_TYPES.map((c) => <option key={c} value={c}>{CONTRACT_TYPE_LABELS[c]}</option>)}</select></Field>
-          </div>
+          <Field label="Minimale ervaring (jaren)" name="minYearsExperience" error={e.minYearsExperience}><input id="minYearsExperience" name="minYearsExperience" type="number" min={0} max={40} className="input" defaultValue={p.minYearsExperience ?? 0} /></Field>
           <Field label="Vereiste certificaten"><ChipGroup name="requiredCertificates" options={CERTIFICATE_TYPES.filter((c) => c !== 'other').map((c) => ({ value: c, label: CERTIFICATE_LABELS[c] }))} defaultValue={p.requiredCertificates ?? []} /></Field>
           <Field label="Benodigde PBM's" help="Persoonlijke beschermingsmiddelen die de vakman zelf meebrengt of krijgt."><ChipGroup name="requiredPbm" options={PBM_TYPES.map((v) => ({ value: v, label: PBM_LABELS[v] }))} defaultValue={p.requiredPbm ?? []} /></Field>
-          <div className="grid gap-2 sm:grid-cols-3">
+          <div className="grid gap-2 sm:grid-cols-2">
             <label className="flex items-center gap-2 rounded-card border border-line px-3 py-2.5 text-sm font-semibold"><input type="checkbox" name="requiresOwnTransport" defaultChecked={p.requiresOwnTransport} />Eigen vervoer vereist</label>
             <label className="flex items-center gap-2 rounded-card border border-line px-3 py-2.5 text-sm font-semibold"><input type="checkbox" name="requiresOwnTools" defaultChecked={p.requiresOwnTools} />Eigen gereedschap</label>
-            <label className="flex items-center gap-2 rounded-card border border-line px-3 py-2.5 text-sm font-semibold"><input type="checkbox" name="housingAvailable" defaultChecked={p.housingAvailable} />Huisvesting beschikbaar</label>
           </div>
         </section>
 

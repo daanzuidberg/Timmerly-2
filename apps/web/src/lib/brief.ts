@@ -7,7 +7,7 @@
 import { PLACE_COORDS, SPECIALISMS, SPECIALISM_LABELS, addDays, todayIso } from '@timmerly/core';
 
 export interface ParsedBrief {
-  headcount?: number; city?: string; startDate?: string; endDate?: string; minYearsExperience?: number; specialisms?: string[]; contractType?: 'zzp' | 'employment' | 'either'; title?: string; hoursPerWeek?: number;
+  headcount?: number; city?: string; startDate?: string; endDate?: string; minYearsExperience?: number; specialisms?: string[]; title?: string; hoursPerWeek?: number;
 }
 
 const MONTHS: Record<string, number> = { januari: 1, jan: 1, februari: 2, feb: 2, maart: 3, mrt: 3, april: 4, apr: 4, mei: 5, juni: 6, jun: 6, juli: 7, jul: 7, augustus: 8, aug: 8, september: 9, sept: 9, sep: 9, oktober: 10, okt: 10, november: 11, nov: 11, december: 12, dec: 12 };
@@ -42,10 +42,6 @@ export function parseBrief(text: string, today = todayIso()): ParsedBrief {
   if (/aftimmer/.test(t) && !specs.includes('aftimmering')) specs.push('aftimmering');
   if (/nieuwbouw/.test(t) && !specs.includes('nieuwbouw')) specs.push('nieuwbouw');
   if (specs.length) out.specialisms = [...new Set(specs)];
-
-  if (/\bzzp\b/.test(t) && /loondienst|beide|of\s+vast/.test(t)) out.contractType = 'either';
-  else if (/\bzzp\b/.test(t)) out.contractType = 'zzp';
-  else if (/loondienst|in dienst|vast contract/.test(t)) out.contractType = 'employment';
 
   const kind = /betontimmer/.test(t) ? 'Betontimmerman' : /steltimmer/.test(t) ? 'Steltimmerman' : /mutatie/.test(t) ? 'Mutatietimmerman' : /afbouw/.test(t) ? 'Afbouwtimmerman' : 'Timmerman';
   if (out.city || out.specialisms) out.title = `${kind}${out.headcount && out.headcount > 1 ? 'nen' : ''} ${out.specialisms?.[0] ? SPECIALISM_LABELS[out.specialisms[0] as keyof typeof SPECIALISM_LABELS].toLowerCase() : ''}${out.city ? ` – ${out.city}` : ''}`.replace(/\s+/g, ' ').trim();

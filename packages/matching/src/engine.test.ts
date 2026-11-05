@@ -10,14 +10,14 @@ const UTRECHT = { lat: 52.0907, lng: 5.1214 };
 const daan: ProfessionalFacts = {
   id: 'daan', trade: 'allround_timmerman', specialisms: ['aftimmering', 'kozijnen_en_deuren', 'woningbouw'], yearsExperience: 8,
   location: KAMPEN, maxTravelKm: 60, certificates: [{ type: 'vca_basis', verified: true, expiresAt: '2027-10-07' }, { type: 'bhv', verified: true }],
-  hasDriversLicense: true, hasOwnTransport: true, hasOwnTools: true, workArrangement: 'zzp', hourlyRateMin: 47,
+  hasDriversLicense: true, hasOwnTransport: true, hasOwnTools: true, hourlyRateMin: 47,
   availability: 'available', availableFrom: '2026-09-14', hoursPerWeek: 40, trustScore: 88, reviewAverage: 4.9, completedProjects: 17
 };
 
 const almerePoort: ProjectFacts = {
   id: 'p1', companyId: 'vandijk', trade: 'timmerman', specialisms: ['aftimmering', 'kozijnen_en_deuren'], location: ALMERE,
   startDate: '2026-09-21', minYearsExperience: 3, requiredCertificates: ['vca_basis'], requiresOwnTransport: true, requiresOwnTools: false,
-  contractType: 'either', rateMin: 45, rateMax: 50, hoursPerWeek: 40
+  rateMin: 45, rateMax: 50, hoursPerWeek: 40
 };
 
 describe('scoreMatch', () => {
@@ -33,12 +33,11 @@ describe('scoreMatch', () => {
     expect(r.reasons[0]!.positive).toBe(true);
   });
 
-  it('sluit uit op vak, reisafstand en contractvorm', () => {
+  it('sluit uit op vak en reisafstand', () => {
     expect(scoreMatch({ ...daan, trade: 'metselaar' }, almerePoort, { today: TODAY }).eligible).toBe(false);
     const far = scoreMatch({ ...daan, maxTravelKm: 30 }, almerePoort, { today: TODAY });
     expect(far.eligible).toBe(false);
     expect(far.reasons[0]!.label).toMatch(/buiten je reisafstand/);
-    expect(scoreMatch({ ...daan, workArrangement: 'employment' }, { ...almerePoort, contractType: 'zzp' }, { today: TODAY }).eligible).toBe(false);
   });
 
   it('laat een allround timmerman meedoen op een timmermansproject, maar geen betontimmerman op een sloperproject', () => {

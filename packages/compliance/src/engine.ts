@@ -101,16 +101,15 @@ export function getRuleset(version: string = CURRENT_RULESET_VERSION): Ruleset {
  * gebruikt door de "AI Compliance Assistant" om een opdrachtgever te wijzen op
  * kenmerken die extra aandacht vragen. Geeft alleen signalen, geen oordeel.
  */
-export function screenProject(project: { contractType: string; hoursPerWeek: number; endDate?: string | null; startDate: string; requiresOwnTools: boolean; description: string }): string[] {
+export function screenProject(project: { hoursPerWeek: number; endDate?: string | null; startDate: string; requiresOwnTools: boolean; description: string }): string[] {
   const hints: string[] = [];
-  if (project.contractType === 'employment') return hints;
   const months = project.endDate ? monthsBetween(project.startDate, project.endDate) : null;
   if (months === null) hints.push('Geen einddatum: een doorlopende inzet van een zzp’er lijkt eerder op een dienstverband. Overweeg een einddatum of resultaat.');
   else if (months > 12 && project.hoursPerWeek >= 32) hints.push('Langer dan een jaar en (bijna) fulltime: leg vast waarom dit een zelfstandige opdracht is.');
   if (!project.requiresOwnTools) hints.push('Gereedschap wordt door de opdrachtgever geleverd: eigen gereedschap weegt mee als teken van ondernemerschap.');
   const text = project.description.toLowerCase();
   if (/onder (leiding|toezicht)|aansturing|meewerkend in (ons|het) team|inplannen|werkrooster/.test(text)) hints.push('De omschrijving noemt aansturing of inplannen in het team: dat wijst op gezag en inbedding.');
-  if (/vast(e)? (dienst|baan)|uitzicht op vast|salaris/.test(text)) hints.push('De omschrijving lijkt op een vacature voor loondienst; overweeg de contractvorm “loondienst” of “beide”.');
+  if (/vast(e)? (dienst|baan)|uitzicht op vast|salaris/.test(text)) hints.push('De omschrijving lijkt op een vacature voor loondienst — dat past niet bij een zzp-platform.');
   return hints;
 }
 
