@@ -28,7 +28,7 @@ function parseProject(form: FormData) {
     raw,
     parsed: projectSchema.safeParse({
       ...raw, specialisms: raw.specialisms ?? [], requiredCertificates: raw.requiredCertificates ?? [],
-      requiresOwnTransport: raw.requiresOwnTransport === 'on', requiresOwnTools: raw.requiresOwnTools === 'on', housingAvailable: raw.housingAvailable === 'on',
+      requiresOwnTransport: raw.requiresOwnTransport === 'on', requiresOwnTools: raw.requiresOwnTools === 'on',
       endDate: raw.endDate || null, rateMin: raw.rateMin === '' ? null : raw.rateMin, rateMax: raw.rateMax === '' ? null : raw.rateMax
     })
   };
@@ -112,5 +112,5 @@ export async function setProjectStatus(projectId: string, status: 'filled' | 'co
 export async function complianceHints(projectId: string): Promise<string[]> {
   const project = await db().query.projects.findFirst({ where: eq(schema.projects.id, projectId) });
   if (!project) return [];
-  return screenProject({ contractType: project.contractType, hoursPerWeek: project.hoursPerWeek, startDate: project.startDate, endDate: project.endDate, requiresOwnTools: project.requiresOwnTools, description: project.description });
+  return screenProject({ hoursPerWeek: project.hoursPerWeek, startDate: project.startDate, endDate: project.endDate, requiresOwnTools: project.requiresOwnTools, description: project.description });
 }

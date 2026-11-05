@@ -2,14 +2,13 @@ import { describe, expect, it } from 'vitest';
 import { parseBrief } from './brief';
 
 describe('parseBrief', () => {
-  it('haalt aantal, plaats, start, duur, ervaring en contractvorm uit één zin', () => {
-    const r = parseBrief('Ik zoek 4 timmermannen in Almere voor 12 weken, minimaal 3 jaar ervaring, start 21 september, zzp of loondienst.', '2026-09-08');
+  it('haalt aantal, plaats, start, duur en ervaring uit één zin', () => {
+    const r = parseBrief('Ik zoek 4 timmermannen in Almere voor 12 weken, minimaal 3 jaar ervaring, start 21 september.', '2026-09-08');
     expect(r.headcount).toBe(4);
     expect(r.city).toBe('Almere');
     expect(r.startDate).toBe('2026-09-21');
     expect(r.endDate).toBe('2026-12-14');
     expect(r.minYearsExperience).toBe(3);
-    expect(r.contractType).toBe('either');
     expect(r.title).toContain('Almere');
   });
 

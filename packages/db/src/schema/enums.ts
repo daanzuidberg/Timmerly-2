@@ -1,15 +1,13 @@
 import { pgEnum } from 'drizzle-orm/pg-core';
 import {
-  ACCOUNT_STATUSES, APPLICATION_STAGES, AVAILABILITY_STATUSES, CERTIFICATE_TYPES, CONTRACT_TYPES, EXPERIENCE_BANDS,
+  ACCOUNT_STATUSES, APPLICATION_STAGES, AVAILABILITY_STATUSES, CERTIFICATE_TYPES, EXPERIENCE_BANDS,
   NOTIFICATION_TYPES, PROJECT_STATUSES, REPORT_REASONS, REVIEW_DIRECTIONS, TIMESHEET_STATUSES, USER_ROLES,
-  VERIFICATION_KINDS, VERIFICATION_STATUSES, WORK_ARRANGEMENTS
+  VERIFICATION_KINDS, VERIFICATION_STATUSES
 } from '@timmerly/core';
 
 /** Postgres-enums, afgeleid van de domeinlijsten in @timmerly/core. */
 export const userRole = pgEnum('user_role', USER_ROLES);
 export const accountStatus = pgEnum('account_status', ACCOUNT_STATUSES);
-export const contractType = pgEnum('contract_type', CONTRACT_TYPES);
-export const workArrangement = pgEnum('work_arrangement', WORK_ARRANGEMENTS);
 export const certificateType = pgEnum('certificate_type', CERTIFICATE_TYPES);
 export const verificationStatus = pgEnum('verification_status', VERIFICATION_STATUSES);
 export const verificationKind = pgEnum('verification_kind', VERIFICATION_KINDS);

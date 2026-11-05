@@ -53,7 +53,7 @@ export default async function ProfilePage() {
         <div className="flex flex-col gap-5">
           <Card title="Verificaties">
             <ul className="flex flex-col gap-2 text-sm">{[['E-mail', 'email'], ['Telefoon', 'phone'], ['Identiteit', 'identity'], ['ZZP-status', 'zzp']].map(([l, k]) => <li key={k} className="flex items-center justify-between"><span>{l}</span><StatusPill status={k === 'phone' ? (userRow?.phone ? v('phone') : 'unverified') : v(k!)} /></li>)}</ul>
-            {profile.workArrangement !== 'employment' && <Link href="/profiel/zzp" className="btn-secondary btn-sm mt-4">ZZP-gegevens</Link>}
+            <Link href="/profiel/zzp" className="btn-secondary btn-sm mt-4">ZZP-gegevens</Link>
           </Card>
           <Card title="Reviews van opdrachtgevers">
             {reviews.length ? <ul className="flex flex-col gap-4">{reviews.map((r) => <li key={r.id} className="border-b border-line pb-3 last:border-0"><div className="flex items-center justify-between"><span className="font-bold">{r.application.project.company.name}</span><span className="font-bold text-orange-700">{(r.overall / 10).toFixed(1).replace('.', ',')}</span></div><p className="mt-1 text-sm">{r.comment}</p><div className="mt-2 flex flex-wrap gap-1">{Object.entries(r.scores).map(([k, s]) => <span key={k} className="rounded-md bg-ground px-2 py-0.5 text-xs">{REVIEW_CATEGORY_LABELS[k] ?? k} {s}</span>)}</div></li>)}</ul> : <p className="text-sm text-muted">Nog geen reviews. Die komen na je eerste afgeronde opdracht via Timmerly.</p>}

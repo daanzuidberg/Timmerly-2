@@ -30,7 +30,7 @@ export async function computeCompleteness(profileId: string): Promise<number> {
   const checks: boolean[] = [
     !!p.trade, p.specialisms.length > 0, p.yearsExperience > 0, p.bio.length >= 40, !!p.city && p.lat != null, p.maxTravelKm > 0,
     p.certificates.length > 0, p.certificates.some((c) => c.status === 'verified'), p.workHistory.length > 0, !!p.user.phoneVerifiedAt,
-    !!p.user.emailVerifiedAt, p.workArrangement !== 'zzp' || !!p.zzp, p.availableFrom != null || p.availability !== 'available'
+    !!p.user.emailVerifiedAt, !!p.zzp, p.availableFrom != null || p.availability !== 'available'
   ];
   const pct = Math.round((checks.filter(Boolean).length / checks.length) * 100);
   await d.update(schema.professionalProfiles).set({ profileCompleteness: pct }).where(eq(schema.professionalProfiles.id, profileId));
@@ -47,7 +47,7 @@ function deriveExperienceBand(years: number): ExperienceBand {
 
 /** Velden per onboardingsectie; 'all' valideert het volledige schema. */
 const SECTION_MASKS = {
-  work: { trade: true, specialisms: true, experienceBand: true, yearsExperience: true, bio: true, workArrangement: true, hourlyRateMin: true },
+  work: { trade: true, specialisms: true, experienceBand: true, yearsExperience: true, bio: true, hourlyRateMin: true },
   person: { city: true, province: true, phone: true, maxTravelKm: true, hasDriversLicense: true, hasOwnTransport: true, hasOwnTools: true },
   availability: { availableFrom: true, hoursPerWeek: true }
 } as const;
@@ -69,7 +69,7 @@ export async function saveProfessionalProfile(_prev: ActionState, form: FormData
   if (!existing && section !== 'work' && section !== 'all') redirect('/onboarding?stap=1');
 
   const values: Partial<typeof schema.professionalProfiles.$inferInsert> = {};
-  if ('trade' in v) Object.assign(values, { trade: v.trade, specialisms: v.specialisms, experienceBand: v.experienceBand, yearsExperience: v.yearsExperience, bio: v.bio, workArrangement: v.workArrangement, hourlyRateMin: v.hourlyRateMin ?? null });
+  if ('trade' in v) Object.assign(values, { trade: v.trade, specialisms: v.specialisms, experienceBand: v.experienceBand, yearsExperience: v.yearsExperience, bio: v.bio, hourlyRateMin: v.hourlyRateMin ?? null });
   if ('city' in v) {
     const geo = geocode(v.city!);
     Object.assign(values, { city: v.city, province: v.province ?? geo?.province ?? null, lat: geo?.lat ?? null, lng: geo?.lng ?? null, maxTravelKm: v.maxTravelKm, hasDriversLicense: v.hasDriversLicense, hasOwnTransport: v.hasOwnTransport, hasOwnTools: v.hasOwnTools });

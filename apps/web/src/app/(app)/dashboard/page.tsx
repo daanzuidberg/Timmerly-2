@@ -39,7 +39,7 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
       !user.emailVerified && ['Bevestig je e-mailadres', 'Nodig om interesse te tonen.', '/registreren/bevestig'],
       certs.length === 0 && ['Voeg je certificaten toe', 'VCA is bij de meeste projecten vereist.', '/profiel/certificaten'],
       profile.bio.length < 40 && ['Schrijf iets over jezelf', 'Profielen met een omschrijving worden vaker benaderd.', '/profiel'],
-      profile.workArrangement !== 'employment' && !profile.zzp && ['Vul je ZZP-gegevens in', 'Nodig voor de ZZP-verificatie.', '/profiel/zzp']
+      !profile.zzp && ['Vul je ZZP-gegevens in', 'Nodig voor de ZZP-verificatie.', '/profiel/zzp']
     ].filter(Boolean) as string[][];
 
     return (

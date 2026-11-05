@@ -25,7 +25,6 @@ export default async function ProfessionalsSearch({ searchParams }: { searchPara
   if (q.specialism) conds.push(sql`${q.specialism} = any(${schema.professionalProfiles.specialisms})`);
   if (q.minYears) conds.push(sql`${schema.professionalProfiles.yearsExperience} >= ${Number(q.minYears)}`);
   if (q.availableFrom) conds.push(sql`coalesce(${schema.professionalProfiles.availableFrom}, current_date) <= ${q.availableFrom}::date`);
-  if (q.arrangement && q.arrangement !== 'either') conds.push(inArray(schema.professionalProfiles.workArrangement, [q.arrangement as 'zzp' | 'employment', 'either']));
   const rows = await d.select({ p: schema.professionalProfiles }).from(schema.professionalProfiles).innerJoin(schema.users, eq(schema.users.id, schema.professionalProfiles.userId)).where(and(...conds)).limit(100);
   const ids = rows.map((r) => r.p.id);
   const certs = ids.length ? await d.select().from(schema.certificates).where(and(inArray(schema.certificates.profileId, ids), eq(schema.certificates.status, 'verified'))) : [];
@@ -45,7 +44,6 @@ export default async function ProfessionalsSearch({ searchParams }: { searchPara
           {sel('specialism', 'Specialisatie', SPECIALISMS.map((s) => [s, SPECIALISM_LABELS[s]]))}
           {sel('certificate', 'Certificaat (geverifieerd)', CERTIFICATE_TYPES.filter((c) => c !== 'other').map((c) => [c, CERTIFICATE_LABELS[c]]))}
           {sel('minYears', 'Minimale ervaring', [['2', '2 jaar'], ['3', '3 jaar'], ['5', '5 jaar'], ['10', '10 jaar']])}
-          {sel('arrangement', 'Contractvorm', [['zzp', 'ZZP'], ['employment', 'Loondienst']])}
           {sel('maxKm', 'Afstand', [['25', 'Tot 25 km'], ['50', 'Tot 50 km'], ['100', 'Tot 100 km']])}
           <div><label className="label" htmlFor="availableFrom">Beschikbaar vanaf</label><input id="availableFrom" name="availableFrom" type="date" className="input" defaultValue={q.availableFrom ?? ''} /></div>
           <button className="btn-dark" type="submit">Zoeken</button><Link href="/vakmensen" className="text-center text-sm font-bold">Wissen</Link>
@@ -56,7 +54,7 @@ export default async function ProfessionalsSearch({ searchParams }: { searchPara
               <div className="flex items-start justify-between gap-2"><div><div className="font-bold text-navy">{TRADE_LABELS[i.p.trade as Trade]}</div><div className="text-sm text-muted">{i.p.city}{i.km != null ? ` · ${i.km} km` : ''} · {i.p.yearsExperience} jaar</div></div><StatusPill status={i.p.availability} /></div>
               <div className="mt-2 flex flex-wrap gap-1">{i.p.specialisms.slice(0, 4).map((s) => <span key={s} className="rounded-md bg-ground px-2 py-0.5 text-xs font-bold text-navy">{SPECIALISM_LABELS[s as Specialism] ?? s}</span>)}</div>
               <div className="mt-2 flex flex-wrap gap-1">{i.certs.map((c) => <Pill key={c.id} tone="ok">✓ {CERTIFICATE_LABELS[c.type as CertificateType]}</Pill>)}{i.p.trustScore >= 75 && <Pill tone="orange">Top vakman</Pill>}</div>
-              <div className="mt-2 text-sm text-muted">{i.p.availableFrom ? `Beschikbaar vanaf ${formatDateNl(i.p.availableFrom)}` : AVAILABILITY_LABELS[i.p.availability as AvailabilityStatus]} · {i.p.workArrangement === 'zzp' ? 'ZZP' : i.p.workArrangement === 'employment' ? 'Loondienst' : 'ZZP of loondienst'}</div>
+              <div className="mt-2 text-sm text-muted">{i.p.availableFrom ? `Beschikbaar vanaf ${formatDateNl(i.p.availableFrom)}` : AVAILABILITY_LABELS[i.p.availability as AvailabilityStatus]}</div>
             </Link>
           ))}</div> : <Empty>Geen vakmensen gevonden met deze filters.</Empty>}
         </div>

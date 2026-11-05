@@ -68,14 +68,6 @@ export const SPECIALISM_LABELS: Record<Specialism, string> = {
   trappen: 'Trappen', houtskeletbouw: 'Houtskeletbouw', utiliteitsbouw: 'Utiliteitsbouw', woningbouw: 'Woningbouw'
 };
 
-export const CONTRACT_TYPES = ['zzp', 'employment', 'either'] as const;
-export type ContractType = (typeof CONTRACT_TYPES)[number];
-export const CONTRACT_TYPE_LABELS: Record<ContractType, string> = { zzp: 'ZZP', employment: 'Loondienst', either: 'ZZP of loondienst' };
-
-/** Contractvorm van de vakman zelf (wat hij aanbiedt). */
-export const WORK_ARRANGEMENTS = ['zzp', 'employment', 'either'] as const;
-export type WorkArrangement = (typeof WORK_ARRANGEMENTS)[number];
-
 export const CERTIFICATE_TYPES = [
   'vca_basis', 'vca_vol', 'bhv', 'hoogwerker', 'heftruck', 'steigerbouw', 'veilig_hijsen', 'ehbo', 'asbest_herkenning', 'other'
 ] as const;

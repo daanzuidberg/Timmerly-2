@@ -41,7 +41,7 @@ export function StageActions({ applicationId, stage, role }: { applicationId: st
   );
 }
 
-export function ProposalForm({ applicationId, defaults }: { applicationId: string; defaults: { hourlyRate: number | null; hoursPerWeek: number; startDate: string; endDate: string | null; contractType: string } }) {
+export function ProposalForm({ applicationId, defaults }: { applicationId: string; defaults: { hourlyRate: number | null; hoursPerWeek: number; startDate: string; endDate: string | null } }) {
   const [state, action] = useActionState(sendProposal.bind(null, applicationId), null);
   if (state?.ok) return <Alert tone="ok">Voorstel verstuurd. De vakman ziet het in het gesprek en kan accepteren.</Alert>;
   return (
@@ -52,7 +52,6 @@ export function ProposalForm({ applicationId, defaults }: { applicationId: strin
         <Field label="Uren per week" name="hoursPerWeek"><input id="hoursPerWeek" name="hoursPerWeek" type="number" className="input" defaultValue={defaults.hoursPerWeek} /></Field>
         <Field label="Start" name="startDate" error={state?.fieldErrors?.startDate}><input id="startDate" name="startDate" type="date" className="input" required defaultValue={defaults.startDate} /></Field>
         <Field label="Einde" name="endDate"><input id="endDate" name="endDate" type="date" className="input" defaultValue={defaults.endDate ?? ''} /></Field>
-        <Field label="Contractvorm" name="contractType"><select id="contractType" name="contractType" className="input" defaultValue={defaults.contractType === 'either' ? 'zzp' : defaults.contractType}><option value="zzp">ZZP (overeenkomst van opdracht)</option><option value="employment">Loondienst</option></select></Field>
       </div>
       <Field label="Toelichting" name="notes"><input id="notes" name="notes" className="input" placeholder="Werktijden, opzegtermijn, bijzonderheden" /></Field>
       <div><SubmitButton className="btn-primary btn-sm">Voorstel versturen</SubmitButton></div>

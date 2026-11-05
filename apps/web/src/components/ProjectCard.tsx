@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import { CONTRACT_TYPE_LABELS, SPECIALISM_LABELS, formatDateNl, type ContractType, type Specialism } from '@timmerly/core';
+import { SPECIALISM_LABELS, formatDateNl, type Specialism } from '@timmerly/core';
 import { Pill, Score, StatusPill } from './ui';
 
 type Project = {
   id: string; title: string; city: string; startDate: string; endDate: string | null; specialisms: string[]; rateMin: number | null; rateMax: number | null;
-  headcount: number; filledCount: number; contractType: string; status: string; company?: { name: string; verifiedAt: Date | null } | null;
+  headcount: number; filledCount: number; status: string; company?: { name: string; verifiedAt: Date | null } | null;
 };
 
 export function ProjectCard({ project, score, distanceKm }: { project: Project; score?: number; distanceKm?: number | null }) {
@@ -25,7 +25,7 @@ export function ProjectCard({ project, score, distanceKm }: { project: Project; 
       </div>
       <div className="grid grid-cols-2 gap-2 border-t border-line pt-3 text-sm">
         <div><div className="text-xs text-faint">Start</div><div className="font-semibold">{formatDateNl(project.startDate)}</div></div>
-        <div><div className="text-xs text-faint">Contract</div><div className="font-semibold">{CONTRACT_TYPE_LABELS[project.contractType as ContractType]}</div></div>
+        <div><div className="text-xs text-faint">Plekken</div><div className="font-semibold">{spots} van {project.headcount} open</div></div>
       </div>
       <div className="flex items-center justify-between">
         <span className="font-bold">{project.rateMin ? `€${project.rateMin} – €${project.rateMax} p/u` : 'Tarief in overleg'}</span>

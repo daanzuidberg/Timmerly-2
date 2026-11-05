@@ -19,7 +19,6 @@ export async function searchProjects(filters: Filters, viewer?: ProfileRow | nul
   if (filters.trade) conds.push(eq(schema.projects.trade, filters.trade));
   if (filters.specialism) conds.push(sql`${filters.specialism} = any(${schema.projects.specialisms})`);
   if (filters.province) conds.push(eq(schema.projects.province, filters.province));
-  if (filters.contractType) conds.push(filters.contractType === 'either' ? eq(schema.projects.contractType, 'either') : or(eq(schema.projects.contractType, filters.contractType), eq(schema.projects.contractType, 'either'))!);
   if (filters.startWithinDays !== undefined) conds.push(lte(schema.projects.startDate, addDays(todayIso(), filters.startWithinDays)));
   if (filters.minRate) conds.push(gte(schema.projects.rateMax, filters.minRate));
   if (filters.q) conds.push(or(ilike(schema.projects.title, `%${filters.q}%`), ilike(schema.projects.city, `%${filters.q}%`), ilike(schema.projects.description, `%${filters.q}%`))!);

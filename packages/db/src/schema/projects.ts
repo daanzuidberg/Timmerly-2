@@ -1,6 +1,6 @@
 import { boolean, date, doublePrecision, index, integer, jsonb, pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core';
 import { id, timestamps } from './_shared';
-import { applicationStage, contractType, projectStatus, timesheetStatus } from './enums';
+import { applicationStage, projectStatus, timesheetStatus } from './enums';
 import { users } from './auth';
 import { companyProfiles, professionalProfiles, trades } from './profiles';
 
@@ -29,10 +29,8 @@ export const projects = pgTable(
     requiredPbm: text('required_pbm').array().notNull().default([]),
     requiresOwnTransport: boolean('requires_own_transport').notNull().default(false),
     requiresOwnTools: boolean('requires_own_tools').notNull().default(false),
-    contractType: contractType('contract_type').notNull().default('either'),
     rateMin: integer('rate_min'),
     rateMax: integer('rate_max'),
-    housingAvailable: boolean('housing_available').notNull().default(false),
     travelAllowance: text('travel_allowance').notNull().default(''),
     notes: text('notes').notNull().default(''),
     status: projectStatus('status').notNull().default('draft'),
@@ -73,7 +71,7 @@ export const applications = pgTable(
     matchReasons: jsonb('match_reasons').$type<Array<{ key: string; label: string; positive: boolean }>>().notNull().default([]),
     // Voorstel: tarief, looptijd, uren, contractvorm. Vastgelegd bij stage 'proposal'.
     proposal: jsonb('proposal').$type<{
-      hourlyRate: number; contractType: string; startDate: string; endDate?: string; hoursPerWeek: number; notes?: string;
+      hourlyRate: number; startDate: string; endDate?: string; hoursPerWeek: number; notes?: string;
     } | null>(),
     agreedAt: timestamp('agreed_at', { withTimezone: true }),
     completedAt: timestamp('completed_at', { withTimezone: true }),

@@ -78,21 +78,21 @@ const email = `e2e-${Date.now()}@test.timmerly.nl`;
   // Stap 1 vak
   await p.selectOption('#trade', 'allround_timmerman');
   await p.getByRole('button', { name: 'Aftimmering', exact: true }).click(); await p.getByRole('button', { name: 'Renovatie', exact: true }).click();
-  await p.fill('#yearsExperience', '7'); await p.selectOption('#workArrangement', 'zzp'); await p.fill('#hourlyRateMin', '46');
+  await p.fill('#yearsExperience', '7'); await p.fill('#hourlyRateMin', '46');
   await p.fill('#bio', 'Allround timmerman met zeven jaar ervaring in renovatie en aftimmering. Werk netjes en zelfstandig.');
   await p.click('button[type=submit]'); await p.waitForURL(/stap=2/);
   // Stap 2 persoonlijk
   await p.fill('#city', 'Zwolle'); await p.fill('#phone', '06 12345678'); await p.fill('#maxTravelKm', '60'); await p.check('input[name=hasDriversLicense]'); await p.check('input[name=hasOwnTransport]'); await p.check('input[name=hasOwnTools]');
-  await p.click('button[type=submit]'); await p.waitForURL(/stap=25/);
-  check('zzp-er krijgt stap onderneming', (await text(p)).includes('Je onderneming'));
-  await p.fill('#companyName', 'Testers Timmerwerk'); await p.fill('#kvkNumber', '12345678'); await p.fill('#seat', 'Zwolle'); await p.check('input[name=hasLiabilityInsurance]');
   await p.click('button[type=submit]'); await p.waitForURL(/stap=3/);
-  // Stap 3 certificaat
+  check('stap 3 is de verplichte onderneming-stap', (await text(p)).includes('Je onderneming'));
+  await p.fill('#companyName', 'Testers Timmerwerk'); await p.fill('#kvkNumber', '12345678'); await p.fill('#seat', 'Zwolle'); await p.check('input[name=hasLiabilityInsurance]');
+  await p.click('button[type=submit]'); await p.waitForURL(/stap=4/);
+  // Stap 4 certificaat
   await p.selectOption('#type', 'vca_basis'); await p.fill('#expiresAt', '2028-01-01'); await p.click('button[type=submit]');
   await p.waitForSelector('text=Certificaat toegevoegd');
-  await p.getByRole('link', { name: 'Volgende' }).click(); await p.waitForURL(/stap=4/);
-  await p.fill('#hoursPerWeek', '40'); await p.click('button[type=submit]'); await p.waitForURL(/stap=5/);
-  check('stap 5 toont verificatiestatussen', (await text(p)).includes('In behandeling'));
+  await p.getByRole('link', { name: 'Volgende' }).click(); await p.waitForURL(/stap=5/);
+  await p.fill('#hoursPerWeek', '40'); await p.click('button[type=submit]'); await p.waitForURL(/stap=6/);
+  check('stap 6 toont verificatiestatussen', (await text(p)).includes('In behandeling'));
   await p.getByRole('button', { name: 'Profiel activeren' }).click(); await p.waitForURL(/dashboard/);
   const dash = await text(p);
   check('onboarding afgerond → dashboard met welkom en matches', dash.includes('Je profiel is actief') && dash.includes('Projecten die bij je passen'));
