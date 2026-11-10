@@ -32,7 +32,7 @@ export const users = pgTable(
     ...timestamps
   },
   (t) => [uniqueIndex('users_email_idx').on(t.email), index('users_role_idx').on(t.role)]
-);
+).enableRLS();
 
 /** Serverzijdige sessies: intrekbaar, per apparaat zichtbaar, met verloopdatum. */
 export const sessions = pgTable(
@@ -50,7 +50,7 @@ export const sessions = pgTable(
     createdAt: timestamps.createdAt
   },
   (t) => [uniqueIndex('sessions_token_idx').on(t.tokenHash), index('sessions_user_idx').on(t.userId)]
-);
+).enableRLS();
 
 /** Eenmalige tokens: e-mailverificatie, wachtwoord-reset, telefoonverificatie. */
 export const oneTimeTokens = pgTable(
@@ -65,7 +65,7 @@ export const oneTimeTokens = pgTable(
     createdAt: timestamps.createdAt
   },
   (t) => [uniqueIndex('ott_hash_idx').on(t.tokenHash), index('ott_user_purpose_idx').on(t.userId, t.purpose)]
-);
+).enableRLS();
 
 /** Alles wat een account raakt: inloggen, wachtwoord, 2FA, sessies. Voor loginmeldingen en onderzoek. */
 export const securityEvents = pgTable(
@@ -79,4 +79,4 @@ export const securityEvents = pgTable(
     createdAt: timestamps.createdAt
   },
   (t) => [index('security_events_user_idx').on(t.userId, t.createdAt)]
-);
+).enableRLS();

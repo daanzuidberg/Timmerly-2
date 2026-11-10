@@ -22,7 +22,7 @@ export const auditLog = pgTable(
     createdAt: timestamps.createdAt
   },
   (t) => [index('audit_object_idx').on(t.objectType, t.objectId), index('audit_actor_idx').on(t.actorId, t.createdAt)]
-);
+).enableRLS();
 
 /**
  * Uitkomst van een ZZP-compliancecheck (Wet DBA). We bewaren de antwoorden, de
@@ -43,7 +43,7 @@ export const complianceChecks = pgTable(
     createdAt: timestamps.createdAt
   },
   (t) => [index('compliance_user_idx').on(t.userId, t.createdAt)]
-);
+).enableRLS();
 
 /** Achtergrondtaken: e-mails, matchmeldingen, certificaatwaarschuwingen. Eenvoudige DB-queue; Redis/BullMQ later zonder domeinwijziging. */
 export const jobs = pgTable(
@@ -60,7 +60,7 @@ export const jobs = pgTable(
     createdAt: timestamps.createdAt
   },
   (t) => [index('jobs_due_idx').on(t.completedAt, t.runAt)]
-);
+).enableRLS();
 
 /** Verdienmodel: abonnementen als data, prijzen niet in code. */
 export const plans = pgTable('plans', {
@@ -70,7 +70,7 @@ export const plans = pgTable('plans', {
   priceCentsMonthly: integer('price_cents_monthly').notNull().default(0),
   features: jsonb('features').$type<Record<string, boolean | number>>().notNull().default({}),
   active: integer('active').notNull().default(1)
-});
+}).enableRLS();
 
 export const subscriptions = pgTable(
   'subscriptions',
@@ -84,7 +84,7 @@ export const subscriptions = pgTable(
     ...timestamps
   },
   (t) => [index('subscriptions_user_idx').on(t.userId)]
-);
+).enableRLS();
 
 /** Centrale configuratie: DBA-regelset, matchinggewichten, feature flags. Wijzigbaar zonder release. */
 export const settings = pgTable('settings', {
@@ -92,4 +92,4 @@ export const settings = pgTable('settings', {
   value: jsonb('value').$type<unknown>().notNull(),
   updatedBy: uuid('updated_by').references(() => users.id, { onDelete: 'set null' }),
   updatedAt: timestamps.updatedAt
-});
+}).enableRLS();

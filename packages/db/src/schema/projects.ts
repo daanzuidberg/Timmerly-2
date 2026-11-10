@@ -52,7 +52,7 @@ export const projects = pgTable(
     index('projects_trade_idx').on(t.trade),
     index('projects_geo_idx').on(t.lat, t.lng)
   ]
-);
+).enableRLS();
 
 /**
  * Eén rij per (project, vakman) zodra er iets gebeurt: de funnel van interesse
@@ -85,7 +85,7 @@ export const applications = pgTable(
     index('applications_profile_idx').on(t.profileId, t.stage),
     index('applications_project_stage_idx').on(t.projectId, t.stage)
   ]
-);
+).enableRLS();
 
 /** Gesprekken hangen altijd aan een aanmelding en dus aan een project. */
 export const conversations = pgTable(
@@ -97,7 +97,7 @@ export const conversations = pgTable(
     createdAt: timestamps.createdAt
   },
   (t) => [uniqueIndex('conversations_application_idx').on(t.applicationId)]
-);
+).enableRLS();
 
 export const messages = pgTable(
   'messages',
@@ -114,7 +114,7 @@ export const messages = pgTable(
     createdAt: timestamps.createdAt
   },
   (t) => [index('messages_conversation_idx').on(t.conversationId, t.createdAt)]
-);
+).enableRLS();
 
 export const timesheets = pgTable(
   'timesheets',
@@ -132,7 +132,7 @@ export const timesheets = pgTable(
     ...timestamps
   },
   (t) => [uniqueIndex('timesheets_week_idx').on(t.applicationId, t.isoYear, t.isoWeek)]
-);
+).enableRLS();
 
 export const timesheetEntries = pgTable(
   'timesheet_entries',
@@ -148,4 +148,4 @@ export const timesheetEntries = pgTable(
     photoKeys: text('photo_keys').array().notNull().default([])
   },
   (t) => [uniqueIndex('timesheet_entries_day_idx').on(t.timesheetId, t.day)]
-);
+).enableRLS();
