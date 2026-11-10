@@ -22,7 +22,7 @@ export const reviews = pgTable(
     ...timestamps
   },
   (t) => [uniqueIndex('reviews_once_idx').on(t.applicationId, t.direction), index('reviews_subject_idx').on(t.subjectId)]
-);
+).enableRLS();
 
 /** Favorieten en talentpool: bedrijf → vakman, en vakman → bedrijf. */
 export const favorites = pgTable(
@@ -36,7 +36,7 @@ export const favorites = pgTable(
     createdAt: timestamps.createdAt
   },
   (t) => [uniqueIndex('favorites_pk').on(t.ownerId, t.targetId)]
-);
+).enableRLS();
 
 export const savedProjects = pgTable(
   'saved_projects',
@@ -46,7 +46,7 @@ export const savedProjects = pgTable(
     createdAt: timestamps.createdAt
   },
   (t) => [uniqueIndex('saved_projects_pk').on(t.userId, t.projectId)]
-);
+).enableRLS();
 
 export const notifications = pgTable(
   'notifications',
@@ -62,7 +62,7 @@ export const notifications = pgTable(
     createdAt: timestamps.createdAt
   },
   (t) => [index('notifications_user_idx').on(t.userId, t.readAt, t.createdAt)]
-);
+).enableRLS();
 
 export const notificationPreferences = pgTable('notification_preferences', {
   userId: uuid('user_id').primaryKey().references(() => users.id, { onDelete: 'cascade' }),
@@ -70,7 +70,7 @@ export const notificationPreferences = pgTable('notification_preferences', {
   push: boolean('push').notNull().default(false),
   matchDigest: text('match_digest').notNull().default('daily'), // 'instant' | 'daily' | 'weekly' | 'off'
   updatedAt: timestamps.updatedAt
-});
+}).enableRLS();
 
 /** Meldingen van gebruikers: fraude, nepaccount, onveilig werk, ongewenst gedrag. */
 export const reports = pgTable(
@@ -89,7 +89,7 @@ export const reports = pgTable(
     createdAt: timestamps.createdAt
   },
   (t) => [index('reports_status_idx').on(t.status, t.createdAt)]
-);
+).enableRLS();
 
 export const blocks = pgTable(
   'blocks',
@@ -99,4 +99,4 @@ export const blocks = pgTable(
     createdAt: timestamps.createdAt
   },
   (t) => [uniqueIndex('blocks_pk').on(t.blockerId, t.blockedId)]
-);
+).enableRLS();

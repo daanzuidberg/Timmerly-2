@@ -9,7 +9,7 @@ export const trades = pgTable('trades', {
   label: text('label').notNull(),
   active: boolean('active').notNull().default(true),
   sortOrder: integer('sort_order').notNull().default(0)
-});
+}).enableRLS();
 
 export const professionalProfiles = pgTable(
   'professional_profiles',
@@ -55,7 +55,7 @@ export const professionalProfiles = pgTable(
     index('pro_profiles_geo_idx').on(t.lat, t.lng),
     index('pro_profiles_avail_idx').on(t.availability, t.availableFrom)
   ]
-);
+).enableRLS();
 
 export const companyProfiles = pgTable(
   'company_profiles',
@@ -81,7 +81,7 @@ export const companyProfiles = pgTable(
     ...timestamps
   },
   (t) => [uniqueIndex('company_profiles_user_idx').on(t.userId), index('company_profiles_kvk_idx').on(t.kvkNumber)]
-);
+).enableRLS();
 
 export const certificates = pgTable(
   'certificates',
@@ -104,7 +104,7 @@ export const certificates = pgTable(
     ...timestamps
   },
   (t) => [index('certificates_profile_idx').on(t.profileId), index('certificates_expiry_idx').on(t.expiresAt, t.status)]
-);
+).enableRLS();
 
 /**
  * Elke verificatieclaim is een rij: e-mail, telefoon, identiteit, bedrijf, ZZP.
@@ -127,7 +127,7 @@ export const verifications = pgTable(
     ...timestamps
   },
   (t) => [index('verifications_user_kind_idx').on(t.userId, t.kind), index('verifications_status_idx').on(t.status)]
-);
+).enableRLS();
 
 /** Beschikbaarheidskalender: één rij per afwijkende dag; ontbrekend = profielstandaard. */
 export const availabilityDays = pgTable(
@@ -138,7 +138,7 @@ export const availabilityDays = pgTable(
     status: availabilityStatus('status').notNull()
   },
   (t) => [uniqueIndex('availability_days_pk').on(t.profileId, t.day)]
-);
+).enableRLS();
 
 /** Portfolio: eerdere projecten, ook buiten Timmerly om. */
 export const workHistory = pgTable(
@@ -159,4 +159,4 @@ export const workHistory = pgTable(
     createdAt: timestamps.createdAt
   },
   (t) => [index('work_history_profile_idx').on(t.profileId)]
-);
+).enableRLS();
