@@ -32,23 +32,30 @@ function featureRows(features: Record<string, unknown>): string[] {
 export default async function Page() {
   const plans = await db().query.plans.findMany();
   const group = (audience: string) => plans.filter((p) => p.audience === audience);
-  const card = (p: (typeof plans)[number]) => (
-    <div key={p.slug} className="card">
-      <div className="font-bold">{p.label}</div>
-      <div className="mt-1 text-2xl font-bold">
-        {p.priceCentsMonthly ? `€${(p.priceCentsMonthly / 100).toFixed(0)}` : p.slug.includes('enterprise') ? 'Op maat' : 'Gratis'}
-        <span className="text-sm font-normal text-muted">{p.priceCentsMonthly ? ' / maand' : ''}</span>
+  // De tussen-abonnementen zijn de bedoelde keuze: gratis is een instap, enterprise/premium zonder
+  // meer context is te groot. Eén uitgelichte kaart per groep geeft die aanbeveling een blik i.p.v. een alinea.
+  const RECOMMENDED = new Set(['pro_premium', 'company_professional']);
+  const card = (p: (typeof plans)[number]) => {
+    const recommended = RECOMMENDED.has(p.slug);
+    return (
+      <div key={p.slug} className={recommended ? 'card relative border-2 border-orange shadow-card-hover' : 'card'}>
+        {recommended && <span className="pill absolute -top-3 left-6 bg-orange text-white">Populair</span>}
+        <div className="font-bold">{p.label}</div>
+        <div className="mt-1 text-2xl font-bold">
+          {p.priceCentsMonthly ? `€${(p.priceCentsMonthly / 100).toFixed(0)}` : p.slug.includes('enterprise') ? 'Op maat' : 'Gratis'}
+          <span className="text-sm font-normal text-muted">{p.priceCentsMonthly ? ' / maand' : ''}</span>
+        </div>
+        <ul className="mt-3 flex flex-col gap-1.5 text-sm">
+          {featureRows(p.features).map((row) => (
+            <li key={row} className="flex items-start gap-2 text-navy-500">
+              <span className="mt-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-ok-100 text-[10px] font-bold text-ok-800">✓</span>
+              {row}
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul className="mt-3 flex flex-col gap-1.5 text-sm">
-        {featureRows(p.features).map((row) => (
-          <li key={row} className="flex items-start gap-2 text-navy-500">
-            <span className="mt-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-ok-100 text-[10px] font-bold text-ok-800">✓</span>
-            {row}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+    );
+  };
   return (
     <ContentPage eyebrow="Prijzen" title="Gratis voor vakmensen. Eerlijk voor bedrijven." intro="Vakmensen betalen nooit voor een profiel of een match. Bedrijven kiezen een abonnement dat past bij het aantal projecten.">
       {/* Deze twee secties hebben zelf al kaarten per abonnement; de generieke sectie-kaart van ContentPage zou daar dubbelop overheen komen. */}
